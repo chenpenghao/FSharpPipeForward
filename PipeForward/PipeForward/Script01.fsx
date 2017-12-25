@@ -1,4 +1,10 @@
-﻿// You can use double-slash //, 
+﻿//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+// Section 00: Comments and FSharp Interactive.
+
+
+
+// You can use double-slash //, 
 // triple-slash ///, 
 // or star-brackets (* ....... *) to make comments in F#.
 
@@ -18,12 +24,24 @@ printfn "The result is: %i" y
 
 // printfn is to print the result to the console. 
 // %i is for integer, %f for decimal/double, %s for string, %A for general objects.
-// No need to remember the "%i", "%s", etc.
+// No need to remember the "%i", "%s", etc. 
+// Refer to a table.
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+// Section 01: Variables and Types.
 
 ///////////////////////////////////////////
 // As seen above, you can define a variable using "let"
 
-// Also, a variable in F# is by default "immutable", which means it cannot change value.
+// Also, a variable in F# is by default "immutable", 
+// which means that once you defined the variable, it cannot be changed.
 // So, if you try to reassign a value to "x", an error will occur.
 // You can un-comment the code below and see what happens. 
 
@@ -31,10 +49,9 @@ printfn "The result is: %i" y
 // x <- 2
 
 
-
 // You can use "mutable" or changable variables in F#,
 // but we do NOT recommend using "mutable" variables.
-// And we will NOT show it here.
+// And we will NOT show how to use "mutable" in this tutorial.
 
 /////////////////////////////////////////////////////////////////
 
@@ -88,5 +105,21 @@ let twoToPowerOfFive = 2.0 ** 5.0
 //let sqrtRootOfNineError = sqrt 9
 //let twoToPowerOfFiveError = 2 ** 5 
 
-/////////////////////////////////////////////////////////////////
-// Defining functions.
+
+
+
+
+
+
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+// Section 02: Defining functions.
+
+// You can define functions using "let" followed by the inputs of your function.
+
+let Square x = x * x
+printfn "%i" (Square 2)
+printfn "%i" (Square 3)
+
+
+
