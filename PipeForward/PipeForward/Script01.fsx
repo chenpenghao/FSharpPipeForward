@@ -24,7 +24,8 @@ printfn "The result is: %i" y
 
 // printfn is to print the result to the console. 
 // %i is for integer, %f for decimal/double, %s for string, %A for general objects.
-// No need to remember the "%i", "%s", etc. 
+// 
+// No need to memorize the "%i", "%s", etc. 
 // Refer to a table.
 
 
@@ -48,7 +49,6 @@ printfn "The result is: %i" y
 // Warning: Will create error if uncommented.
 // x <- 2
 
-
 // You can use "mutable" or changable variables in F#,
 // but we do NOT recommend using "mutable" variables.
 // And we will NOT show how to use "mutable" in this tutorial.
@@ -56,7 +56,10 @@ printfn "The result is: %i" y
 /////////////////////////////////////////////////////////////////
 
 // Also, F# uses "=" and "<>" for equality/ inequality checking. 
-// (Unlike "==" in Java/C++, and "===" in JavaScript)
+// (Unlike Java/C++ uses "==, !=" for comparison, and "===, !==" in JavaScript)
+//
+// Also, as mentioned above, F# uses "<-" for reassigning mutable values.
+// (Unlike Java/C++/JavaScript use "=" for reassigning values )
 let valueToTest = 20
 let isValueEqualToTwenty = (valueToTest = 20)
 
@@ -104,22 +107,3 @@ let twoToPowerOfFive = 2.0 ** 5.0
 // ERROR: sqrt and (power ** ) only accepts double/decimals/float
 //let sqrtRootOfNineError = sqrt 9
 //let twoToPowerOfFiveError = 2 ** 5 
-
-
-
-
-
-
-
-//////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////
-// Section 02: Defining functions.
-
-// You can define functions using "let" followed by the inputs of your function.
-
-let Square x = x * x
-printfn "%i" (Square 2)
-printfn "%i" (Square 3)
-
-
-
