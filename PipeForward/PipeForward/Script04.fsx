@@ -6,6 +6,7 @@
 // (**) https://fsharpforfunandprofit.com/posts/defining-functions/
 
 /////////////////////////////////////////////////////////////////////////////////
+// Section04: Pipe-forward.
 
 // The definition of the pipe-forward is:
 let inline (|>) x f = f x

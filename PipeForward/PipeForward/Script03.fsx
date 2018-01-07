@@ -1,4 +1,6 @@
-﻿
+﻿// Section03: Indenting and Scoping.
+
+
 // Key concept:
 // 1. With indent/spacing, you can reuse the same symbol without causing conflict between different function.
 // 1a. F# does not use "TAB" for indenting. 
@@ -18,15 +20,10 @@ let AddFriend (person1: string) =
 // ERROR: "endOfSentence" is not accessible outside of "AddFriend"
 //printfn "The content of endOfSentence is: %s" endOfSentence
 
-
-
-
 // Simple example.
 
 let combinedSentence1 = AddFriend "Jack"
 printfn "The new sentence is: %s" combinedSentence1
-
-
 
 /////////////////////////////////////////////
 // So, you can repeatedly use the same variable name,
@@ -57,6 +54,12 @@ let f2 y =
 // Notice that there are no spacing/indenting before "let x = 5", 
 // and so the value of "x" is accessible for "f1" and "f2".
 
+printfn "%i" (f1 10)
+printfn "%i" (f2 10)
+
+
+
+
 // Also, you can redefine the value of "x" within another function 
 // (which makes the previous value of "x" not accessible)
 //
@@ -66,6 +69,4 @@ let f3 y =
     let x = 7       // So, the previous value of "x=5" is not accessible.
     x + y
     
-printfn "%i" (f1 10)
-printfn "%i" (f2 10)
 printfn "%i" (f3 10)

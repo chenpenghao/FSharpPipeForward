@@ -12,9 +12,9 @@
 let f x = x + 5
 
 let result1 = f 10
-printfn "%i" result1
+printfn "The result is: %i" result1
 let result2 = f 20
-printfn "%i" result2
+printfn "The result is: %i" result2
 
 // Notice the following:
 //
@@ -111,9 +111,9 @@ printfn "The first circle has area of: %f" circleResult2
 let g x y = 3 * x + y
 
 let result3 = g 3 1
-printfn "%i" result3
+printfn "The result is: %i" result3
 let result4 = g 10 2
-printfn "%i" result4
+printfn "The result is: %i" result4
 
 // Notice the following:
 //
@@ -160,8 +160,23 @@ printfn "The new balance is: %f" balance2
 
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
+// Function with 3 variables.
+let h x y z = 3 * x + 4 * y + 5 * z
+
+// 3*3 + 4*4 + 5*5 = 50
+let result5 = h 3 4 5
+printfn "The result is: %i" result5
+
+// 3*1 + 4*1 + 5*1 = 12
+let result6 = h 1 1 1
+printfn "The result is: %i" result6
 
 
+
+
+
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
 
 ////////////////////
 // Warning: If you use "+" or "*", with no other information available in your function
@@ -218,7 +233,7 @@ let inline NewAdd3 x y z = x + y + z
 let add3IntegerResult = NewAdd3 4 5 6
 printfn "Adding the three integers give: %i" add3IntegerResult
 
-let add3StringResult = NewAdd3 "First" "Second" "Third"
+let add3StringResult = NewAdd3 "John " "F." " Kennedy"
 printfn "Concatenate the three strings give: %s" add3StringResult
 
 let add3DecimalResult = NewAdd3 10.3 10.2 10.1
@@ -231,3 +246,4 @@ printfn "Adding the three decimals give: %f" add3DecimalResult
 // let add3Bool = NewAdd3 true false false
 
 //////////////////////////////////////////
+
