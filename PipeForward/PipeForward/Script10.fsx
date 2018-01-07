@@ -1,7 +1,16 @@
-﻿// The definition of the pipe-forward is:
+﻿// Key-concept: 
+// 1. Coding in F# is similar to building LEGO. (**)
+// 1a. You chain together functions such that the output of one function is the 
+//     input of the next function.
+
+// (**) https://fsharpforfunandprofit.com/posts/defining-functions/
+
+/////////////////////////////////////////////////////////////////////////////////
+
+// The definition of the pipe-forward is:
 let inline (|>) x f = f x
 
-// How it is applied is the following:
+// The definition above may look strange, but let us look at an example
 let Add5Func x = x + 5
 
 let result1 = Add5Func 30
@@ -16,12 +25,13 @@ printfn "Result is: %i" result2
 // How it is read is the following:
 // "Starting from the input 30",
 // "I use this as the variable for the function Add5Func"
+// "And I assign the output of this process to the result2 variable"
 
 ///////////////////////////////////////////////////////////
 // The reason why the symbol |> is useful is because it helps us to compose function.
 // Let's look at an example:
 
-// Example1
+// Let's say that you are given these two functions:
 let GetGrade (score:int) =
     if score >= 90 then "A"
     else if score >= 70 then "B"
@@ -281,3 +291,70 @@ printfn "She received a bonus of %i months" bonus2
 
 
 
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// In all the above examples, we have chosen functions that have different input and output types.
+// so that it is obvious which function comes after which one.
+
+// Sometimes, you may face with functions that have the same input and output type.
+// For example:
+let Square x = x * x
+let Cube x = x * x * x
+let Add5 x = x + 5
+
+// All of these functions are "int -> int", and so you may compose them in different orders.
+// Or you may apply the same function multiple times.
+// Which may cause the function to completely change.
+
+// f1(x) = (x^2 + 5)^3
+let f1 x = 
+    x
+    |> Square
+    |> Add5
+    |> Cube
+    
+// (1^2 + 5) ^ 3 = 216
+let demo1 = f1 1
+printfn "The result is: %i" demo1  
+
+// (2^2 + 5) ^ 3 = 729
+let demo2 = f1 2
+printfn "The result is: %i" demo2 
+
+///////////////////////
+
+// f2(x) = (x^2)^3 + 5
+let f2 x =
+    x
+    |> Square
+    |> Cube
+    |> Add5
+
+// (1^2)^3 + 5 = 6
+let demo3 = f2 1
+printfn "The result is: %i" demo3
+
+// (2^2)^3 + 5 = 71
+let demo4 = f2 2
+printfn "The result is: %i" demo4
+
+/////////////////////////
+// Example: Try to implement the following function using Pipe-forward.
+//let Square x = x * x
+//let Cube x = x * x * x
+//let Add5 x = x + 5
+
+// Goal: f3(x) = [   (x+5)^2   + 5   ]^3
+let f3 x =
+
+    failwith "NOT IMPLEMENTED!"
+
+// Testing:
+
+// [   (1+5)^2   + 5   ]^3 = 68921
+let demo5 = f3 1
+printfn "Result for demo5 is: %i" demo5
+
+// [   (2+5)^2   + 5   ]^3 = 157464
+let demo6 = f3 2
+printfn "Result for demo6 is: %i" demo6

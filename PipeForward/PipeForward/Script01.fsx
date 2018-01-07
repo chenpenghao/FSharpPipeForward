@@ -1,4 +1,13 @@
-﻿//////////////////////////////////////////////////////////
+﻿// Key concepts:
+// 1. Having a good text editor helps you code much easier.
+// 2a. Once defined, a variable in F# cannot change value (unless "mutable" is used)
+// 2b. If you need an updated value, create a new one.
+// 3. Different datatypes (e.g. integer and decimal-numbers) do not combine easily.
+
+
+
+
+//////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////
 // Section 00: Comments and FSharp Interactive.
 
@@ -50,8 +59,24 @@ printfn "The result is: %i" y
 // x <- 2
 
 // You can use "mutable" or changable variables in F#,
-// but we do NOT recommend using "mutable" variables.
-// And we will NOT show how to use "mutable" in this tutorial.
+// HOWEVER, we highly discourage you from actually using it.
+let mutable changableValue = 100
+printfn "Original value is: %i" changableValue
+
+// Again, we do not recommend that you use "mutable" this is for demonstration.
+changableValue <- 200
+printfn "Updated value: %i" changableValue
+
+// The reason why we do not recommend changing a variable value is because:
+// It makes your code harder to reason. i.e. 
+// 
+// If your variable is changable, and you have a program that is 10,000 of lines long, 
+// then you need to find all the locations where your value might change,
+// in order for you to make sure that your variable is doing what you expect it to do.
+
+// If your variable is NOT changable, then if you use the same variable after 10,000 lines later,
+// You can expect that the value stays the same, and you don't need to worry that
+// the value is modified some point in between.
 
 /////////////////////////////////////////////////////////////////
 

@@ -1,4 +1,7 @@
-﻿
+﻿// Key concepts:
+// 1. Defining and using functions in F# is slightly different from math notation/ other languages.
+// 1a. F# automatically detects the type of the variables (e.g. integer, double, etc.) for a function.
+// 1b. The variable types for a function will be enforced.
 
 //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////
@@ -30,10 +33,19 @@ printfn "%i" result2
 // ERROR: The function "f" cannot accept decimal input.
 // let errorResult = f (3.0)
 
+// 3. As mentioned just now, F# automatically inferred that "x" is an integer.
+//    This is different from other languages (e.g. Java, C++) that needs you to
+//    specify the type of the variable (is it an integer? double? etc.)
+// 
+//    So, you can spend less time on the tiny details (e.g. what is the variable type),
+//    and focus more on the correctness of your program.
+
 ////////////////////////////////
 
 // Similarly, the following function accepts only decimals/double 
 // Because the variable interacts with a decimal "0.8"
+
+
 let DiscountBy20Percent originalPrice = originalPrice * 0.8
 
 let discountedPrice = DiscountBy20Percent 399.99
@@ -123,6 +135,11 @@ printfn "%i" result4
 // let errorResult = g (3.0) 10
 // let errorResult = g 10 (2.0)
 
+// 3. Again, as mentioned above, you can spend less time typing out the details 
+//    (i.e. what is the type of "x" and "y")
+//    and focus more on making your program/algorithm works, 
+//    and make yourself more productive (compared to other programming language)
+
 //////////////////////////////////////////////////////////////
 
 let CalculateNewBalance interestRate principal  = 
@@ -138,7 +155,7 @@ printfn "The new balance is: %f" balance2
 
 // uncomment to see error.
 // ERROR: CalculateNewBalance does not accept integer values.
-// let balanceError = CalculateNewBalance 100000 0.05
+// let balanceError = CalculateNewBalance 0.04 100000
 
 
 ///////////////////////////////////////////////////////////
