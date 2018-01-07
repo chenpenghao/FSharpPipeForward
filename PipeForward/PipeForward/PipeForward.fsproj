@@ -61,6 +61,7 @@
     <Content Include="packages.config" />
     <None Include="Script01.fsx" />
     <None Include="Script02.fsx" />
+    <None Include="Script10.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

@@ -93,7 +93,8 @@ let combinedSentence = sentenceStart + schoolName
 // let addIntegerWithDecimal = 15 + 4.11
 // let combineStringWithInteger = "My age is: " + 21
 
-// This is an implicit casting that you may take for granted in other languages (e.g. Java, C++, Javascript)
+// This is an implicit casting that you may take for granted in other languages 
+// (e.g. Java, C++, Javascript)
 // But in F#, this strict rule will help us make less mistake when we write our code.
 
 ////////////////////////////////////

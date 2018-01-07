@@ -22,7 +22,8 @@ printfn "%i" result2
 //    "f" is a function that accepts only integer "x" as the argument.
 //
 //    This is because in the function, "x" will be added to the integer "5".
-//    We have seen before that we cannot add an integer and a decimal directly with +
+//    We have seen before that we cannot use the symbol    "+"   
+//    to add an integer and a decimal directly.
 //    So, the following code will fail if you un-comment it:
 
 // Un-comment to see the error
@@ -55,24 +56,89 @@ printfn "The new price is: %.2f" decimalResult
 
 /////////////////////////////
 
+// Define a function for string.
+let AddGreeting name =
+    "Hello " + name
+
+let greeting1 = AddGreeting "John"
+printfn "The modified name is: %s" greeting1
+
+let greeting2 = AddGreeting "Mary"
+printfn "The modified name is: %s" greeting2
+
+// uncomment to see error.
+// ERROR: AddGreeting function does not accept integer/double/etc.
+// let greetingError = AddGreeting 123
+
+ 
 
 
+///////////////////////////
+// Exercise: Write a function that calcuates the area of a circle of radius r
+let CircleArea r =
 
+     // ... IMPLEMENT HERE ...
+     failwith "ERROR. Function not yet implemented."
+     // Delete the line above and replace with the correct implementation
+     // Hint: Use    "System.Math.PI"
 
+// // Test your function here.
+let circleResult1 = CircleArea 1.0
+printfn "The first circle has area of: %f" circleResult1
 
-
-
-/////////////////////////////
-// Warning: 
-let Square x = x * x 
-printfn "%i" (Square 2)
-printfn "%i" (Square 3)
-
-let Double x = x + x
-printfn "%i" (Double 5)
-printfn "%i" (Double 6)
+let circleResult2 = CircleArea 2.0
+printfn "The first circle has area of: %f" circleResult2
 
 //////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+// Function with 2 variables.
+let g x y = 3 * x + y
+
+let result3 = g 3 1
+printfn "%i" result3
+let result4 = g 10 2
+printfn "%i" result4
+
+// Notice the following:
+//
+// 1. To apply the function "g", you don't need to use the math notation g(x,y) with commas
+//    This is different from other programming language e.g. Java, C++
+//    You can apply the arguments by separating with a space.
+//
+// 2. If you hover your mouse on top of "g", you will see that
+//    the variable "x", "y" need to be integers.
+//
+//    This is because in the function, "x" will is multiplied with "3", and then later added with "y"
+//    We have seen before that we cannot use the symbol "*" and "+"   
+//    to combine integer and a decimal directly.
+//    So, the following code will fail if you un-comment it:
+
+
+// Un-comment to see the error
+// ERROR: The function "g" cannot accept decimal input.
+// let errorResult = g (3.0) 10
+// let errorResult = g 10 (2.0)
+
+//////////////////////////////////////////////////////////////
+
+let CalculateNewBalance interestRate principal  = 
+    principal * (1.0 + interestRate)
+
+let balance1 = CalculateNewBalance 0.05 100000.00 
+printfn "The new balance is: %f" balance1
+
+let balance2 = CalculateNewBalance 0.03 5000.00 
+printfn "The new balance is: %f" balance2
+
+
+
+// uncomment to see error.
+// ERROR: CalculateNewBalance does not accept integer values.
+// let balanceError = CalculateNewBalance 100000 0.05
 
 
 ///////////////////////////////////////////////////////////
