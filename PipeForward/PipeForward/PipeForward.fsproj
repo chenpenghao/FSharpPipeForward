@@ -63,6 +63,8 @@
     <None Include="Script02.fsx" />
     <None Include="Script03.fsx" />
     <None Include="Script04.fsx" />
+    <None Include="Script05.fsx" />
+    <None Include="Script06.fsx" />
     <None Include="Script11.fsx" />
   </ItemGroup>
   <ItemGroup>

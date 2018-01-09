@@ -70,9 +70,9 @@ printfn "Your CAP is: %f" cap2
 // However, if you use the pipe-forward operator "|>", you can simplify the function as:
 
 let GetCAPfromScore2 (score:int) =
-    score               // int
-    |> GetGrade         // function: int -> string
-    |> GetCAP           // function: string -> double
+    score               
+    |> GetGrade         
+    |> GetCAP           
 
 // This is interpreted as:
 //
@@ -182,10 +182,10 @@ printfn "Number of shares to buy(positive) or sell(negative): %i" numShares2
 // The original version looks like the above, which we can simplify:
 
 let GetNumSharesFromEstimate2 (individualEstimates: List<double>) =
-    individualEstimates                 // List<double>
-    |> List.average                     // List<double> -> double
-    |> GetPerformance                   // double -> string
-    |> GetNumSharesToBuy                // string -> int
+    individualEstimates                 
+    |> List.average                     
+    |> GetPerformance                  
+    |> GetNumSharesToBuy                
 
 // So, we start off with "individualEstimates" a List of doubles/decimals.
 //     Now, we apply (using the  first |> symbol) this starting variable
@@ -278,7 +278,7 @@ let GetBonusFromTrades1 (listOfTrades: List<double>) =
 let GetBonusFromTrades2 (listOfTrades: List<double>) =
     // delete the line below, and fill in your answer 
 
-    failwith "FUNCTION NOT YET IMPLEMENTED! DELETE THIS LINE AND FILL IN YOUR ANSWER HERE."
+    failwith "FUNCTION NOT YET IMPLEMENTED!"
 
     // implement the function above.
 
