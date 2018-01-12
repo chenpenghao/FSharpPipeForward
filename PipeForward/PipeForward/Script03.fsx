@@ -8,7 +8,7 @@
 
 //////////////////////////////////////////////////
 // You can use a "let" inside a "let", for example:
-let AddFriend (person1: string) =
+let AddFriend person1 =
     let endOfSentence = " and Mary are friends"
     person1 + endOfSentence
 
@@ -28,11 +28,11 @@ printfn "The new sentence is: %s" combinedSentence1
 /////////////////////////////////////////////
 // So, you can repeatedly use the same variable name,
 // as long as the spacing/indenting is such that the variables do not cause conflict with each other.
-let DrinkFunction (person: string) =
+let DrinkFunction person =
     let endOfSentence = " likes to drink coffee."
     person + endOfSentence
 
-let EatFunction (person: string) =
+let EatFunction person =
     let endOfSentence = " prefers eating chocolate."
     person + endOfSentence
 

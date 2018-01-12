@@ -75,7 +75,7 @@ let result2 = List.filter (fun x -> x % 2 = 0) [1 .. 100]
 
 // Take a look at this function:
 
-let SumOfMultiplesOfThree (xList: List<int>) =
+let SumOfMultiplesOfThree xList =
     xList
     |> List.filter (fun x -> x % 3 = 0)
     |> List.sum
@@ -109,13 +109,13 @@ printfn "The sum of multiples of 3, starting from 1 to 20000 is: %i" result4
 // which elements to keep (and which one to remove).
 
 // Previous version:
-//let SumOfMultiplesOfThree (xList: List<int>) =
+//let SumOfMultiplesOfThree xList =
 //    xList
 //    |> List.filter (fun x -> x % 3 = 0)
 //    |> List.sum
 
 // Here we have a slightly wordy/unnecessarily longer version.
-let SumOfMultiplesOfThree_Version2 (xList: List<int>) =
+let SumOfMultiplesOfThree_Version2 xList =
     let IsDivisibleByThree x = (x % 3 = 0)
     xList
     |> List.filter IsDivisibleByThree
@@ -132,7 +132,7 @@ let SumOfMultiplesOfThree_Version2 (xList: List<int>) =
 
 // Let's say you want to find out how many students in your class got at least 80 points in an exam.
 
-let CountGreaterThan80 (scoreList: List<int>) =
+let CountGreaterThan80 scoreList =
     scoreList
     |> List.filter (fun x -> x >= 80)
     |> List.length
@@ -163,7 +163,7 @@ printfn "This class has %i students scoring more than 80." result5
 //    |> List.filter (fun x -> x >= 80)
 //    |> List.length
 
-let CountGreaterThan80_Version2 (scoreList: List<int>) =
+let CountGreaterThan80_Version2 scoreList =
     let IsAtLeast80 x = (x >= 80)
 
     scoreList
@@ -174,7 +174,7 @@ let CountGreaterThan80_Version2 (scoreList: List<int>) =
 
 /////////////////////////////////////////////////////////////////////////////////////
 // Example:
-let SumMultiplesOf3ButNot5 (xList: List<int>) =
+let SumMultiplesOf3ButNot5 xList =
     xList
     |> List.filter (fun x -> x % 3 = 0 && x % 5 <> 0)
     |> List.sum
@@ -191,7 +191,7 @@ printfn "The sum is: %i" result6
 /////////////////////////////////////////////////////////////////////////////////////
 // Exercise: 
 // Implement a function that sums up all multiples of 3 or 5 in a list.
-let SumMultiplesOf3Or5 (xList: List<int>) =
+let SumMultiplesOf3Or5 xList =
     // Hint:  || means OR, && means AND
     failwith "NOT IMPLEMENTED!" 
 
@@ -237,7 +237,7 @@ let result10 = List.map (fun x -> x * x) [1 .. 100]
 // Let's see it together with the pipe-forward operator:
 
 // Another example:
-let SumOfSquares (xList: List<int>) =
+let SumOfSquares xList =
     xList
     |> List.map (fun x -> x * x)
     |> List.sum
@@ -260,20 +260,46 @@ let SumOfSquares (xList: List<int>) =
 let result11 = SumOfSquares [1 .. 10]
 printfn "Sum of squares from 1 to 10 is: %i" result11
 
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+// Simple application:
 
+// https://www.miniwebtool.com/sample-variance-calculator/
+// Or you can use the excel function of VAR.s
 
+let SampleVariance xList =
+    let N = 
+        xList
+        |> List.length
+        |> double         // The "double" function takes an integer and convert to double
+                          // You can also convert strings to double.
+    let average = 
+        xList
+        |> List.average
 
-// Continue to write tutorial here.......................
+    // return this:
+    xList
+    |> List.map (fun x -> (x - average) ** 2.0)
+    |> List.sum
+    |> fun final -> final / (N - 1.0)       // cannot divide by (N - 1), because decimal.
+    
+// Remark: The compiler knows xList is List<double> or List<float>
+// because interacted with List.map at some point, and also interacted with "** 2.0"
+    
+let result12 = SampleVariance [1.0 .. 7.0]
+printfn "The Sample Variance of 1 to 7 is: %f" result12
 
-// To be completed by HaiBin................
+/////////////////////////////////////////////////////////////////////////////////////
+// Exercise:
 
-/////////////////////////////////////////////////////////////////
 // Fill in the code below, that will help you solve Problem6 in Project Euler (see the URL)
 
 // You can create an account, and submit your answers here for personal achievement/accomplishment.
 // https://projecteuler.net/problem=6
 
-let ProjectEulerProblem6 (xList: List<int>) =
+let ProjectEulerProblem6 xList =
     // if xList = [a;b;c], calculate a^2 + b^2 + c^2
     let sumOfSquares = 
         failwith "NOT YET IMPLEMENTED!"
@@ -285,10 +311,14 @@ let ProjectEulerProblem6 (xList: List<int>) =
     // return
     (sum * sum) - sumOfSquares
 
-
-
-
+    
 ///////// Test:
-let result12 = ProjectEulerProblem6 [1 .. 100]
-printfn "The result for ProjectEuler Problem6 is: %i" result12
+let result13 = ProjectEulerProblem6 [1 .. 100]
+printfn "The result for ProjectEuler Problem6 is: %i" result13
 
+
+///////////////////////////////////////////////////////////////////////
+// Optional Problem:
+// If you want, you can look at "Script50" as another application of List.filter and List.map
+// But it discusses something extra (BigInteger and integer overflow)
+// Which is not necessary to this workshop.

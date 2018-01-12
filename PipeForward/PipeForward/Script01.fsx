@@ -103,6 +103,7 @@ let number1 = 40
 let number2 = 55
 let addTwoNumbers = number1 + number2
 
+// Remark: "float" and "double" mean the same thing in F#.
 let sqrtTwoApprox = 1.414
 let piApprox = 3.1415926
 let addTwoDecimals = sqrtTwoApprox + piApprox
