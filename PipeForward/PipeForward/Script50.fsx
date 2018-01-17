@@ -52,7 +52,7 @@ printfn "The sum of prime numbers less than 100 is: %i" result2
 // However, if you try the following, you get an error:
 let result3: int = Problem10_Version1 [2 .. 2000000]
 
-// Why is there an error here?
+// We will explain why is there an error in "result3" below.
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -104,16 +104,12 @@ let correctSum = List.sum bigIntegerList
 
 open System.Numerics
 
-let SumAllPrimes xList : BigInteger=
-    // Hints/steps:
-    // 1. Start with xList
-    // 2. Filter the list, so that only prime numbers remain in the list. Use the "IsPrime" function.
-    // 3. Convert each "integer" to "BigInteger", because "integers" are not designed to handle large sums.
-    //    Use the "BigInteger" function/constructor
-    // 4. sum up the list. List.sum
-
-    failwith "NOT IMPLEMENTED!"
+let SumAllPrimes xList =
+    xList
+    |> List.filter (IsPrime)
+    |> List.map (BigInteger)
+    |> List.sum
 
 // Remark: The code below can take 10 seconds, as this is not the most optimal algorithm.
-let result15 = SumAllPrimes [2 .. 2000000]
-printfn "The sum of all primes from 2 to 2000000 is: %A" result15
+let result5 = SumAllPrimes [2 .. 2000000]
+printfn "The sum of all primes from 2 to 2000000 is: %A" result5

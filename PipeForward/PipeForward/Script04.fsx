@@ -224,8 +224,36 @@ printfn "Number of shares to buy(positive) or sell(negative): %i" numShares4
 // Once you get used to this syntax, you may find other traditional programming language 
 // e.g. Java/ C++ to be a bit verbose/too long.
 
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+// If you are not comfortable with completely getting rid of intermediateSteps, you can try the following:
 
+let PartiallyCompletedFunction1 (individualEstimates: List<double>) =
+    individualEstimates                 
+    |> List.average                     
+    // |> GetPerformance          
+    // |> GetNumSharesToBuy
 
+let PartiallyCompletedFunction2 (individualEstimates: List<double>) =
+    individualEstimates                 
+    |> List.average                     
+    |> GetPerformance                    
+    // |> GetNumSharesToBuy
+
+let CompletedFunction (individualEstimates: List<double>) =
+    individualEstimates                 
+    |> List.average                     
+    |> GetPerformance                  
+    |> GetNumSharesToBuy
+
+// You can put your mouse on top of the "PartiallyCompletedFunction1", "PartiallyCompletedFunction2", etc.
+// and see that the functions are
+// PartiallyCompletedFunction1: List<double> -> double
+// PartiallyCompletedFunction2: List<double>            -> string
+// CompletedFunction:           List<double>                       -> int
+
+// In practice, you will slowly write line by line, 
+// and keep track of what is the output until that point (by hovering your mouse on top of the functions)
 
 ////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////

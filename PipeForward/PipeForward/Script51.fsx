@@ -1,4 +1,5 @@
-﻿// Section11: Partial application
+﻿// Optional Topic
+// Section51: Partial application
 
 // Analogy: 
 // Imagine that you want to build a cannon/ assemble a racecar. And you need 10 components.

@@ -316,9 +316,3 @@ let ProjectEulerProblem6 xList =
 let result13 = ProjectEulerProblem6 [1 .. 100]
 printfn "The result for ProjectEuler Problem6 is: %i" result13
 
-
-///////////////////////////////////////////////////////////////////////
-// Optional Problem:
-// If you want, you can look at "Script50" as another application of List.filter and List.map
-// But it discusses something extra (BigInteger and integer overflow)
-// Which is not necessary to this workshop.

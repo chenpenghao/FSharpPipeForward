@@ -66,8 +66,9 @@
     <None Include="Script05.fsx" />
     <None Include="Script07.fsx" />
     <None Include="Script08.fsx" />
-    <None Include="Script11.fsx" />
+    <None Include="Script49.fsx" />
     <None Include="Script50.fsx" />
+    <None Include="Script51.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
