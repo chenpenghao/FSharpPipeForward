@@ -63,7 +63,7 @@ printfn "The result is: %i" y
 let mutable changableValue = 100
 printfn "Original value is: %i" changableValue
 
-// Again, we do not recommend that you use "mutable" this is for demonstration.
+// Again, we do not recommend that you use "mutable". This is for demonstration.
 changableValue <- 200
 printfn "Updated value: %i" changableValue
 
