@@ -1,0 +1,89 @@
+\documentclass[12pt]{article}
+
+\usepackage{geometry}
+\geometry{
+	a4paper,
+ 	left=26mm,
+ 	right=26mm,
+ 	top=33mm,
+ 	bottom=38mm
+}
+\usepackage{color}
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+
+\usepackage{listings}
+\lstdefinelanguage{FSharp}%
+{morekeywords={let, new, match, with, rec, open, module, namespace, type, of, member, % 
+and, for, while, true, false, in, do, begin, end, fun, function, return, yield, try, %
+mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit, finally },
+  otherkeywords={ let!, return!, do!, yield!, use!, var, from, select, where, order, by },
+  keywordstyle=\color{bluekeywords},
+  sensitive=true,
+  basicstyle=\ttfamily,
+	breaklines=true,
+  xleftmargin=\parindent,
+  aboveskip=\bigskipamount,
+	tabsize=4,
+  morecomment=[l][\color{greencomments}]{///},
+  morecomment=[l][\color{greencomments}]{//},
+  morecomment=[s][\color{greencomments}]{{(*}{*)}},
+  morestring=[b]",
+  showstringspaces=false,
+  literate={`}{\`}1,
+  stringstyle=\color{redstrings},
+}
+
+\begin{document}
+
+
+\begin{center}
+
+{\large F\# Tutorial\\} \vspace{2mm}
+\textbf{\LARGE Pipe-Forward Operator}\\
+\vspace{1.5mm}
+{\Large\emph{\today}}
+
+\end{center}
+
+
+\section{Syntax, variables, functions}
+
+\subsection{Key concepts: } 
+
+\begin{enumerate}
+\item Having a good text editor helps you code much easier.
+\item 
+\begin{enumerate}
+\item Once defined, a variable in F\# cannot change value (unless "mutable" is used)
+\item If you need an updated value, create a new one.
+\end{enumerate}
+\item Different datatypes (e.g. integer and decimal-numbers) do not combine easily.
+\item Defining and using functions in F\# is slightly different from math notation/ other languages.
+\begin{enumerate}
+\item F\# automatically detects the type of the variables (e.g. integer, double, etc.) for a function.
+\item The variable types for a function will be enforced.
+\end{enumerate}
+\end{enumerate}
+
+\subsection{Introduction: } 
+\subsubsection{Comments}
+You can use double-slash \texttt{//}, triple-slash \texttt{///}, or star-bracket \texttt{(* ...... *)} to make comments.
+
+\begin{lstlisting}[language=FSharp]
+// These words are ignored.
+/// These words are ignored.
+(* These words are ignored. *)
+let x = 1
+let y = x + 5
+\end{lstlisting}
+
+\subsubsection{Intellisense}
+If you are using Visual Studio or Visual Studio Code, you can put your mouse on top of the variable name \texttt{x} or \texttt{y}, and see that it is an \texttt{int} or integer.
+
+This feature will help you identify what is each variable/function, and make coding easier for you.
+\begin{center}
+SHOW PICTURE OF INTELLISENSE HERE.
+\end{center}
+\end{document}
