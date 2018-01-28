@@ -79,6 +79,10 @@ let x = 1
 let y = x + 5
 \end{lstlisting}
 
+\vfill
+
+\pagebreak
+
 \subsubsection{Intellisense}
 If you are using Visual Studio or Visual Studio Code, you can put your mouse on top of the variable name \texttt{x} or \texttt{y}, and see that it is an \texttt{int} or integer.
 
@@ -86,4 +90,46 @@ This feature will help you identify what is each variable/function, and make cod
 \begin{center}
 SHOW PICTURE OF INTELLISENSE HERE.
 \end{center}
+
+\subsubsection{Common data types and printing}
+
+Some of the common types in F\# are:
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline Keyword & Description & Print in output:
+\\ \hline \texttt{int} & Integer & \texttt{\%i}
+\\ \hline \texttt{double} or \texttt{float} & Decimal numbers & \texttt{\%f}
+\\ \hline \texttt{string} & Words/Sentences & \texttt{\%s}
+\\ \hline \texttt{bool} & True/False & \texttt{\%b}
+\\ \hline - & Other objects & \texttt{\%A} or \texttt{\%O}
+\\ \hline
+\end{tabular}
+\end{center}
+
+\begin{lstlisting}[language=FSharp]
+let name = "John"
+let age = 21
+let height = 170.5
+
+printfn "My name is: %s" name
+// Output:
+// My name is: John
+
+printfn "Name: %s. Age: %i. Height: %f." name age height
+// Output:
+// Name: John. Age: 21. Height: 170.500000
+
+printfn "His height is: %.2f" height
+// Output:
+// His height is: 170.50
+//// Show only two decimal.
+\end{lstlisting}
+For example, in the second example, inside the string-format, there are \texttt{\%s, \%i, \%f}. And so, we expect a string, integer, and decimal (in that order) after the string-format specification in order to completely print the result to the output console.
+
+\vfill
+
+\pagebreak
+
+\subsubsection{Immutability}
+
 \end{document}

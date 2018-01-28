@@ -1,47 +1,21 @@
-﻿// Key concepts:
-// 1. Having a good text editor helps you code much easier.
-// 2a. Once defined, a variable in F# cannot change value (unless "mutable" is used)
-// 2b. If you need an updated value, create a new one.
-// 3. Different datatypes (e.g. integer and decimal-numbers) do not combine easily.
-
-
-
-
-//////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////
-// Section 00: Comments and FSharp Interactive.
-
-
-
-// You can use double-slash //, 
-// triple-slash ///, 
-// or star-brackets (* ....... *) to make comments in F#.
-
-///////////////////////////////////////////
-// In Visual-Studio in Windows, you can highlight a certain section of code, and
-// run it in FSharp-interactive using "ALT + ENTER".
-// Alternatively, highlight the code you want to run, rightclick, and 
-// "Execute in interactive"
-
-// Remark: I am not sure how to do it in Mac computers.
-
-// Try it out with the code below.
-
+﻿
 let x = 1
 let y = x + 5
-printfn "The result is: %i" y
 
-// printfn is to print the result to the console. 
-// %i is for integer, %f for decimal/double, %s for string, %A for general objects.
-// 
-// No need to memorize the "%i", "%s", etc. 
-// Refer to a table.
+// Put your mouse on top of "x" and "y" to see the type of "x" and "y"
 
+////////////////////////////////////////////////////////////////////
+// Types and Output
 
+let name = "John"
+let age = 21
+let height = 170.5
 
+printfn "My name is: %s" name
 
+printfn "Name: %s. Age: %i. Height: %f." name age height
 
-
+printfn "His height is: %.2f" height
 
 //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////
