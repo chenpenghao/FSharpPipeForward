@@ -1,5 +1,6 @@
 \documentclass[12pt]{article}
 
+\usepackage{graphicx}
 \usepackage{geometry}
 \geometry{
 	a4paper,
@@ -86,9 +87,9 @@ let y = x + 5
 \subsubsection{Intellisense}
 If you are using Visual Studio or Visual Studio Code, you can put your mouse on top of the variable name \texttt{x} or \texttt{y}, and see that it is an \texttt{int} or integer.
 
-This feature will help you identify what is each variable/function, and make coding easier for you.
+This feature will help you identify what is each variable/function, and make coding easier for you. 
 \begin{center}
-SHOW PICTURE OF INTELLISENSE HERE.
+\includegraphics[width=5cm]{pictures/picture01.png}
 \end{center}
 
 \subsubsection{Common data types and printing}
@@ -130,6 +131,124 @@ For example, in the second example, inside the string-format, there are \texttt{
 
 \pagebreak
 
+\subsubsection{Equality and simple if-else}
+
+The \texttt{let ... = ...} combination is used to assigned a value to a variable. Other than this situation, the equal sign \texttt{=} is used for equality testing. \texttt{=, <>} are used for equality/inequality testing.
+
+
+\begin{lstlisting}[language=FSharp]
+let valueToTest = 20
+let isValueEqualToTwenty = (valueToTest = 20)
+
+if isValueEqualToTwenty then
+    printfn "Yes, the value is Twenty"
+else 
+    printfn "No, the value is not Twenty"
+// Output: "Yes, the value is Twenty"
+///////////////////////////////////////
+
+let inputUserName = "Jack"
+
+if inputUserName = "John" then
+    printfn "Welcome back, John"
+else 
+    printfn "Access denied."
+// Output: "Access denied."
+\end{lstlisting}
+
+In Java/C++, \texttt{==, !=} are used for comparison, and in Javascript, \texttt{===, !==} are used.
+
 \subsubsection{Immutability}
+
+In F\#, variables are by default immutable/unchangable. Once defined, the value of a variable cannot be changed. You can make a variable changable/mutable using the keyword \texttt{mutable} and symbol \texttt{<-}, but this is \underline{highly discouraged}. (If you use VisualStudio, then the color of the variable name will change color, warning you of potential mutable values)
+
+\begin{center}
+\includegraphics[width=8cm]{pictures/picture02.png}
+\end{center}
+
+In addition, if you try to update an immutable/unchangable value using \texttt{<-}, you will get an error. 
+
+\begin{center}
+\includegraphics[width=14cm]{pictures/picture03.png}
+\end{center}
+
+Why do we recommend immutable/unchangable values: 
+
+Imagine you have a code below, where you have defined a mutable value \texttt{x}, and after thousands of lines of code later, you used \texttt{x}'s value again:
+
+\begin{lstlisting}[language=FSharp]
+let mutable x = 100
+//
+// Thousands of lines of code later......
+// You have many lines of code in between......
+// It is hard to keep track......
+// Have you changed/updated x's value?
+// Did you accidentally call any function that modify x?
+// Can you guarantee x's value stay unchanged?
+// 
+//
+let y = x + 1
+// What is the value of y?
+//
+// That depends on what happens between y's definition 
+// and x's definition.
+\end{lstlisting}
+\begin{center}
+\line(1,0){400}
+\end{center}
+
+On the other hand, if \texttt{x} is immutable/unchangable:
+
+\begin{lstlisting}[language=FSharp]
+let x = 100
+//
+// Thousands of lines of code later......
+// You have many lines of code in between......
+// But because x is immutable/unchangable......
+// We can be sure that x stays constant......
+// And we can safely conclude that......
+//
+let y = x + 1
+// y = 101
+\end{lstlisting}
+
+\pagebreak
+
+\subsubsection{(+) Operator on the same type of variable}
+
+Integers, double, and string support the \texttt{(+)} operation:
+\begin{lstlisting}[language=FSharp]
+
+let number1 = 40
+let number2 = 55
+let addTwoNumbers = number1 + number2
+
+// Remark: "float" and "double" mean the same thing in F#.
+let sqrtTwoApprox = 1.414
+let piApprox = 3.1415926
+let addTwoDecimals = sqrtTwoApprox + piApprox
+
+let sentenceStart = "My school is "
+let schoolName = "National University of Singapore"
+let combinedSentence = sentenceStart + schoolName
+\end{lstlisting}
+However, you cannot add an integer with a decimal in F\# directly using \texttt{(+)}, and you cannot add/concatenate a string with a number directly using \texttt{(+)}. If you use VisualStudio, then you may see an error similar to the one below.
+\begin{center}
+\includegraphics[width=14cm]{pictures/picture04.png}
+\end{center}
+Furthermore, some functions, like the square root \texttt{sqrt} and math exponent \texttt{(**)} only accepts decimal numbers:
+
+\begin{lstlisting}[language=FSharp]
+let sqrtRootOfNine = sqrt 9.0
+let twoToPowerOfFive = 2.0 ** 5.0 
+\end{lstlisting}
+And it will cause error if you use them with integer input instead.
+\begin{center}
+\includegraphics[width=14cm]{pictures/picture04.png}
+\end{center}
+
+\pagebreak
+
+\subsubsection{Functions}
 
 \end{document}
