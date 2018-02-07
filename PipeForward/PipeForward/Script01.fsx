@@ -1,11 +1,20 @@
 ﻿
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+// 1.1 Set up
+
 let x = 1
 let y = x + 5
 
 // Put your mouse on top of "x" and "y" to see the type of "x" and "y"
 
+
+
 ////////////////////////////////////////////////////////////////////
-// Types 
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+// 1.2 Types 
 
 let name = "John"
 let age = 21
@@ -90,8 +99,12 @@ let twoToPowerOfFive = 2.0 ** 5.0
 //let twoToPowerOfFiveError = 2 ** 5 
 //let sqrtRootOfNineError = sqrt 9
 
+
+
 /////////////////////////////////////////////////////////////////
-// Defining functions
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+// 1.3 Defining functions
 
 // This function accepts integer only.
 
@@ -163,7 +176,6 @@ let circleResult2 = CircleArea 2.0
 printfn "The first circle has area of: %f" circleResult2
 
 //////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
 // Function with 2 variables.
 let g x y = 3 * x + y
 
@@ -220,3 +232,46 @@ let AddThreeCustom (x:double) y z = x + y + z
 
 let add3CustomResult = AddThreeCustom 2.1 3.0 4.2
 printfn "Adding the decimals give you: %f" add3CustomResult
+
+
+
+/////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////
+// 1.4 Scoping
+
+let AddFriend person1 =
+    let endOfSentence = " and Mary are friends"
+    person1 + endOfSentence
+    
+// uncomment to see error
+// ERROR: "endOfSentence" is not accessible outside of "AddFriend"
+//printfn "The content of endOfSentence is: %s" endOfSentence
+
+let combinedSentence1 = AddFriend "Jack"
+printfn "The new sentence is: %s" combinedSentence1
+
+/////////////////////////////////////////////
+let DrinkFunction person =
+    let endOfSentence = " likes to drink coffee."
+    person + endOfSentence
+
+let EatFunction person =
+    let endOfSentence = " prefers eating chocolate."
+    person + endOfSentence
+
+printfn "Drink preference: %s" (DrinkFunction "Jack")
+printfn "Eating preference: %s" (EatFunction "Jill")
+
+/////////////////////////
+
+let a = 5
+
+let f1 b = 
+    a + b
+
+let f2 b = 
+    a + a + b
+    
+printfn "%i" (f1 10)
+printfn "%i" (f2 10)

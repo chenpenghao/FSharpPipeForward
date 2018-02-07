@@ -1,5 +1,6 @@
 \documentclass[12pt]{article}
 
+\usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage{geometry}
 \geometry{
@@ -73,7 +74,7 @@ mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit
 
 \section{Syntax, variables, functions}
 
-\subsection{Key concepts: } 
+\subsection*{Key concepts: } 
 
 \begin{enumerate}
 \item Having a good text editor helps you code much easier.
@@ -90,7 +91,7 @@ mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit
 \end{enumerate}
 \end{enumerate}
 
-\subsection{Introduction: } 
+\subsection{Setting Up} 
 \subsubsection{Comments}
 You can use double-slash \texttt{//}, triple-slash \texttt{///}, or star-bracket \texttt{(* ...... *)} to make comments.
 
@@ -102,8 +103,13 @@ let x = 1
 let y = x + 5
 \end{lstlisting}
 
+\subsubsection{F\# Interactive}
+
 If you are using Visual Studio, you can run the code above by highlighting/selecting the code using your mouse, and press \texttt{ALT + ENTER}, or right-click and select \texttt{Execute in Interactive}.
 
+\begin{center}
+INSERT PICTURE HERE.
+\end{center}
 \vfill
 
 \pagebreak
@@ -115,6 +121,7 @@ This feature will help you identify what is each variable/function, and make cod
 \begin{center}
 \includegraphics[width=5cm]{pictures/picture01.png}
 \end{center}
+\subsection{Data Type}
 
 \subsubsection{Common data types and printing}
 
@@ -276,6 +283,7 @@ And it will cause error if you use them with integer input instead.
 \end{center}
 
 \pagebreak
+\subsection{Functions}
 
 \subsubsection{One variable functions}
 
@@ -471,6 +479,120 @@ let DiscountBy20Percent originalPrice = originalPrice * 0.8
 // Output: "The new price is: 255.99"
 \end{lstlisting}
 
+\subsection{Scoping}
+
+\subsubsection{Indenting}
+
+You can use a \texttt{let} inside a \texttt{let}, i.e. you can define a variable inside a variable. For example:
+
+\begin{lstlisting}[language=FSharp]
+let AddFriend person1 =
+    let endOfSentence = " and Mary are friends"
+    person1 + endOfSentence
+
+let combinedSentence1 = AddFriend "Jack"
+printfn "The new sentence is: %s" combinedSentence1
+// Output:
+// The new sentence is: Jack and Mary are friends
+\end{lstlisting}
+Notice that the two lines immediately after the \texttt{AddFriend} function has some spaces in front of each line. This means that those two lines are accessible only inside the \texttt{AddFriend} function. 
+
+So, you cannot access the \texttt{endOfSentence} variable outside of the function. The following code will not work:
+\begin{lstlisting}[language=FSharp]
+let AddFriend person1 =
+    let endOfSentence = " and Mary are friends"
+    person1 + endOfSentence
+
+// ERROR: "endOfSentence" is not accessible outside of "AddFriend"
+let x = endOfSentence
+"ERROR: endOfSentence is not accessible outside of AddFriend"
+\end{lstlisting}
+
+\subsubsection{Reuse variable name}
+By carefully using indenting/spacing, you can repeatedly use the same variable name, as long as the spacing/indenting is such that the variables do not cause conflict with each other.
+
+\begin{lstlisting}[language=FSharp]
+let DrinkFunction person =
+    let endOfSentence = " likes to drink coffee."
+    person + endOfSentence
+
+let EatFunction person =
+    let endOfSentence = " prefers eating chocolate."
+    person + endOfSentence
+
+printfn "Drink preference: %s" (DrinkFunction "Jack")
+// Output: 
+// "Drink preference: Jack likes to drink coffee."
+
+printfn "Eating preference: %s" (EatFunction "Jill")
+// Output:
+// "Eating preference: Jill prefers eating chocolate."
+\end{lstlisting}
+The \texttt{endOfSentence} inside these two functions will not cause conflict with each other.
+
+\subsubsection{From top to bottom}
+F\# code are read from top to bottom. For example, look at the following code:
+\begin{lstlisting}[language=FSharp]
+let a = 5
+
+let f1 b = 
+    a + b
+
+let f2 b = 
+    a + a + b
+    
+printfn "%i" (f1 10)
+printfn "%i" (f2 10)
+\end{lstlisting}
+Notice that there are no spacing/indenting before  \texttt{let a = 5} and the definition of \texttt{f1, f2}. These variables and functions are equally indented, and so the value of \texttt{a} is accessible from \texttt{f1, f2}
+
+However, the following code below will not be accepted, because \texttt{a} is defined later/down lower in the code, but it is incorrectly used before it is defined (i.e. above it).
+
+\begin{lstlisting}[language=FSharp]
+// ERROR: "a" is not yet defined.
+let f1 b = 
+    a + b
+"ERROR!"
+// ERROR: "a" is not yet defined.
+let f2 b = 
+    a + a + b
+"ERROR!"
+// ERROR: "a" is defined too late! It is used above.
+let a = 5
+\end{lstlisting}
+
+\subsubsection{Warning: No TAB}
+
+In Python, you use \texttt{TAB} to indent the file. The \texttt{TAB} button will insert a special character.
+
+However, in F\#, you use blank spaces to do indenting. You should configure/adjust your IDE (e.g. VisualStudio, VisualStudioCode, etc.) so that it insert multiple blank spaces instead of a special character.
+
+For example, the code below is indented using 4 spaces for the second and third line.
+\begin{center}
+\includegraphics[width=16cm]{pictures/picture19.png}
+\end{center}
+If you did not configure your IDE correctly, or if you copy-and-paste the special \texttt{TAB} character from another source (e.g. Notepad), then you may see the following error:
+\begin{center}
+\includegraphics[width=9cm]{pictures/picture20.png}
+\end{center}
+\pagebreak
+
+\section{Pipe-forward}
+\subsection*{Key Concept:}
+\begin{enumerate}
+\item Coding in F\# is similar to building LEGO. 
+\begin{itemize}
+\item Source: \href{https://fsharpforfunandprofit.com/posts/defining-functions/}{Scott Wlaschin}
+\end{itemize}
+\item The output of one function is the input of the next function.
+\end{enumerate}
+
+\subsection{Introduction}
+
+
+\begin{lstlisting}[language=FSharp]
+// INSERT CODE HERE ..............................
+\end{lstlisting}
 
 \pagebreak
 
