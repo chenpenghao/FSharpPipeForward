@@ -658,7 +658,7 @@ So, we can use the result of the first function \texttt{GetGrade} as the input o
 // GetGrade: int  -> string
 // GetCAP:           string ->  float
 
-let GetCAPfromScore1 (score:int) =
+let GetCAPfromScore1 score =
     let intermediateResult = GetGrade score
     let finalResult = GetCAP intermediateResult
     // return
@@ -679,7 +679,7 @@ However, if we use the pipe-forward operator \texttt{|>}, we can simplify it as:
 // GetGrade: int  -> string
 // GetCAP:           string ->  float
 
-let GetCAPfromScore2 (score:int) =
+let GetCAPfromScore2 score =
     score               
     |> GetGrade         
     |> GetCAP   
@@ -692,13 +692,322 @@ let cap4 = GetCAPfromScore2 85
 printfn "Your CAP is: %f" cap4
 // Output: "Your CAP is: 4.0"
 \end{lstlisting}
-How this code should be interpreted is the following:
+How this code should be interpreted:
 \begin{center}
 \includegraphics[width=16cm]{pictures/picture23.png}
 \end{center}
+Remark: The code will not compile if we put the functions in the wrong order:
 \begin{lstlisting}[language=FSharp]
-// INSERT CODE HERE ..............................
+let CombinedFunction3Error score =
+    score       // int
+    |> GetCAP   // function: string -> float   // ERROR! 
+    |> GetGrade // function: int -> string     // ERROR!
+"ERROR!!!"
 \end{lstlisting}
+Because \texttt{score} is an \texttt{int}, it cannot be the input for the function \texttt{GetCAP} (which accepts only \texttt{string}).
+
+Similarly, the intermediate result from \texttt{GetCAP} is \texttt{float}, which cannot be the input for the function \texttt{GetGrade} (which accepts only \texttt{int})
+\subsection{More Examples}
+Let us consider another hypothetical example. 
+
+Imagine that you want to buy or sell a company's stock, based on the company's performance relative to the financial analyst's estimate.
+
+\begin{enumerate}
+\item F\# has a built-in function, \texttt{List.average} to find the average of a list of numbers:
+\begin{lstlisting}[language=FSharp]
+let average1 = List.average [1.0; 2.0; 3.0; 4.0; 5.0]
+let average2 = List.average [80.0; 85.0; 90.0; 95.0; 100.0]
+\end{lstlisting}
+\item You are provided another function, \texttt{GetPerformance}, that determines the condition of the company.
+
+Assume that the actual profit of the company is \$ 6.0 billion for that year, then we say that the company is:
+\begin{itemize}
+\item \texttt{OUTPERFORM}: If actual profit exceed the analystEstimate by 5\% 
+\item \texttt{UNDERPERFORM}: If actual profit misses the analystEstimate by 5\%
+\item \texttt{NEUTRAL}: If actual profit is within 5\% of the analystEstimate
+\end{itemize}
+\begin{lstlisting}[language=FSharp]
+let GetPerformance analystAverageEstimate =
+    let actualProfit = 6.0
+    if actualProfit > analystAverageEstimate * 1.05
+        then "OUTPERFORM"
+    else if actualProfit < analystAverageEstimate * 0.95 
+        then "UNDERPERFORM"
+    else 
+        "NEUTRAL"
+\end{lstlisting}
+\item You are also provided another function, \texttt{GetNumSharesToBuy}, that determines how much additional shares to buy/sell depending on the company's condition:
+
+\begin{itemize}
+\item \texttt{OUTPERFORM}: Buy additional $1000$ shares.
+\item \texttt{UNDERPERFORM}: Sell $1000$ shares.
+\item \texttt{NEUTRAL}: Hold the same portfolio.
+\end{itemize}
+\begin{lstlisting}[language=FSharp]
+let GetNumSharesToBuy performance =
+    if performance = "OUTPERFORM" then
+        1000     // buy 1000 shares
+    else if performance = "UNDERPERFORM" then
+        -1000    // sell 1000 shares
+    else 
+        0       // hold.
+\end{lstlisting}
+\end{enumerate}
+So, the function signatures are:
+\begin{lstlisting}[language=FSharp]
+List.average:        
+    List<double> -> double
+GetPerformance:     double -> string
+GetNumSharesToBuy:            string -> int
+\end{lstlisting}
+In this carefully crafted example, notice that the result of the one function can act as the input to the other function. 
+\begin{center}
+\includegraphics[width=16cm]{pictures/picture24.png}
+\end{center}
+So, we can combine them into a big function:
+\begin{lstlisting}[language=FSharp]
+// Assume the profit is already known to be $6.0 billion, and written in "GetPerformance"
+let GetNumSharesFromEstimate1 individualEstimates =
+    let intermediateResult1 = 
+        List.average individualEstimates
+    let intermediateResult2 = 
+        GetPerformance intermediateResult1
+    let finalResult = GetNumSharesToBuy intermediateResult2
+    // output
+    finalResult
+\end{lstlisting}
+Notice that the code above uses a lot of temporary variables \texttt{intermediateResult1}, etc. which makes the code unnecessarily longer.
+
+Usage example:
+\begin{enumerate}
+\item In this example, the actual profit (6.0 billion) exceeds all the financial analyst's prediction, which means this is good news.
+\begin{lstlisting}[language=FSharp]
+let numShares1 = GetNumSharesFromEstimate1 [4.0; 5.0; 3.0; 2.0; 2.5]
+printfn "Number of shares to buy(+) or sell(-): %i" numShares1
+// Output:
+// "Number of shares to buy(+) or sell(-): 1000"
+\end{lstlisting}
+\pagebreak
+\item In this example, the actual profit (6.0 billion) misses all the financial analyst's prediction, which means this is bad news.
+\begin{lstlisting}[language=FSharp]
+let numShares2 = GetNumSharesFromEstimate1 [8.0; 7.0; 10.0; 12.0; 10.5]
+printfn "Number of shares to buy(+) or sell(-): %i" numShares2
+// Output:
+// "Number of shares to buy(+) or sell(-): -1000"
+\end{lstlisting}
+\end{enumerate}
+The following is the original code:
+\begin{lstlisting}[language=FSharp]
+// Assume the profit is already known to be $6.0 billion, and written in "GetPerformance"
+let GetNumSharesFromEstimate1 individualEstimates =
+    let intermediateResult1 = 
+        List.average individualEstimates
+    let intermediateResult2 = 
+        GetPerformance intermediateResult1
+    let finalResult = GetNumSharesToBuy intermediateResult2
+    // output
+    finalResult
+\end{lstlisting}
+And the following is the simplified version with the pipe-forward operator \texttt{|>}
+
+\begin{lstlisting}[language=FSharp]
+let GetNumSharesFromEstimate2 individualEstimates =
+    individualEstimates                 
+    |> List.average                     
+    |> GetPerformance                  
+    |> GetNumSharesToBuy  
+\end{lstlisting}
+
+How this code should be interpreted:
+\begin{center}
+\includegraphics[width=14cm]{pictures/picture25.png}
+\end{center}   
+
+\subsection{Benefits}
+The benefits of using the pipe-forward operator \texttt{|>}:
+\begin{enumerate}
+\item You can remove unnecessary clutter/words on our computer screen. You do not need explicitly write out intermediate result, and we can focus more on the internal logic/calculations (and reserve the naming for variables/results that are truely important).
+
+\item It is easier to follow instructions than to reason mathematically. Consider the following two statements:
+\[
+ y = h\left(g \left(f \left(x \right)\right)\right)
+\]
+\begin{lstlisting}
+Start with variable x.
+Step 1: Use function f.
+Step 2: Use function g.
+Step 3: Use function h.
+\end{lstlisting}
+Most common languages* are written from left-to-right, and top-to-bottom. So, the conventional mathematical notation $h\left(g \left(f \left(x \right)\right)\right)$ is not very natural to most languages. Whereas in the second case, it gives us a simple step-by-step instructions on how to get our final result. 
+
+This makes it easier to non-programmers to understand your code (e.g. if you work with a manager or a trader); it makes it easier for you to understand your own code (e.g. if you re-visit some code that you have written 1 year ago). 
+
+*Exception: Hebrew and Arabic.
+
+\end{enumerate}
+Once you get used to this syntax, you may find other traditional programming language, e.g. Java/ C++ to be a bit verbose/too long.
+
+\pagebreak
+
+\subsection{Intellisense}
+In actual code development, we will do things step by step (instead of collecting everything together and chain everything using \texttt{|>}). 
+
+\begin{enumerate}
+\item We will first start off like this:
+\begin{lstlisting}[language=FSharp]
+let myFunction1 (individualEstimates: List<float>) =
+    individualEstimates                 
+    |> List.average     
+
+  
+\end{lstlisting}
+If you are using VisualStudio or VisualStudioCode, hover your mouse over \texttt{myFunction1} to see the type signature:
+\begin{lstlisting}[language=FSharp]
+List<float> -> float
+\end{lstlisting}
+\item Next, let's add one more line:
+\begin{lstlisting}[language=FSharp]
+let myFunction2 individualEstimates =
+    individualEstimates                 
+    |> List.average                     
+    |> GetPerformance         
+\end{lstlisting}
+We know that until the \texttt{List.average} step, we have an intermediate result of type \texttt{float}. So, we want the next function, \texttt{GetPerformance}, to take in \texttt{float} as an input. 
+
+Hover your mouse over \texttt{myFunction2} to see the type signature:
+\begin{lstlisting}[language=FSharp]
+List<float>          -> string
+\end{lstlisting}
+\item Finally, let's add one more line:
+\begin{lstlisting}[language=FSharp]
+let myFunction3 individualEstimates =
+    individualEstimates                 
+    |> List.average                     
+    |> GetPerformance                
+    |> GetNumSharesToBuy     
+\end{lstlisting}
+The new function, \texttt{GetNumSharesToBuy}, should ideally accept \texttt{string} as its input (which it does). And if we hover your mouse over \texttt{myFunction3} to see the type signature:
+\begin{lstlisting}[language=FSharp]
+List<float>                    -> int
+\end{lstlisting}
+\end{enumerate}
+
+\pagebreak
+\subsection{Exercise}
+Scenario: Assume that you are in a trading firm, and you want to manage your employees based on their performance.
+
+You are given the following functions:
+\begin{enumerate}
+\item The F\# build-in function, \texttt{List.sum} that finds the sum of a list of doubles/decimals.
+\begin{lstlisting}[language=FSharp]
+let sum1 = List.sum [1.0; 2.0; 3.0; 4.0; 5.0]   // sum from 1 to 5
+let sum2 = List.sum [1.0 .. 100.0]              // sum from 1 to 100
+\end{lstlisting}
+\item Another function, \texttt{GetStatus}, that determines how well is the trader
+\begin{itemize}
+\item \texttt{TOP TRADER}: Profit exceeds \$ 10.0 million.
+\item \texttt{HUGE LOSSES}: Loses \$3.0 million.
+\item \texttt{NORMAL TRADER}: Remaining cases
+\end{itemize}
+\begin{lstlisting}[language=FSharp]
+let GetStatus profit =
+    if profit > 10.0 then
+        "TOP TRADER"
+    else if profit < -3.0 then
+        "HUGE LOSSES"
+    else
+        "NORMAL TRADER"
+\end{lstlisting}
+\item Another function, \texttt{GetBonus}, that determines how many months of bonus is given to the trader.
+\begin{itemize}
+\item \texttt{TOP TRADER}: 24 months bonus (i.e. 2 years bonus)
+\item \texttt{HUGE LOSSES}: 6 months bonus (i.e. half year bonus)
+\item \texttt{NORMAL TRADER}: 0 months bonus (i.e. no bonus)
+\end{itemize}
+\begin{lstlisting}[language=FSharp]
+let GetBonus status =
+    if status = "TOP TRADER" then   
+        24      // 24-month, i.e. 2 year bonus.
+    else if status = "NORMAL TRADER" then
+        6       // 6-month, i.e. half year bonus.
+    else 
+        0       // No bonus.
+\end{lstlisting}
+\end{enumerate}
+Again, the output of one function is the input of the next function:
+\begin{lstlisting}[language=FSharp]
+List.sum : List<double> -> double
+GetStatus:                 double -> string
+GetBonus:                            string -> int
+\end{lstlisting}
+
+\begin{lstlisting}[language=FSharp]
+let GetBonusFromTrades1 listOfTrades =
+    let intermediateResult1 = List.sum listOfTrades
+    let intermediateResult2 = GetStatus intermediateResult1
+    let finalResult = GetBonus intermediateResult2
+    // output
+    finalResult
+\end{lstlisting}
+
+Try to re-implement the function above using the pipe-forward operator \texttt{|>}.
+\begin{lstlisting}[language=FSharp]
+let GetBonusFromTrades2 (listOfTrades: List<double>) =
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+    // implement the function above.
+\end{lstlisting}
+
+\vspace{1.0cm}
+
+Examples of use cases:
+\begin{enumerate}
+\item This trader helped the company earned some money. 
+\begin{lstlisting}[language=FSharp]
+let bonus1 = 
+    GetBonusFromTrades2 [1.0; -2.0; 0.5; 0.3; 0.4; 0.2]
+printfn "He received a bonus of %i months" bonus1
+\end{lstlisting}
+\item This trader made one huge profitable deal, with other tiny losses.
+
+\begin{lstlisting}[language=FSharp]
+let bonus2 = 
+    GetBonusFromTrades2 [-2.0; -1.0; -0.5; 30.0; -1.0]
+printfn "She received a bonus of %i months" bonus2
+\end{lstlisting}
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \pagebreak
 
