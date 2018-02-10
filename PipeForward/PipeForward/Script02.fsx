@@ -1,56 +1,52 @@
-﻿
-// Key-concept: 
-// 1. Coding in F# is similar to building LEGO. (**)
-// 1a. You chain together functions such that the output of one function is the 
-//     input of the next function.
+﻿// Section1: Introduction
 
-// (**) https://fsharpforfunandprofit.com/posts/defining-functions/
+// You do not need to implement the pipe-forward operator.
+// It is already defined in F#.
+//
+// let inline (|>) x f = f x
 
-/////////////////////////////////////////////////////////////////////////////////
-// Section04: Pipe-forward.
+/////////////////////////////////////////////////////////////////////////
+// Section2: Simple demonstration
 
-// The definition of the pipe-forward is:
-let inline (|>) x f = f x
-
-// The definition above may look strange, but let us look at an example
 let Add5Func x = x + 5
 
 let result1 = Add5Func 30
 printfn "Result is: %i" result1
-// Notice that the variable comes after the function
 
-// However, with this new symbol |>, you can specify the variable first, 
-// then the function you want to apply it to.
+// With pipe-forward:
 let result2 = 30 |> Add5Func
 printfn "Result is: %i" result2
 
-// How it is read is the following:
-// "Starting from the input 30",
-// "I use this as the variable for the function Add5Func"
-// "And I assign the output of this process to the result2 variable"
-
 ///////////////////////////////////////////////////////////
-// The reason why the symbol |> is useful is because it helps us to compose function.
-// Let's look at an example:
+// Section3: Usefulness
 
 // Let's say that you are given these two functions:
-let GetGrade (score:int) =
+let GetGrade score =
     if score >= 90 then "A"
     else if score >= 70 then "B"
     else if score >= 50 then "C"
     else "D"
-
-let GetCAP (grade:string) =
+    
+// For Singaporean University. (Maximum CAP 5.0)
+let GetCAP grade =
     if grade = "A" then 5.0
     else if grade = "B" then 4.0
     else if grade = "C" then 3.0
     else 2.0
 
-// Here, the "GetGrade" function has signature of int -> string
-// the "GetCAP" has signature of string -> double
+// For American University. (Maximum GPA 4.0)
+let GetGPA grade =
+    if grade = "A" then 4.0
+    else if grade = "B" then 3.5
+    else if grade = "C" then 3.0
+    else 2.5
+    
+// GetGrade: int  -> string
+// GetCAP:           string ->  float
 
-// So, if you have the result of the first function, 
-// you can use the result immediately in the second function
+////////////////////////////////
+
+// verbose/long version
 let GetCAPfromScore1 (score:int) =
     let intermediateResult = GetGrade score
     let finalResult = GetCAP intermediateResult
@@ -63,13 +59,12 @@ printfn "Your CAP is: %f" cap1
 let cap2 = GetCAPfromScore1 85
 printfn "Your CAP is: %f" cap2
 
-// Notice that the function above uses an "intermediateResult" and "finalResult" variable name
-// to store some intermediate steps, even though it makes the code longer.
-
 ///////////////////////
 
-// However, if you use the pipe-forward operator "|>", you can simplify the function as:
+// GetGrade: int  -> string
+// GetCAP:           string ->  float
 
+// Shorter version
 let GetCAPfromScore2 (score:int) =
     score               
     |> GetGrade         

@@ -14,14 +14,18 @@
 \definecolor{bluekeywords}{rgb}{0.13,0.13,1}
 \definecolor{greencomments}{rgb}{0,0.5,0}
 \definecolor{redstrings}{rgb}{0.9,0,0}
+\definecolor{cyantypes}{RGB}{0,183,235}
 
 \usepackage{listings}
 \lstdefinelanguage{FSharp}%
-{morekeywords={let, new, match, with, rec, open, module, namespace, type, of, member, % 
+{morekeywords=[1]{let, new, match, with, rec, open, module, namespace, type, of, member, % 
 and, for, while, true, false, in, do, begin, end, fun, function, return, yield, try, %
 mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit, finally },
-  otherkeywords={ let!, return!, do!, yield!, use!, var, from, select, where, order, by },
-  keywordstyle=\color{bluekeywords},
+  morekeywords=[2]{double, float, int, string},
+  otherkeywords={ let!, return!, do!, yield!, use!, var, select, where, order, by },
+% otherkeywords={from}
+  keywordstyle=[1]\color{bluekeywords},
+  keywordstyle=[2]\color{cyantypes},
   sensitive=true,
   basicstyle=\ttfamily,
 	breaklines=true,
@@ -588,29 +592,110 @@ If you did not configure your IDE correctly, or if you copy-and-paste the specia
 \end{enumerate}
 
 \subsection{Introduction}
+F\# has an operator, called the pipe-forward operator. 
 
+The definition of pipe-forward is:
+\begin{lstlisting}[language=FSharp]
+let inline (|>) x f = f x
+\end{lstlisting}
+(The \texttt{inline} keyword is used to handle some special cases.) You do not need to worry about the definition. This operator is already implemented in F\# by default.
 
+\subsection{Simple demonstration}
+Let us take a look at an example:
 \begin{lstlisting}[language=FSharp]
-// INSERT CODE HERE ..............................
+let Add5Func x = x + 5
+
+let result1 = Add5Func 30
+printfn "Result is: %i" result1
+// Output: "Result is: 35"
 \end{lstlisting}
+Notice that the variable/input $30$ is located after the function \texttt{Add5Func}. 
+
+However, with the new symbol \texttt{|>}, we can specify the variable/input first, and then the function that we want to apply it to.
 \begin{lstlisting}[language=FSharp]
-// INSERT CODE HERE ..............................
+let result2 = 30 |> Add5Func
+
+printfn "Result is: %i" result2
+// Output: "Result is: 35"
 \end{lstlisting}
+How this code should be interpreted is the following:
+\begin{center}
+\includegraphics[width=16cm]{pictures/picture21.png}
+\end{center}
+\subsection{Why is this useful?}
+The reason why the symbol \texttt{|>} is useful is because it helps us to compose functions. Let's say that you are given these functions:
 \begin{lstlisting}[language=FSharp]
-// INSERT CODE HERE ..............................
+let GetGrade score =
+    if score >= 90 then "A"
+    else if score >= 70 then "B"
+    else if score >= 50 then "C"
+    else "D"
+
+// For Singaporean University. (Maximum CAP 5.0)
+let GetCAP grade =
+    if grade = "A" then 5.0
+    else if grade = "B" then 4.0
+    else if grade = "C" then 3.0
+    else 2.0
+
+// For American University. (Maximum GPA 4.0)
+let GetGPA grade =
+    if grade = "A" then 4.0
+    else if grade = "B" then 3.5
+    else if grade = "C" then 3.0
+    else 2.5
 \end{lstlisting}
+We can take a look at the signatures of the functions:
 \begin{lstlisting}[language=FSharp]
-// INSERT CODE HERE ..............................
+GetGrade: int  -> string
+GetCAP:           string ->  float
 \end{lstlisting}
+So, we can use the result of the first function \texttt{GetGrade} as the input of a second function \texttt{GetCAP}. 
+\begin{center}
+\includegraphics[width=11cm]{pictures/picture22.png}
+\end{center}
 \begin{lstlisting}[language=FSharp]
-// INSERT CODE HERE ..............................
+// GetGrade: int  -> string
+// GetCAP:           string ->  float
+
+let GetCAPfromScore1 (score:int) =
+    let intermediateResult = GetGrade score
+    let finalResult = GetCAP intermediateResult
+    // return
+    finalResult
+
+let cap1 = GetCAPfromScore1 95
+printfn "Your CAP is: %f" cap1
+// Output: "Your CAP is: 5.0"
+
+let cap2 = GetCAPfromScore1 85
+printfn "Your CAP is: %f" cap2
+// Output: "Your CAP is: 4.0"
 \end{lstlisting}
+Notice that in the code above, we named out the intermediate steps/variables, i.e. \\\texttt{intermediateResult} and \texttt{finalResult}, even though it makes the code longer.
+
+However, if we use the pipe-forward operator \texttt{|>}, we can simplify it as:
 \begin{lstlisting}[language=FSharp]
-// INSERT CODE HERE ..............................
+// GetGrade: int  -> string
+// GetCAP:           string ->  float
+
+let GetCAPfromScore2 (score:int) =
+    score               
+    |> GetGrade         
+    |> GetCAP   
+
+let cap3 = GetCAPfromScore2 95
+printfn "Your CAP is: %f" cap3
+// Output: "Your CAP is: 5.0"
+
+let cap4 = GetCAPfromScore2 85
+printfn "Your CAP is: %f" cap4
+// Output: "Your CAP is: 4.0"
 \end{lstlisting}
-\begin{lstlisting}[language=FSharp]
-// INSERT CODE HERE ..............................
-\end{lstlisting}
+How this code should be interpreted is the following:
+\begin{center}
+\includegraphics[width=16cm]{pictures/picture23.png}
+\end{center}
 \begin{lstlisting}[language=FSharp]
 // INSERT CODE HERE ..............................
 \end{lstlisting}
@@ -635,6 +720,11 @@ printfn "Multiply the two numbers gives: %f" multiply2Double
 // Output: "Multiply the two numbers gives: 12.000000"
 \end{lstlisting}
 However, not every datatype supports multiplication \texttt{(*)}
+
+\begin{lstlisting}[language=FSharp]
+let multiply2WordsError = Product "word1" "word2"
+"ERROR!!!!!!!!!!"
+\end{lstlisting}
 \begin{center}
 INPUT PICTURE HERE!
 \end{center}
@@ -658,6 +748,10 @@ printfn "Adding the three decimals give: %f" add3DecimalResult
 // Output: "Adding the three decimals give: 30.600000"
 \end{lstlisting}
 However, not every datatype supports addition \texttt{(+)}
+\begin{lstlisting}[language=FSharp]
+let add3BooleanError = CustomAdd true false false
+"ERROR!!!!!!!!!!"
+\end{lstlisting}
 \begin{center}
 INPUT PICTURE HERE!
 \end{center}
