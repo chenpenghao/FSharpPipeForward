@@ -1125,9 +1125,16 @@ let result2 = List.filter (fun x -> x % 2 = 0) [1 .. 100]
 // Output:
 // [2; 4; 6; ......; 98; 100]
 \end{lstlisting}
-The benefit is that we don't want to waste time figuring out a name for our function \texttt{IsItEven}; if we define too many such custom function, it will be hard to keep track, and we will lose productivity.
+The notation \texttt{(fun x -> x \% 2 = 0)} is used to define anonymous/lambda function, i.e. functions that are easy to define, that we do not need to give it a name, e.g. \texttt{IsItEven}.
 
-We define this function using the \texttt{fun} keyword at the exact location where we need it.
+Benefits:
+\begin{itemize}
+\item We define this function using the \texttt{fun} keyword at exactly where it is used.
+\item If we define too many custom functions, e.g. \texttt{IsItEven}, then it will be hard to keep track when we have 1000+ functions, and we will lose productivity.
+\end{itemize}
+Remark: The code \texttt{(fun x -> x \% 2 = 0)} represents a ``thing'', and that ``thing'' is a \underline{function}, just like \texttt{IsItEven} is a function.
+
+Side note: \texttt{fun} is a keyword in the F\#! Programming in F\# is very fun!
 
 \pagebreak
 \subsection{\texttt{List.filter} and Pipe-Forward \texttt{|>}}
@@ -1144,21 +1151,100 @@ How to interpret this function:
 \end{center}
 So, F\# is able to express all of these calculations with just 3 lines of code, which is quite elegant, maybe similar to Python code (in style), compared to other more traditional languages (Java/C++) which we need to write longer.
 
+Using this function:
 \begin{lstlisting}[language=FSharp]
-let result3 = SumMultiplesOfThree [1 .. 1000]
-let result4 = SumMultiplesOfThree [1 .. 20000]
+// 3 + 6 + 9 + ... + 99 = 1683
+let result3 = SumMultiplesOfThree [1 .. 100]
+
+// 3 + 6 + 9 + ... + 198 = 6633
+let result4 = SumMultiplesOfThree [1 .. 200]
+\end{lstlisting}
+Output:
+\begin{lstlisting}[language=FSharp]
+// val result3 : int = 1683
+// val result4 : int = 6633
 \end{lstlisting}
 
+\pagebreak
+\subsubsection*{Another example}
+Let's say you want to find out how many students in your class got at least $80$ points in an exam.
+\begin{lstlisting}[language=FSharp]
+let CountGreaterThan80 scoreList =
+    scoreList
+    |> List.filter (fun x -> x >= 80)
+    |> List.length
+\end{lstlisting}
+How to interpret this function:
+\begin{center}
+\includegraphics[width=16cm]{pictures/picture27.png}
+\end{center}
+Using this function:
+\begin{lstlisting}[language=FSharp]
+let result5 = 
+    CountGreaterThan80 [60; 65; 70; 75; 80; 85; 90; 95]
+printfn "%i students scored 80 or above." result5
+\end{lstlisting}
+Output:
+\begin{lstlisting}[language=FSharp]
+// "4 students scored 80 or above."
+\end{lstlisting}
 
+\pagebreak
+\subsubsection*{Another example}
+This function adds up all multiples of $3$, e.g. $3, 6, 9, \ldots$, but ignore all multiples of $5$,
+\\ e.g. $5, 10, \underline{\mathbf{15}}, 20, 25, \underline{\mathbf{30}}, \ldots$
+\begin{lstlisting}[language=FSharp]
+let SumMultiplesOf3ButNot5 xList =
+    xList
+    |> List.filter (fun x -> (x % 3 = 0) && (x % 5 <> 0))
+    |> List.sum
 
+let result6 = SumMultiplesOf3ButNot5 [1 .. 100]
+\end{lstlisting}
+Output: 
+\begin{lstlisting}[language=FSharp]
+// val result6 : int = 1368
+\end{lstlisting}
+Remark:
+\begin{itemize}
+\item \texttt{(x \% 3 = 0)}: is x divisible by 3?
+\item \texttt{(x \% 5 <> 0)}: is x NOT a multiple of 5?
+\end{itemize}
 
+\subsubsection*{Exercise}
+Implement a function that sums up all multiples of $3$ or $5$ in a list.
 
+\begin{lstlisting}[language=FSharp]
+let SumMultiplesOf3Or5 xList =
+.
+.
+.
+.
+    // Hint:  || means OR, && means AND
 
+// From 1 to 10, the multiples of 3 or 5 are 3, 5, 6, 9, 10
+// 3 + 5 + 6 + 9 + 10 = 33
+let result7 = SumMultiplesOf3Or5 [1 .. 10]
 
+let result8 = SumMultiplesOf3Or5 [1 .. 999]
+\end{lstlisting}
 
+Remark: After you have completed this question, you can create an account an submit your solution here for personal achievement/accomplishment.
 
+\url{https://projecteuler.net/problem=1}
 
+\pagebreak
 
+\subsection{\texttt{List.map}}
+
+\begin{lstlisting}[language=FSharp]
+let Square x = x * x
+let result9 = List.map Square [1 .. 10]
+\end{lstlisting}
+The \texttt{List.map} function transform each individual element of a list using some transformation. The transformation is specified through a function \texttt{Square}.
+\begin{center}
+\includegraphics[width=14cm]{pictures/picture28.png}
+\end{center}   
 
 
 \pagebreak

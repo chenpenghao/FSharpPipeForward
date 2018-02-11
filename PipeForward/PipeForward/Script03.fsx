@@ -27,123 +27,46 @@ let trueOrFalse2 = IsItEven 3
 // List.filter
 let result1 = List.filter IsItEven [1 .. 100]
 
-// The List.filter function filters a list, and only select the elements which satisfy some requirement.
-// The requirement is specified through a function "IsItEven".
-
-
-// Alternatively, because the definition of IsItEven is quite easy, we can even implement it immediately after
-// List.filter, at the point where we need it the most.
-
+// With anonymous/lambda function:
 let result2 = List.filter (fun x -> x % 2 = 0) [1 .. 100]
 
-// Here, we replaced "IsItEven" in the code above with:
-// 1. "fun":   A function......            "fun" is a keyword in F# !
-// 2.   x  : ...that takes an input x...
-// 3.  ->  : ...and returns...
-// 4.  x%2=0: ... whether x is divisible by 2
-
 ////////////////////////////////////
-// Let's say we apply this function with the pipe-forward operator "|>"
-
-// Take a look at this function:
+// 3.3 List.filter and |>
 
 let SumMultiplesOfThree xList =
     xList
     |> List.filter (fun x -> x % 3 = 0)
     |> List.sum
+
+// See the pdf file for a detailed explanation of the code.
     
+// 3 + 6 + 9 + ... + 99 = 1683
+let result3 = SumMultiplesOfThree [1 .. 100]
 
-let result3 = SumMultiplesOfThree [1 .. 1000]
-printfn "The sum of multiples of 3, starting from 1 to 1000 is: %i" result3
-
-let result4 = SumMultiplesOfThree [1 .. 20000]
-printfn "The sum of multiples of 3, starting from 1 to 20000 is: %i" result4
-
-
-
-///////////////////////////////////////////////////
-// In the previous code, the "List.filter" needs an additional function to determine 
-// which elements to keep (and which one to remove).
-
-// Previous version:
-//let SumOfMultiplesOfThree xList =
-//    xList
-//    |> List.filter (fun x -> x % 3 = 0)
-//    |> List.sum
-
-// Here we have a slightly wordy/unnecessarily longer version.
-let SumOfMultiplesOfThree_Version2 xList =
-    let IsDivisibleByThree x = (x % 3 = 0)
-    xList
-    |> List.filter IsDivisibleByThree
-    |> List.sum
-
-// Here, we have to waste time, to painfully define a new function "IsDivisibleByThree" 
-// to determine whether the input "x" is divisible by 3 or not. 
-// Which means it is something extra that we need to keep track of, which is bad.
-// Just like Python, we hope to aim for minimally understandable code that is easy to maintain.
-
+// 3 + 6 + 9 + ... + 198 = 6633
+let result4 = SumMultiplesOfThree [1 .. 200]
 
 //////////////////////////////////////////////////////////////////////////////////////
 // Another example:
-
-// Let's say you want to find out how many students in your class got at least 80 points in an exam.
 
 let CountGreaterThan80 scoreList =
     scoreList
     |> List.filter (fun x -> x >= 80)
     |> List.length
     
-// What this function do is the following:
-// 1. It starts with a List of scores (scoreList)
-
-// 2. and apply this input (using the first |> symbol) to the first function.
-
-// 2 a. This first function filters (List.filter) the input list
-// 2 b. So that only numbers at least 80 are accepted/retained (x >= 80)
-// 2 c. The filtering process requires a function (fun x -> ......)
-
-// 3. After the previous process is done, we have an intermediateResult, a List of remaining scores.
-// 3 a. Then we apply this intermediateResult (using the second |> symbol) to the second function.
-// 3 b. This second function just counts how many remaining students are there.
-// 3 c. By finding the length (List.length) of the remaining List
-
 let result5 = CountGreaterThan80 [60; 65; 70; 75; 80; 85; 90; 95]
-printfn "This class has %i students scoring more than 80." result5
-
-////////////////////////////////////////
-// Again, we could have defined a new function, "IsAtLeast80" to replace the anonymous function.
-
-// Original Version.
-//let CountGreaterThan80 (scoreList: List<int>) =
-//    scoreList
-//    |> List.filter (fun x -> x >= 80)
-//    |> List.length
-
-let CountGreaterThan80_Version2 scoreList =
-    let IsAtLeast80 x = (x >= 80)
-
-    scoreList
-    |> List.filter IsAtLeast80
-    |> List.length
-
-// But it makes it harder to understand, which is not helpful.
+printfn "%i students scored 80 or above." result5
 
 /////////////////////////////////////////////////////////////////////////////////////
 // Example:
 let SumMultiplesOf3ButNot5 xList =
     xList
-    |> List.filter (fun x -> x % 3 = 0 && x % 5 <> 0)
+    |> List.filter (fun x -> (x % 3 = 0) && (x % 5 <> 0))
     |> List.sum
-
-// The function used to filter is saying the following:
-// (x % 3 = 0): is x divisible by 3?
-// (x % 5 <> 0): is x NOT a multiple of 5?
-
-// So we include multiples of 3, e.g. 3, 6, 9, 12,......
-// but we ignore multiples of 5, e.g. 15, 30, 45,.......
+    
+// Include multiples of 3, e.g. 3, 6, 9, 12,......
+// but ignore multiples of 5, e.g. 15, 30, 45,.......
 let result6 = SumMultiplesOf3ButNot5 [1 .. 100]
-printfn "The sum is: %i" result6
 
 /////////////////////////////////////////////////////////////////////////////////////
 // Exercise: 
@@ -155,14 +78,11 @@ let SumMultiplesOf3Or5 xList =
 // Within 1 to 10, the multiples of 3 or 5 are 3, 5, 6, 9, 10
 // 3 + 5 + 6 + 9 + 10 = 33
 let result7 = SumMultiplesOf3Or5 [1 .. 10]
-printfn "The result is: %i" result7
 
 // You can create an account, and submit your answers here for personal achievement/accomplishment.
 // https://projecteuler.net/problem=1
 let result8 = SumMultiplesOf3Or5 [1 .. 999]
-printfn "The sum of all multiples of 3 or 5, from 1 to 999 is: %i" result8
   
-
   
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
@@ -172,13 +92,7 @@ printfn "The sum of all multiples of 3 or 5, from 1 to 999 is: %i" result8
 let Square x = x * x
 let result9 = List.map Square [1 .. 10]
 
-
-// The List.map function transform the individual element of a list using some transformation
-// The transformation is specified through a function "Square".
-
-
 // Alternatively, we can use the "fun" keyword to define the "Square" function
-
 let result10 = List.map (fun x -> x * x) [1 .. 100]
 
 // Here, we replaced "IsItEven" in the code above with:
