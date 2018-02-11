@@ -148,3 +148,39 @@ let TotalAfterDiscount (priceList: List<string * double>) =
 
     
 let finalPrice = TotalAfterDiscount listOfClothes
+
+///////////////////////////////////////////////////////////////////////////////
+// 4.2 List.allPairs
+
+let allPairs1 = List.allPairs [1;2;3] ["A";"B"]
+
+/////////////////////////////////////////////
+// Example:
+
+let SumOfAllPairProducts list1 list2 =
+    List.allPairs list1 list2
+    |> List.map (fun (x,y) -> x * y)
+    |> List.sum
+
+let list1 = [1;2;3]
+let list2 = [5;6]
+
+let result2 = SumOfAllPairProducts list1 list2 
+
+//////////////////////////////////////////////////////////////////////////////////////
+// Exercise:
+let FindPythagoreanTriple =
+    List.allPairs [1 .. 1000] [1 .. 1000]
+    // |> ................
+
+    failwith "NOT YET IMPLEMENTED!"
+
+/////////////////////////////////////////////
+
+
+
+
+
+
+
+

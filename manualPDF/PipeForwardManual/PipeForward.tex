@@ -1780,9 +1780,102 @@ The expected final price after discount is $\$184.92$
 
 \subsection{\texttt{List.allPairs}}
 
+\begin{lstlisting}[language=FSharp]
+let allPairs1 = List.allPairs [1;2;3] ["A";"B"]
+\end{lstlisting}
+Output:
+\begin{lstlisting}[language=FSharp]
+// val allPairs1 : (int * string) list = 
+// [(1, "A"); (1, "B"); 
+//      (2, "A"); (2, "B"); 
+//          (3, "A"); (3, "B")]
+\end{lstlisting}
+
+\pagebreak
+
+\subsubsection*{Example}
+Given two lists $S_1$ and $S_2$, we want to find the sum of all products $a \times b$, where $a \in S_1, b \in S_2$.
+
+\begin{lstlisting}[language=FSharp]
+let SumOfAllPairProducts list1 list2 =
+    List.allPairs list1 list2
+    |> List.map (fun (x,y) -> x * y)
+    |> List.sum
+
+let list1 = [1;2;3]
+let list2 = [5;6]
+
+let result2 = SumOfAllPairProducts list1 list2 
+// val result2 : int = 66
+\end{lstlisting}
+We can also verify mathematically:
+\[
+\sum_{x \in S_1} \sum_{y \in S_2} x \cdot y = \sum_{x \in S_1} \left[x \cdot \left( \sum_{y \in S_2} y \right) \right] = \left(\sum_{y \in S_2} y \right) \cdot \left(\sum_{x \in S_1} x\right)
+\]
+\[
+(1 + 2 + 3) \cdot (5 + 6) = 6 \times 11 = 66
+\]
+\subsubsection*{Exercise}
+\url{https://projecteuler.net/problem=9}
+
+Find the only Pythagorean triplet $a, b, c$ that satisfy:
+\[
+a < b < c, \hspace{1.0cm} a + b + c = 1000, \hspace{1.0cm} a^2 + b^2 = c^2
+\]
+\subsubsection*{Hints:} 
+For $1 \leq a \leq 1000, 1 \leq b \leq 1000$, let  $c = 1000 - a - b$. Then select $(a,b)$ such that:
+\[
+c > 0 \hspace{1.0cm}a^2 + b^2 = c^2
+\]
+\begin{lstlisting}[language=FSharp]
+let FindPythagoreanTriple =
+    List.allPairs [1 .. 1000] [1 .. 1000]
+    |> ......
+
+
+
+    // Complete your function here.
+
+\end{lstlisting}
+Once you have figured out the value of $a, b$, then you can calculate $c = 1000 - a - b$, and calculate $a \times b \times c$, and submit your answer online for personal achievement/accomplishment.
+
+\pagebreak
+
+\subsubsection*{Exercise}
 \subsection{Record Type}
 
 \subsection{Discriminated Union}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \pagebreak
 
