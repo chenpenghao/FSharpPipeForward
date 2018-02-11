@@ -246,3 +246,68 @@ let SumAllPrimes xList =
 // Remark: The code below can take 10 seconds, as this is not the most optimal algorithm.
 let result17 = SumAllPrimes [2 .. 2000000]
 printfn "The sum of all primes from 2 to 2000000 is: %A" result17
+
+////////////////////////////////////////////////////////////////////////////////
+// Optional exercise:
+
+open System.Numerics
+
+// Remark: This tutorial has already helped you implement the "IsPrimeBigInteger" function
+// 
+// You can just use it. No need to re-implement it.
+let IsPrimeBigInteger x =
+    let squareRoot = x |> double |> sqrt |> BigInteger 
+    if x = BigInteger(1) then false
+    else if x = BigInteger(2) then true
+    else if x % BigInteger(2) = BigInteger(0) then false
+    else 
+        [BigInteger(3) .. BigInteger(2) .. squareRoot]
+        |> List.forall (fun i -> x%i <> BigInteger(0))
+
+///////////////////////
+
+
+// Assumption: bigNumber has a square root that is not too large.
+//
+// Assumption: bigNumber itself is not prime.
+let FindLargestPrimeFactor (Z: BigInteger) =
+    let approxSqrt = Z |> double |> sqrt |> BigInteger
+
+    // Find factors of Z between [2 .. sqrt(Z)]
+    // Not necessarily prime factors.
+    let list1 =
+        [BigInteger(2) .. approxSqrt]
+        // |> ..................
+
+
+        failwith "NOT IMPLEMENTED YET!"
+
+    // Produce another list such that:
+    // For each element "a" in list1, it gives "Z / a"
+    let list2 = 
+
+    
+        failwith "NOT IMPLEMENTED YET!"
+    
+    // List.append combines the two lists.
+    let combinedList =
+        List.append list1 list2
+        
+    // Choose only prime numbers from the combinedList, and find the maximum using List.max
+    combinedList
+    // |> ......................
+
+    // Complete the logic above.
+
+/////////////////
+
+let number1 = BigInteger(21)
+let result18 = FindLargestPrimeFactor number1  
+// Expect result: 7
+
+let number2 = BigInteger(66)
+let result19 = FindLargestPrimeFactor number2
+// Expect result: 11
+
+let number3 = BigInteger.Parse("600851475143")
+let result20 = FindLargestPrimeFactor number3

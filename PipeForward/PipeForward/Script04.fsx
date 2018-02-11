@@ -64,24 +64,31 @@ let TotalStudent (studentList: List<string * int>) =
 
 let totalStudent1 = TotalStudent studentList
 
-printfn "The first school has %i students" totalStudent1
-
-3.5 |> System.Math.Round
-
-///////////////////////////////////////////////////////////////////////////
-// Extraaction process in the lambda/anonymous function:
+////////////////////////////
+// Extraction process in the lambda/anonymous function:
 let TotalStudentVersion2 (studentList: List<string * int>) =
     studentList
     |> List.map (fun (_,numStudent) -> numStudent)
     |> List.sum
 
-let totalStudent2 = TotalStudentVersion2 studentList
-printfn "The second school has %i students" totalStudent2
+let totalStudent2 = TotalStudentVersion2 studentList2
 
+///////////////////////////////////////////////////////////////////////////
+// Exercise: 
+let classScores1 =    
+    [("Ali", 85.0); ("Baba", 95.0); ("Charlie", 87.0); ("Dan", 92.0); ("Emily", 96.0); ("Fiona", 92.0)]
+
+let ClassAverage (scores: List<string * double>) =
+    
+
+    failwith "NOT YET IMPLEMENTED!"
+    // Hint: List.map and List.average
+
+let result1 = ClassAverage classScores1
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
-// 
+// Example:
 let productList1 =
     [("Bread", 2.40, "COMMON");
      ("Beer", 10.20, "ALCOHOL");
@@ -93,7 +100,7 @@ let productList1 =
 let TotalAfterTax (productList: List<string * double * string> ) =
     productList
     |> List.map (fun tuple ->
-        let (_,priceBeforeTax,productType) = tuple
+        let (_,priceBeforeTax,productType) = tuple // Data extraction!
         if productType = "COMMON" then
             1.05 * priceBeforeTax
         else if productType = "ALCOHOL" then
@@ -125,4 +132,19 @@ let totalPrice2 = TotalAfterTaxVersion2 productList1
 printfn "The final price after tax is: %.2f" totalPrice2
 
 //////////////////////////////////////////////////////////////////
-// 
+// Exercise:
+// 50% discount for CLEARANCE, 30% for SHIRT, and 20% for JEANS
+
+let listOfClothes =
+    [ ("CLEARANCE", 70.0); ("SHIRT", 20.0); ("SHIRT", 40.0); ("JEANS", 55.0); ("JEANS", 79.9)]
+
+let TotalAfterDiscount (priceList: List<string * double>) =
+
+
+
+
+
+    failwith "NOT YET IMPLEMENTED!"
+
+    
+let finalPrice = TotalAfterDiscount listOfClothes

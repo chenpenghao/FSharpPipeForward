@@ -22,7 +22,7 @@
 {morekeywords=[1]{let, new, match, with, rec, open, module, namespace, type, of, member, % 
 and, for, while, true, false, in, do, begin, end, fun, function, return, yield, try, %
 mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit, finally },
-  morekeywords=[2]{double, float, int, string, List},
+  morekeywords=[2]{double, float, int, string, List, BigInteger},
   otherkeywords={ let!, return!, do!, yield!, use!, var, select, where, order, by },
 % otherkeywords={from}
   keywordstyle=[1]\color{bluekeywords},
@@ -942,16 +942,15 @@ let GetBonusFromTrades1 listOfTrades =
 Try to re-implement the function above using the pipe-forward operator \texttt{|>}.
 \begin{lstlisting}[language=FSharp]
 let GetBonusFromTrades2 (listOfTrades: List<double>) =
-.
-.
-.
-.
-.
-.
-.
-.
-.
-.
+
+
+
+
+
+
+
+
+
 
     // implement the function above.
 \end{lstlisting}
@@ -1049,11 +1048,11 @@ f_3(x) = \left[\left(x + 5\right)^2 + 5\right]^3
 //let Cube x = x * x * x
 //let Add5 x = x + 5
 let f3 x =
-.
-.
-.
-.
-.
+
+
+
+
+
 	// IMPLEMENT YOUR FUNCTION ABOVE
 
 // Testing:
@@ -1225,10 +1224,10 @@ Implement a function that sums up all multiples of $3$ or $5$ in a list.
 
 \begin{lstlisting}[language=FSharp]
 let SumMultiplesOf3Or5 xList =
-.
-.
-.
-.
+
+
+
+
     // Hint:  || means OR, && means AND
 
 // From 1 to 10, the multiples of 3 or 5 are 3, 5, 6, 9, 10
@@ -1306,19 +1305,19 @@ val newPrice4 : float = 4.0
 \begin{lstlisting}[language=FSharp]
 // Round the prices to closest integer (ignore 1.50, 2.50, etc.)
 let TotalPriceAfterRoundDown priceList =
-.
-.
-.
-.     // Implement your function here.
+
+
+
+     // Implement your function here.
 \end{lstlisting}
 
 \item Write a function that accepts a list of prices of the original products, and computes the final price of everything after each item are individually rounded to the nearest integer (ignore $1.50, 2.50,$ etc.).
 \begin{lstlisting}[language=FSharp]
 let TotalPriceAfterRound priceList =
-.
-.
-.
-.     // Implement your function here.
+
+
+
+     // Implement your function here.
 \end{lstlisting}
 \end{enumerate}
 
@@ -1370,15 +1369,15 @@ If you want, you can use the following hint:
 let ProjectEulerProblem6 xList =
     // if xList = [a;b;c], calculate a^2 + b^2 + c^2
     let sumOfSquares = 
-        .
-        .
-        .
+
+
+
 
     // if xList = [a;b;c], calculate a + b + c
     let sum =
-        .
-        .
-        .
+
+
+
 
     // return
     (sum * sum) - sumOfSquares
@@ -1412,11 +1411,11 @@ Reminder: You can directly use the \texttt{IsPrime} function in the previous pag
 Write a function that takes in a list of positive integers, and sums all the prime numbers.
 \begin{lstlisting}[language=FSharp]
 let Problem10_Version1 (xList: List<int>) =
-.
-.
-.
-.
-.
+
+
+
+
+
 
 // test:
 let result1 = Problem10_Version1 [1 .. 9]
@@ -1454,7 +1453,95 @@ Remark: After you have completed this question, you can create an account an sub
 
 \pagebreak
 
-\section{Tuples and Records}
+\subsubsection*{Optional Exercise (Try this at home)}
+\url{https://projecteuler.net/problem=3}
+
+Given an integer $Z$, write a function that finds the largest prime factor of $Z$. e.g. The prime factors of $13195$ are $5, 7, 13, 29$, and so the largest for $13195$ is $29$.
+
+\subsubsection*{Problem Analysis}
+To find the largest prime factor for $Z$, we will first try to find all factors of $Z$ (not necessarily prime factors) between $1$ and $\sqrt{Z}$. 
+
+Let $S_1 = \{a_1, \ldots, a_n\}$ be all the factors of $Z$ (not necessarily prime factors) between $1$ and $\sqrt{Z}$. This set will always contain at least one element: $a_1 = 1$.
+
+Let $S_2 = \left\{\dfrac{Z}{a_1},\ldots, \dfrac{Z}{a_n}\right\}$. These are all the factors of $Z$ between $\sqrt{Z}$ and $Z$. This set will always contain at least one element: $\dfrac{Z}{a_1} = Z$.
+
+And so, $S_1 \cup S_2 =  \left\{a_1, \ldots, a_n, \dfrac{Z}{a_1},\ldots, \dfrac{Z}{a_n}\right\}$ are all the factor of $Z$ (not necessarily prime factors). And we just need to find that out of this set $S_1 \cup S_2$, which number is the largest \underline{prime} number.
+
+\begin{enumerate}
+\item Example: $3 \times 7 = 21$. The largest prime factor is $7 > \sqrt{21} \approx 4.58$.
+
+\item Example: $6 \times 11 = 66$. The largest prime factor is $11 > \sqrt{66} \approx 8.12$.
+\end{enumerate}
+
+\subsubsection*{Hints:}
+\begin{enumerate}
+\item The function \texttt{IsPrimeBigInteger} is implemented for you. This is a slightly modified version of the \texttt{IsPrime} function that takes in a \texttt{BigInteger} as an input (as compared to an \texttt{int}). No need to re-implement this function.
+
+\begin{lstlisting}[language=FSharp]
+let IsPrimeBigInteger x =
+    let squareRoot = x |> double |> sqrt |> BigInteger 
+    if x = BigInteger(1) then false
+    else if x = BigInteger(2) then true
+    else if x % BigInteger(2) = BigInteger(0) then false
+    else 
+        [BigInteger(3) .. BigInteger(2) .. squareRoot]
+        |> List.forall (fun i -> x%i <> BigInteger(0))
+\end{lstlisting}
+\item To determine whether \texttt{x} is divisible by \texttt{y}, when \texttt{x, y} are both \texttt{BigInteger}s, do the following:
+\begin{lstlisting}[language=FSharp]
+x % y = BigInteger(0)
+\end{lstlisting}
+We cannot do \texttt{x \% y = 0}, because we cannot \underline{directly} compare a \texttt{BigInteger} with an integer.
+\end{enumerate}
+\begin{lstlisting}[language=FSharp]
+open System.Numerics
+
+let FindLargestPrimeFactor (Z: BigInteger) =
+    let approxSqrt = Z |> double |> sqrt |> BigInteger
+
+    // Find factors of Z between [2 .. sqrt(Z)]
+    // Not necessarily prime factors.
+    let list1 =
+        [BigInteger(2) .. approxSqrt]
+        |> ......
+
+        // Complete the logic above
+
+    // Produce another list such that:
+    // For each element "a" in list1, it gives "Z / a"
+    let list2 =
+        list1
+        |> ......
+
+        // Complete the logic above
+
+    // List.append combines the two lists.
+    let combinedList =
+        List.append list1 list2
+
+    // Choose only prime numbers from the combinedList, and find the maximum using List.max
+    combinedList
+    |> ......
+
+    // Complete the logic above
+\end{lstlisting}
+\begin{lstlisting}[language=FSharp]
+let number1 = BigInteger(21)
+let result18 = FindLargestPrimeFactor number1  
+// Expect result: 7
+
+let number2 = BigInteger(66)
+let result19 = FindLargestPrimeFactor number2
+// Expect result: 11
+
+let number3 = BigInteger.Parse("600851475143")
+let result20 = FindLargestPrimeFactor number3
+\end{lstlisting}
+
+Remark: After you have completed this question, you can create an account an submit your solution online for personal achievement/accomplishment.
+\pagebreak
+
+\section{Tuples, Records, Discriminated Union}
 Key concept:
 \begin{enumerate}
 \item Tuple is a good data-structure for many things:
@@ -1572,14 +1659,130 @@ let TotalStudentVersion2 (studentList: List<string * int>) =
     |> List.sum
 
 let totalStudent2 = TotalStudentVersion2 studentList
-printfn "The second school has %i students" totalStudent2
 \end{lstlisting}
 
+Output:
+\begin{lstlisting}[language=FSharp]
+// val totalStudent2 : int = 194
+\end{lstlisting}
+\pagebreak
+\subsubsection*{Exercise}
+You are given data about how each student score in a class. e.g. In this class, Ali scored $85.0$ points, Baba scored $95.0$ points, etc.
+
+\begin{lstlisting}[language=FSharp]
+let classScore1 =
+    [("Ali", 85.0); ("Baba", 95.0); ("Charlie", 87.0); ("Dan", 92.0); ("Emily", 96.0); ("Fiona", 92.0)]
+\end{lstlisting}
+Write a function that accepts a list of names with their scores, and return the class average. 
+\begin{lstlisting}[language=FSharp]
+let ClassAverage (scores: List<string * double>) =
 
 
 
 
 
+
+
+    // Implement your function here.
+    // Hint: List.map and List.average
+\end{lstlisting}
+\subsubsection*{Example}
+A country currently wants to implement a new tax system: 
+\begin{itemize}
+\item \texttt{COMMON}: $5\%$ tax
+\item \texttt{IMPORTS}: $10\%$ tax
+\item \texttt{ALCOHOL}: $20\%$ tax
+\end{itemize}
+A supermarket wants currently saves the data in a \texttt{List<string * double * string>}, where the first \texttt{string} is the product, the \texttt{double} is the original price before tax, and the last \texttt{string} is the product code. e.g.
+\begin{lstlisting}[language=FSharp]
+let productList1 =
+    [("Bread", 2.40, "COMMON");
+     ("Beer", 10.20, "ALCOHOL");
+     ("Swiss Chocolate", 8.20, "IMPORTS");
+     ("Rice", 20.50, "COMMON");
+     ("Red Wine", 30.00, "ALCOHOL");
+     ("Australian Beef", 18.50, "IMPORTS")]
+\end{lstlisting}
+\pagebreak
+The following code will help calculate the total price after tax:
+\begin{lstlisting}[language=FSharp]
+let TotalAfterTax (productList: List<string * double * string> ) =
+    productList
+    |> List.map (fun tuple ->
+        let (_,priceBeforeTax,productType) = tuple
+        // Data Extraction above!
+
+        if productType = "COMMON" then
+            1.05 * priceBeforeTax
+        else if productType = "ALCOHOL" then
+            1.20 * priceBeforeTax
+        else 
+            1.10 * priceBeforeTax
+    )
+    |> List.sum
+
+let totalPrice = TotalAfterTax productList1
+printfn "The final price after tax is: %.2f" totalPrice
+\end{lstlisting}
+Output:
+\begin{lstlisting}[language=FSharp]
+The final price after tax is: 101.66
+\end{lstlisting}
+Again, we can move the extraction process into the function definition:
+
+\begin{lstlisting}[language=FSharp]
+let TotalAfterTaxVersion2 (productList: List<string * double * string> ) =
+    productList
+    |> List.map (fun (_,priceBeforeTax,productType) ->
+        if productType = "COMMON" then
+            1.05 * priceBeforeTax
+        else if productType = "ALCOHOL" then
+            1.20 * priceBeforeTax
+        else 
+            1.10 * priceBeforeTax
+    )
+    |> List.sum
+\end{lstlisting}
+Notice that the values are extracted immediately after the \texttt{fun} keyword.
+\pagebreak
+
+\subsubsection*{Exercise}
+A clothing store is planning to do a discount sale:
+\begin{itemize}
+\item \texttt{CLEARANCE}: $50\%$ off.
+\item \texttt{SHIRT}: $30\%$ off.
+\item \texttt{JEANS}: $20\%$ off.
+\end{itemize}
+You are given a \texttt{List<string * double>} that represents an item's product code and their original price. e.g. the customer below bought a clearance item, two shirts and two jeans.
+
+\begin{lstlisting}[language=FSharp]
+let listOfClothes =
+    [ ("CLEARANCE", 70.0); ("SHIRT", 20.0); ("SHIRT", 40.0); ("JEANS", 55.0); ("JEANS", 79.9)]
+\end{lstlisting}
+Write a function that takes a list of items and their original price, and return the total price after discount.
+
+
+\begin{lstlisting}[language=FSharp]
+let TotalAfterDiscount (priceList: List<string * double>) =
+    
+
+
+
+
+
+
+
+
+
+    // Implement your function here.
+\end{lstlisting}
+The expected final price after discount is $\$184.92$
+
+\subsection{\texttt{List.allPairs}}
+
+\subsection{Record Type}
+
+\subsection{Discriminated Union}
 
 \pagebreak
 
