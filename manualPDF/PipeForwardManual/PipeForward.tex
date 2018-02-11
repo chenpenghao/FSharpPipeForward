@@ -572,6 +572,14 @@ If you did not configure your IDE correctly, or if you copy-and-paste the specia
 \begin{center}
 \includegraphics[width=9cm]{pictures/picture20.png}
 \end{center}
+\subsection{Reset F\# Interactive}
+Remember to reset your F\# Interactive once in a while, so that you don't have too many previous variables (especially if you re-use the same variable names)
+
+\begin{center}
+INSERT PICTURE HERE.
+\end{center}
+
+In Visual Studio, you can Right-click the interactive window, and select ``Reset Interactive Session'', or use the shortcut key \texttt{CTRL + ALT + R}
 \pagebreak
 
 \section{Pipe-forward}
@@ -1268,6 +1276,53 @@ How to interpret the code:
 \end{center}
 
 \pagebreak
+\subsubsection*{Exercise}
+There are two supermarkets in town. One of them want to round the prices of each \underline{individual} goods to the nearest dollar (might round-up or round-down). The other want to round DOWN the prices of each individual goods to the nearest dollar.
+
+The functions \texttt{System.Math.Floor, System.Math.Round}* are used round the prices:
+\begin{lstlisting}[language=FSharp]
+let originalPrice1 = 1.35
+let originalPrice2 = 3.99
+
+let newPrice1 = originalPrice1 |> System.Math.Floor
+let newPrice2 = originalPrice2 |> System.Math.Floor
+
+// Temporary ignore decimal numbers like 1.50, 2.50.
+let newPrice3 = originalPrice1 |> System.Math.Round
+let newPrice4 = originalPrice2 |> System.Math.Round
+\end{lstlisting}
+
+Output:
+\begin{lstlisting}[language=FSharp]
+val newPrice1 : float = 1.0
+val newPrice2 : float = 3.0
+
+val newPrice3 : float = 1.0
+val newPrice4 : float = 4.0
+\end{lstlisting}
+*Remark: We will temporary ignore decimals like $1.50, 2.50$, because F\# uses ``Banker's Rounding'' when tie-breaking is required. (Google it for more info)
+\begin{enumerate}
+\item Write a function that accepts a list of prices of the original products, and computes the final price of everything after each item are individually rounded-down.
+\begin{lstlisting}[language=FSharp]
+// Round the prices to closest integer (ignore 1.50, 2.50, etc.)
+let TotalPriceAfterRoundDown priceList =
+.
+.
+.
+.     // Implement your function here.
+\end{lstlisting}
+
+\item Write a function that accepts a list of prices of the original products, and computes the final price of everything after each item are individually rounded to the nearest integer (ignore $1.50, 2.50,$ etc.).
+\begin{lstlisting}[language=FSharp]
+let TotalPriceAfterRound priceList =
+.
+.
+.
+.     // Implement your function here.
+\end{lstlisting}
+\end{enumerate}
+
+\pagebreak
 
 \subsubsection*{Application: Sample Variance}
 We will try to implement the sample variance function (\texttt{VAR.S} in Excel 2010 or later, or see \url{https://www.miniwebtool.com/sample-variance-calculator/}).
@@ -1399,17 +1454,132 @@ Remark: After you have completed this question, you can create an account an sub
 
 \pagebreak
 
-\section{ASDF}
+\section{Tuples and Records}
+Key concept:
+\begin{enumerate}
+\item Tuple is a good data-structure for many things:
+\begin{enumerate}
+\item To represents terms that goes together, e.g. 2-D coordinates, Year-Month, etc.
+\item For pattern matching, especially for pairwise operation or grouping operation.
+\item For testing out ideas quickly. (and use other data-structures after you have done testing)
+\end{enumerate} 
+\item You can directly extract the content of a tuple, and use underscore ``\underline{\:\:}'' to ignore any part of the tuple that you don't need.
+\end{enumerate}
 
+\subsection{Tuples}
+A 2D-coordinate may look like this:
+\begin{lstlisting}[language=FSharp]
+let point1 = (1.0, 2.0)
+let point2 = (3.0, 4.0)
+\end{lstlisting}
+Hover your mouse on top of these two objects. Notice that the signature is \texttt{float * float}. So these points have two coordinates, each of them are \texttt{float} or \texttt{double}
 
+\begin{lstlisting}[language=FSharp]
+let DistanceFromOrigin point =
+    let (x,y) = point        // Data extraction process!
+    sqrt (x ** 2.0 + y ** 2.0)
 
+let distance1 = DistanceFromOrigin point1
+printfn "The first point is distance %f away from origin" distance1
 
+let distance2 = DistanceFromOrigin point2
+printfn "The second point is distance %f away from origin" distance2
+\end{lstlisting}
+Output:
+\begin{lstlisting}[language=FSharp]
+// The first point is distance 2.236068 away from origin
+// The second point is distance 5.000000 away from origin
+\end{lstlisting}
+Notice that we have an extraction process \texttt{let (x,y) = point} that helps us extract the contents of \texttt{point} (and save the contents into the variables \texttt{x,y}). In fact, we can directly do the extraction process in the function definition:
+\begin{lstlisting}[language=FSharp]
+let DistanceFromOrigin2 (x,y) =
+    sqrt (x ** 2.0 + y ** 2.0)
+\end{lstlisting}
+\pagebreak
+\subsubsection*{Tuples of Different Type}
+We can mix tuples of different type (compared to list, which cannot contain elements of different types).
+\begin{lstlisting}[language=FSharp]
+let mixedTuple1 = (1.0, "HELLO")
+let mixedTuple2 = (1, "Hello", true)
+\end{lstlisting}
+If you hover your mouse on top of these, you will see that:
+\begin{itemize}
+\item The first tuple has signature \texttt{float * string}
+\item The second tuple has signature \texttt{int * string * bool}
+\end{itemize}
+As before, we can extract the contents of the tuple using \texttt{let}.
+\begin{lstlisting}[language=FSharp]
+let (extractedDecimal, extractedString) = mixedTuple1
+printfn "The extracted decimal is: %f" extractedDecimal
+printfn "The extracted string is: %s" extractedString
 
+let (extractedInteger, extractedString2, extractedBool) = mixedTuple2
+printfn "The extracted integer is: %i" extractedInteger
+printfn "The extracted string is: %s" extractedString2
+printfn "The extracted boolean is: %b" extractedBool
+\end{lstlisting}
+Output:
+\begin{lstlisting}[language=FSharp]
+// The extracted decimal is: 1.000000
+// The extracted string is: HELLO
 
+// The extracted integer is: 1
+// The extracted string is: Hello
+// The extracted boolean is: true
+\end{lstlisting}
+If you only want to extract part of a tuple, you can use the underline ``\underline{\:\:}'' to ignore any part of the tuple that you don't need.
+\begin{lstlisting}[language=FSharp]
+let personalInfo = ("John", 21, 170.0)
 
+let (extractedName,_,_) = personalInfo
 
+printfn "The extracted name is: %s" extractedName
+// The extracted name is: John
+\end{lstlisting}
 
 \pagebreak
+
+\subsubsection*{Example}
+You are given data about the number of student in each class. The data is saved in a \texttt{List<string * int>}. e.g. in the first list, Class A has $50$ students, Class B has $40$ students, etc.
+\begin{lstlisting}[language=FSharp]
+let studentList =
+    [("A",50); ("B", 40); ("C", 45); ("D", 48)]
+let studentList2 = 
+    [("A", 40); ("B", 30); ("C", 20); ("D", 25); ("E", 29); ("F", 50)]
+\end{lstlisting}
+The following function helps to find the total number of students in those school:
+\begin{lstlisting}[language=FSharp]
+let TotalStudent (studentList: List<string * int>) =
+    studentList
+    |> List.map (fun classInfo ->
+        let (_,numStudent) = classInfo
+        numStudent
+    )
+    |> List.sum
+
+let totalStudent1 = TotalStudent studentList
+\end{lstlisting}
+Output:
+\begin{lstlisting}[language=FSharp]
+// val totalStudent1 : int = 183
+\end{lstlisting}
+Of course, we can directly do the extraction process in the function definition:
+
+\begin{lstlisting}[language=FSharp]
+let TotalStudentVersion2 (studentList: List<string * int>) =
+    studentList
+    |> List.map (fun (_,numStudent) -> numStudent)
+    |> List.sum
+
+let totalStudent2 = TotalStudentVersion2 studentList
+printfn "The second school has %i students" totalStudent2
+\end{lstlisting}
+
+
+
+
+
+
 
 \pagebreak
 

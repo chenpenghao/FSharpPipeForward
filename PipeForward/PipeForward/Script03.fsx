@@ -107,8 +107,37 @@ let result11 = SumOfSquares [1 .. 10]
 printfn "Sum of squares from 1 to 10 is: %i" result11
 
 /////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
+// Exercise: 
+let originalPrice1 = 1.35
+let originalPrice2 = 3.99
+
+let newPrice1 = originalPrice1 |> System.Math.Floor
+let newPrice2 = originalPrice2 |> System.Math.Floor
+
+// Temporary ignore decimal numbers like 1.50, 2.50.
+let newPrice3 = originalPrice1 |> System.Math.Round
+let newPrice4 = originalPrice2 |> System.Math.Round
+
+// Round down the prices to nearest integer.
+let TotalPriceAfterRoundDown priceList =
+
+
+    failwith "NOT YET IMPLEMENTED!"
+
+    
+// Round the prices to closest integer (ignore 1.50, 2.50, etc.)
+let TotalPriceAfterRound priceList =
+
+
+    failwith "NOT YET IMPLEMENTED!"
+
+/////////////////////
+
+let originalBasket = [1.99; 4.39; 5.00; 2.10; 8.05]
+
+let totalPrice1 = TotalPriceAfterRoundDown originalBasket
+let totalPrice2 = TotalPriceAfterRound originalBasket
+
 /////////////////////////////////////////////////////////////////////////////
 // Simple application:
 
