@@ -31,7 +31,7 @@ let result1 = List.filter IsItEven [1 .. 100]
 let result2 = List.filter (fun x -> x % 2 = 0) [1 .. 100]
 
 ////////////////////////////////////
-// 3.3 List.filter and |>
+// List.filter and |>
 
 let SumMultiplesOfThree xList =
     xList
@@ -87,7 +87,7 @@ let result8 = SumMultiplesOf3Or5 [1 .. 999]
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
-// List.map
+// 3.3 List.map
 
 let Square x = x * x
 let result9 = List.map Square [1 .. 10]
@@ -95,39 +95,14 @@ let result9 = List.map Square [1 .. 10]
 // Alternatively, we can use the "fun" keyword to define the "Square" function
 let result10 = List.map (fun x -> x * x) [1 .. 100]
 
-// Here, we replaced "IsItEven" in the code above with:
-// 1. "fun":   A function......            "fun" is a keyword in F# !
-// 2.   x  : ...that takes an input x...
-// 3.  ->  : ...and returns...
-// 4.  x*x: ... x multiplied with x
-
-// Again, we define this function using the "fun" keyword at the exact location where we need it.
-// It increases productivity.
-
 ////////////////////////////////////////
-// Let's see it together with the pipe-forward operator:
+// List.map and |>
 
-// Another example:
 let SumOfSquares xList =
     xList
     |> List.map (fun x -> x * x)
     |> List.sum
-
-// What this code does is the following:
-
-// 1. It starts with a List of integers (xList)
-
-// 2. and apply this input (using the first |> symbol) to the first function.
-
-// 2 a. This first function transforms/maps each element (List.map) in the input list
-// 2 b. Each number is converted/mapped to the square of itself (fun x -> x * x)
-// 2 c. The filtering process requires a function (fun x -> ......)
-
-// 3. After the previous process is done, we have an intermediateResult, a List of remaining scores.
-// 3 a. Then we apply this intermediateResult (using the second |> symbol) to the second function.
-// 3 b. This second function sums up all the elements inside. (List.sum)
-
-// 1^2 + 2^2 + 3^2 + 4^2 + ... + 10^2 = 385
+    
 let result11 = SumOfSquares [1 .. 10]
 printfn "Sum of squares from 1 to 10 is: %i" result11
 
@@ -144,8 +119,8 @@ let SampleVariance xList =
     let N = 
         xList
         |> List.length
-        |> double         // The "double" function takes an integer and convert to double
-                          // You can also convert strings to double.
+        |> double         // The "double" function 
+
     let average = 
         xList
         |> List.average
@@ -155,12 +130,10 @@ let SampleVariance xList =
     |> List.map (fun x -> (x - average) ** 2.0)
     |> List.sum
     |> fun final -> final / (N - 1.0)       // cannot divide by (N - 1), because decimal.
-    
-// Remark: The compiler knows xList is List<double> or List<float>
-// because interacted with List.map at some point, and also interacted with "** 2.0"
+
+/////
     
 let result12 = SampleVariance [1.0 .. 7.0]
-printfn "The Sample Variance of 1 to 7 is: %f" result12
 
 /////////////////////////////////////////////////////////////////////////////////////
 // Exercise:
@@ -185,5 +158,62 @@ let ProjectEulerProblem6 xList =
     
 ///////// Test:
 let result13 = ProjectEulerProblem6 [1 .. 100]
-printfn "The result for ProjectEuler Problem6 is: %i" result13
+printfn "Answer for ProjectEuler Problem6 is: %i" result13
 
+///////////////////////////////////////////////////////////////////////////////////////////
+// Another exercise:
+
+// Remark: This tutorial has already helped you implement the "IsPrime" function
+// 
+// You can just use it. No need to re-implement it.
+let IsPrime x =
+    let squareRoot = x |> double |> sqrt |> int 
+    if x = 1 then false
+    else if x = 2 then true
+    else if x % 2 = 0 then false
+    else 
+        [3 .. 2 .. squareRoot]
+        |> List.forall (fun i -> x%i <> 0)
+// Remark: No need to understand the code above. Just use it like below.
+
+printfn "Is 5 a prime? %b" (IsPrime 5)
+printfn "Is 9 a prime? %b" (IsPrime 9)
+
+//////////////////////////////////////
+
+// Write a function that accepts a list of integer "xList",
+// and sums up all prime numbers.
+let Problem10_Version1 xList =
+
+    failwith "NOT IMPLEMENTED!"
+    
+// test:
+let result14 = Problem10_Version1 [1 .. 9]
+// 2 + 3 + 5 + 7 = 17.
+
+let result15 = Problem10_Version1 [1 .. 99]
+// 2 + 3 + 5 + 7 + 11 + ... + 83 + 89 + 97 = 1060.
+
+////////////////////////////////////////
+// However, if you try the following, you may get an error:
+let result16 = Problem10_Version1 [2 .. 2000000]
+// POTENTIAL ERROR!
+
+// This is because there are too many numbers to add up,
+// and "int" is not capable of handling large sum.
+
+////////////////////////////////////////
+
+// We use BigInteger instead:
+
+open System.Numerics
+
+let SumAllPrimes xList =
+    xList
+    |> List.filter (IsPrime)
+    |> List.map (BigInteger)
+    |> List.sum
+
+// Remark: The code below can take 10 seconds, as this is not the most optimal algorithm.
+let result17 = SumAllPrimes [2 .. 2000000]
+printfn "The sum of all primes from 2 to 2000000 is: %A" result17
