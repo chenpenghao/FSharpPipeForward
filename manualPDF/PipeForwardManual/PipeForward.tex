@@ -21,7 +21,7 @@
 {morekeywords=[1]{let, new, match, with, rec, open, module, namespace, type, of, member, % 
 and, for, while, true, false, in, do, begin, end, fun, function, return, yield, try, %
 mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit, finally },
-  morekeywords=[2]{double, float, int, string},
+  morekeywords=[2]{double, float, int, string, List},
   otherkeywords={ let!, return!, do!, yield!, use!, var, select, where, order, by },
 % otherkeywords={from}
   keywordstyle=[1]\color{bluekeywords},
@@ -148,17 +148,18 @@ let age = 21
 let height = 170.5
 
 printfn "My name is: %s" name
-// Output:
-// My name is: John
 
 printfn "Name: %s. Age: %i. Height: %f." name age height
-// Output:
-// Name: John. Age: 21. Height: 170.500000
 
 printfn "His height is: %.2f" height
+// %.2f for showing two decimals.
+\end{lstlisting}
+Output:
+\begin{lstlisting}[language=FSharp]
 // Output:
+// My name is: John
+// Name: John. Age: 21. Height: 170.500000
 // His height is: 170.50
-//// Show only two decimal.
 \end{lstlisting}
 For example, in the second example, inside the string-format, there are \texttt{\%s, \%i, \%f}. And so, we expect a string, integer, and decimal (in that order) after the string-format specification in order to completely print the result to the output console.
 
@@ -198,22 +199,22 @@ In Java/C++, \texttt{==, !=} are used for comparison, and in Javascript, \texttt
 In F\#, variables are by default immutable/unchangable. Once defined, the value of a variable cannot be changed. You can make a variable changable/mutable using the keyword \texttt{mutable} and symbol \texttt{<-}, but this is \underline{highly discouraged}. (If you use VisualStudio, then the color of the variable name will change color, warning you of potential mutable values)
 
 \begin{center}
-\includegraphics[width=8cm]{pictures/picture02.png}
+\includegraphics[width=12cm]{pictures/picture02.png}
 \end{center}
 
 \vfill
 
 \pagebreak
 
-In addition, if you try to update an immutable/unchangable value using \texttt{<-}, you will get an error. 
+If you try to update an immutable/unchangable value using \texttt{<-}, you will get an error. 
 
 \begin{center}
-\includegraphics[width=14cm]{pictures/picture03.png}
+\includegraphics[width=16cm]{pictures/picture03.png}
 \end{center}
 
-Why do we recommend immutable/unchangable values: 
+\subsubsection*{Benefit of immutable/unchangable values}
 
-Imagine you have a code below, where you have defined a mutable value \texttt{x}, and after thousands of lines of code later, you used \texttt{x}'s value again:
+Imagine the code below, with a mutable value \texttt{x}, and after thousands of lines of code later, you used \texttt{x}'s value again:
 
 \begin{lstlisting}[language=FSharp]
 let mutable x = 100
@@ -250,6 +251,7 @@ let x = 100
 let y = x + 1
 // y = 101
 \end{lstlisting}
+Conclusion: Use immutable/unchangable value whenever possible. AVOID mutable/changable value whenever possible.
 
 \pagebreak
 
@@ -297,12 +299,12 @@ You can define functions using \texttt{let} followed by the inputs of your funct
 let f x = x + 5
 
 let result1 = f 10
-printfn "The result is: %i" result1
-// Output: "The result is: 15"
-
 let result2 = f 20
-printfn "The result is: %i" result2
-// Output: "The result is: 25"
+\end{lstlisting}
+Output:
+\begin{lstlisting}[language=FSharp]
+// val result1 : int = 15
+// val result2 : int = 25
 \end{lstlisting}
 
 Notice the following:
@@ -329,30 +331,30 @@ So, you can spend less time on the tiny details (e.g. what is the variable type)
 Similarly, the following function accepts decimals/double only.
 
 \begin{lstlisting}[language=FSharp]
-let DiscountBy20Percent originalPrice = originalPrice * 0.8
+let DiscountFunc originalPrice = originalPrice * 0.8
 
-let discountedPrice = DiscountBy20Percent 399.99
-printfn "The new price is: %.2f" discountedPrice
-// Output: "The new price is: 319.99"
+let discountedPrice = DiscountFunc 399.99
+printfn "New price: %.2f" discountedPrice
+// Output: "New price: 319.99"
 
-let anotherDiscount = DiscountBy20Percent discountedPrice
-printfn "The new price is: %.2f" anotherDiscount
-// Output: "The new price is: 255.99"
+let anotherDiscount = DiscountFunc discountedPrice
+printfn "New price: %.2f" anotherDiscount
+// Output: "New price: 255.99"
 \end{lstlisting}
-Remark: The \texttt{\%.2f} is for formatting purposes when printing result, 2 decimals.
+Remark: The \texttt{\%.2f} for printing 2 decimals.
 
-Here, if you try to put input an integer value to this function, then you will see an error:
+This function does not accept integer values:
 \begin{center}
 INPUT ERROR PICTURE HERE!
 \end{center}
 
-And in order to use the function on integer values, you need to convert it to decimals using \texttt{double} or \texttt{float} function/keyword.
+We need to convert integer to decimal (using \texttt{double} or \texttt{float}) before using the function.
 
 \begin{lstlisting}[language=FSharp]
 let convertedPrice = double 100
-let decimalResult = DiscountBy20Percent convertedPrice
-printfn "The new price is: %.2f" decimalResult
-// Output: "The new price is: 80.00"
+let decimalResult = DiscountFunc convertedPrice
+printfn "New price: %.2f" decimalResult
+// Output: "New price: 80.00"
 \end{lstlisting}
 \begin{center}
 \line(1,0){400}
@@ -364,12 +366,12 @@ let AddGreeting name =
     "Hello " + name
 
 let greeting1 = AddGreeting "John"
-printfn "The modified sentence is: %s" greeting1
-// Output: "The modified sentence is: Hello John"
-
 let greeting2 = AddGreeting "Mary"
-printfn "The modified sentence is: %s" greeting2
-// Output: "The modified sentence is: Hello Mary"
+\end{lstlisting}
+Output:
+\begin{lstlisting}[language=FSharp]
+// val greeting1 : string = "Hello John"
+// val greeting2 : string = "Hello Mary"
 \end{lstlisting}
 And it will cause error if you try to input an integer value to this function:
 \begin{center}
@@ -393,12 +395,11 @@ You can define a function that takes in two variables:
 let g x y = 3 * x + y
 
 let result3 = g 3 1
-printfn "The result is: %i" result3
-// Output: "The result is: 10"
-
 let result4 = g 10 2
-printfn "The result is: %i" result4
-// Output: "The result is: 32"
+\end{lstlisting}
+\begin{lstlisting}[language=FSharp]
+// val result3 : int = 10
+// val result4 : int = 32
 \end{lstlisting}
 Notice the following:
 \begin{enumerate}
@@ -426,12 +427,12 @@ let CalculateNewBalance interestRate principal  =
     principal * (1.0 + interestRate)
 
 let balance1 = CalculateNewBalance 0.05 100000.00 
-printfn "The new balance is: %f" balance1
-// Output: "The new balance is: 105000.00"
+printfn "New Balance: %f" balance1
+// Output: "New Balance: 105000.00"
 
 let balance2 = CalculateNewBalance 0.03 5000.00 
-printfn "The new balance is: %f" balance2
-// Output: "The new balance is: 5150.00"
+printfn "New Balance: %f" balance2
+// Output: "New Balance: 5150.00"
 \end{lstlisting}
 
 And it will cause error if you try to change one of the input into integer.
@@ -445,14 +446,17 @@ let h x y z = 3 * x + 4 * y + 5 * z
 
 // 3*3 + 4*4 + 5*5 = 50
 let result5 = h 3 4 5
-printfn "The result is: %i" result5
-// Output: "The result is: 50"
 
 // 3*1 + 4*1 + 5*1 = 12
 let result6 = h 1 1 1
-printfn "The result is: %i" result6
-// Output: "The result is: 12"
 \end{lstlisting}
+Output:
+
+\begin{lstlisting}[language=FSharp]
+// val result5 : int = 50
+// val result6 : int = 12
+\end{lstlisting}
+
 
 \subsubsection{Default integers for +, *}
 If you use \texttt{(+), (*)} with no other information available in your function (e.g. an appearance of a decimal, string, etc.), then F\# will assume the function variables as integers.
@@ -470,19 +474,6 @@ Here, we are explicitly saying that \texttt{x} is a double. And since \texttt{y,
 
 \pagebreak
 
-
-
-
-\begin{lstlisting}[language=FSharp]
-let DiscountBy20Percent originalPrice = originalPrice * 0.8
-// Output: "The new price is: 255.99"
-\end{lstlisting}
-
-\begin{lstlisting}[language=FSharp]
-let DiscountBy20Percent originalPrice = originalPrice * 0.8
-// Output: "The new price is: 255.99"
-\end{lstlisting}
-
 \subsection{Scoping}
 
 \subsubsection{Indenting}
@@ -495,9 +486,10 @@ let AddFriend person1 =
     person1 + endOfSentence
 
 let combinedSentence1 = AddFriend "Jack"
-printfn "The new sentence is: %s" combinedSentence1
-// Output:
-// The new sentence is: Jack and Mary are friends
+\end{lstlisting}
+Output:
+\begin{lstlisting}[language=FSharp]
+// combinedSentence1 : string = "Jack and Mary are friends"
 \end{lstlisting}
 Notice that the two lines immediately after the \texttt{AddFriend} function has some spaces in front of each line. This means that those two lines are accessible only inside the \texttt{AddFriend} function. 
 
@@ -524,13 +516,13 @@ let EatFunction person =
     let endOfSentence = " prefers eating chocolate."
     person + endOfSentence
 
-printfn "Drink preference: %s" (DrinkFunction "Jack")
+printfn "%s" (DrinkFunction "Jack")
 // Output: 
-// "Drink preference: Jack likes to drink coffee."
+// "Jack likes to drink coffee."
 
-printfn "Eating preference: %s" (EatFunction "Jill")
+printfn "%s" (EatFunction "Jill")
 // Output:
-// "Eating preference: Jill prefers eating chocolate."
+// "Jill prefers eating chocolate."
 \end{lstlisting}
 The \texttt{endOfSentence} inside these two functions will not cause conflict with each other.
 
@@ -606,17 +598,14 @@ Let us take a look at an example:
 let Add5Func x = x + 5
 
 let result1 = Add5Func 30
-printfn "Result is: %i" result1
-// Output: "Result is: 35"
+// val result1 : int = 35
 \end{lstlisting}
 Notice that the variable/input $30$ is located after the function \texttt{Add5Func}. 
 
 However, with the new symbol \texttt{|>}, we can specify the variable/input first, and then the function that we want to apply it to.
 \begin{lstlisting}[language=FSharp]
 let result2 = 30 |> Add5Func
-
-printfn "Result is: %i" result2
-// Output: "Result is: 35"
+// val result2 : int = 35
 \end{lstlisting}
 How this code should be interpreted is the following:
 \begin{center}
@@ -637,14 +626,9 @@ let GetCAP grade =
     else if grade = "B" then 4.0
     else if grade = "C" then 3.0
     else 2.0
-
-// For American University. (Maximum GPA 4.0)
-let GetGPA grade =
-    if grade = "A" then 4.0
-    else if grade = "B" then 3.5
-    else if grade = "C" then 3.0
-    else 2.5
 \end{lstlisting}
+Remark: In American universities, they use a maximum score/GPA of $4.0$. In Singapore we use CAP  $5.0$.
+
 We can take a look at the signatures of the functions:
 \begin{lstlisting}[language=FSharp]
 GetGrade: int  -> string
@@ -655,9 +639,6 @@ So, we can use the result of the first function \texttt{GetGrade} as the input o
 \includegraphics[width=11cm]{pictures/picture22.png}
 \end{center}
 \begin{lstlisting}[language=FSharp]
-// GetGrade: int  -> string
-// GetCAP:           string ->  float
-
 let GetCAPfromScore1 score =
     let intermediateResult = GetGrade score
     let finalResult = GetCAP intermediateResult
@@ -665,32 +646,29 @@ let GetCAPfromScore1 score =
     finalResult
 
 let cap1 = GetCAPfromScore1 95
-printfn "Your CAP is: %f" cap1
-// Output: "Your CAP is: 5.0"
-
 let cap2 = GetCAPfromScore1 85
-printfn "Your CAP is: %f" cap2
-// Output: "Your CAP is: 4.0"
 \end{lstlisting}
+
+\pagebreak
+Output:
+\begin{lstlisting}[language=FSharp]
+// val cap1 : float = 5.0
+// val cap2 : float = 4.0
+\end{lstlisting}
+
 Notice that in the code above, we named out the intermediate steps/variables, i.e. \\\texttt{intermediateResult} and \texttt{finalResult}, even though it makes the code longer.
 
 However, if we use the pipe-forward operator \texttt{|>}, we can simplify it as:
 \begin{lstlisting}[language=FSharp]
 // GetGrade: int  -> string
 // GetCAP:           string ->  float
-
 let GetCAPfromScore2 score =
     score               
     |> GetGrade         
     |> GetCAP   
 
 let cap3 = GetCAPfromScore2 95
-printfn "Your CAP is: %f" cap3
-// Output: "Your CAP is: 5.0"
-
-let cap4 = GetCAPfromScore2 85
-printfn "Your CAP is: %f" cap4
-// Output: "Your CAP is: 4.0"
+// val cap3 : float = 5.0
 \end{lstlisting}
 How this code should be interpreted:
 \begin{center}
@@ -704,9 +682,7 @@ let CombinedFunction3Error score =
     |> GetGrade // function: int -> string     // ERROR!
 "ERROR!!!"
 \end{lstlisting}
-Because \texttt{score} is an \texttt{int}, it cannot be the input for the function \texttt{GetCAP} (which accepts only \texttt{string}).
-
-Similarly, the intermediate result from \texttt{GetCAP} is \texttt{float}, which cannot be the input for the function \texttt{GetGrade} (which accepts only \texttt{int})
+Because \texttt{score} is an \texttt{int}, but the function \texttt{GetCAP} only accepts  \texttt{string} as input. Similarly, the intermediate result from \texttt{GetCAP} is \texttt{float}, but the function \texttt{GetGrade} only accepts \texttt{int}
 \subsection{More Examples}
 Let us consider another hypothetical example. 
 
@@ -770,13 +746,17 @@ So, we can combine them into a big function:
 let GetNumSharesFromEstimate1 individualEstimates =
     let intermediateResult1 = 
         List.average individualEstimates
+
     let intermediateResult2 = 
         GetPerformance intermediateResult1
+
     let finalResult = GetNumSharesToBuy intermediateResult2
     // output
     finalResult
 \end{lstlisting}
 Notice that the code above uses a lot of temporary variables \texttt{intermediateResult1}, etc. which makes the code unnecessarily longer.
+
+\pagebreak
 
 Usage example:
 \begin{enumerate}
@@ -787,7 +767,6 @@ printfn "Number of shares to buy(+) or sell(-): %i" numShares1
 // Output:
 // "Number of shares to buy(+) or sell(-): 1000"
 \end{lstlisting}
-\pagebreak
 \item In this example, the actual profit (6.0 billion) misses all the financial analyst's prediction, which means this is bad news.
 \begin{lstlisting}[language=FSharp]
 let numShares2 = GetNumSharesFromEstimate1 [8.0; 7.0; 10.0; 12.0; 10.5]
@@ -933,6 +912,7 @@ let GetBonus status =
     else 
         0       // No bonus.
 \end{lstlisting}
+\pagebreak
 \end{enumerate}
 Again, the output of one function is the input of the next function:
 \begin{lstlisting}[language=FSharp]
@@ -986,16 +966,188 @@ printfn "She received a bonus of %i months" bonus2
 \end{lstlisting}
 \end{enumerate}
 
+\subsection{Function with same input and output type}
+The mathematical term is called \textit{endomorphism}. 
 
+In all the above examples, we have chosen functions that have different input and output types, so that it is obvious which function comes after which one.
 
+Sometimes, you may face with functions that have the same input and output type. For example:
+\begin{lstlisting}[language=FSharp]
+let Square x = x * x
+let Cube x = x * x * x
+let Add5 x = x + 5
 
+// Square: int -> int
+// Cube  : int -> int
+// Add5  : int -> int
+\end{lstlisting}
+All of these functions are \texttt{int -> int}, and so you may compose them in different orders, or you may apply the same function multiple times, which may cause the function to completely change.
+\begin{enumerate}
+\item Example 1
+\[
+f_1(x) = \left(x^2 + 5\right)^3
+\]
+\begin{lstlisting}[language=FSharp]
+let f1 x = 
+    x
+    |> Square
+    |> Add5
+    |> Cube
+    
+// (1^2 + 5) ^ 3 = 216
+let demo1 = f1 1
 
+// (2^2 + 5) ^ 3 = 729
+let demo2 = f1 2
+\end{lstlisting}
+Output:
+\begin{lstlisting}[language=FSharp]
+// val demo1 : int = 216
+// val demo2 : int = 729
+\end{lstlisting}
 
+\pagebreak
+\item Example 2
+\[
+f_2(x) = \left(x^2\right)^3 + 5
+\]
+\begin{lstlisting}[language=FSharp]
+let f2 x =
+    x
+    |> Square
+    |> Cube
+    |> Add5
+    
+// (1^2)^3 + 5 = 6
+let demo3 = f2 1
 
+// (2^2)^3 + 5 = 71
+let demo4 = f2 2
+\end{lstlisting}
+Output:
+\begin{lstlisting}[language=FSharp]
+// val demo3 : int = 6
+// val demo4 : int = 69
+\end{lstlisting}
+\item Exercise:
 
+Try to implement the following function using pipe-forward:
+\[
+f_3(x) = \left[\left(x + 5\right)^2 + 5\right]^3
+\]
+\begin{lstlisting}[language=FSharp]
+//let Square x = x * x
+//let Cube x = x * x * x
+//let Add5 x = x + 5
+let f3 x =
+.
+.
+.
+.
+.
+	// IMPLEMENT YOUR FUNCTION ABOVE
 
+// Testing:
+// [   (1+5)^2   + 5   ]^3 = 68921
+let demo5 = f3 1
 
+// [   (2+5)^2   + 5   ]^3 = 157464
+let demo6 = f3 2
+\end{lstlisting}
+\end{enumerate}
 
+\pagebreak
+
+\section{List in F\#}
+Key Concept:
+\begin{enumerate}
+\item Introduce basic \texttt{List} functions
+\begin{enumerate}
+\item \texttt{List.filter} 
+\item \texttt{List.map}
+\end{enumerate}
+\item Code in F\# are very easy to understand (thanks for pipe-forward operator \texttt{|>} and the F\# language design)
+\item Anonymous functions / lambda function also helps.
+\begin{itemize}
+\item You are defining a function at the exact location where it is most useful. So it boosts productivity.
+\item \texttt{fun} is a keyword in F\#! 
+\end{itemize}
+\end{enumerate}
+
+\subsection{Creating a list}
+You can create a list of integers/ float / string using the following notations:
+\begin{lstlisting}[language=FSharp]
+let list1 = [1 .. 100]          
+let list2 = [50 .. 80]
+let list3 = [1 .. 2 .. 100]      
+
+let list4 = [1.0 .. 100.0]      
+let list5 = [0.0 .. 0.05 .. 1.0]
+
+let list6 = [1; 20; 50; 100; 55; 5; 10]
+let list7 = [1.0; 6.0; 5.0; 10.0; 3.0; 2.0]
+
+let list8 = ["ABC";"DEF";"GHI";"JKL";"MNO"]
+\end{lstlisting}
+The \texttt{;} is used to separate different elements, and \texttt{[a .. b], [a .. diff .. b]} is used to specify any increasing/decreasing pattern.
+
+If you hover your mouse on top of those variables (using VisualStudio or VisualStudioCode), you will see the types are \texttt{int list, float list, etc.} An alternate notation would be \texttt{List<int>, List<double>, etc.}
+
+Warning: You cannot create a list with different types, e.g. the example below tries to create a list with a string, an integer, and a decimal/float.
+\begin{lstlisting}[language=FSharp]
+let listError = ["ABC"; 123; 400.0]
+// ERROR! Cannot define different type in the same list!
+\end{lstlisting}
+
+\pagebreak
+
+\subsection{\texttt{List.filter}}
+Here is a simple function that returns true/false, depending on whether $x$ is divisible by $2$:
+\begin{lstlisting}[language=FSharp]
+let IsItEven x = (x % 2 = 0)
+
+let trueOrFalse1 = IsItEven 10
+let trueOrFalse2 = IsItEven 3
+\end{lstlisting}
+Remark: \texttt{x \% 2} means the remainder after we divide $x$ by $2$.
+
+We can use this function together with \texttt{List.filter}:
+\begin{lstlisting}[language=FSharp]
+let result1 = List.filter IsItEven [1 .. 100]
+// Output:
+// [2; 4; 6; ......; 98; 100]
+\end{lstlisting}
+The \texttt{List.filter} function filters a list, and only select the elements which satisfy some requirement; the requirement is specified through a function \texttt{IsItEven}.
+
+Alternatively, because the definition of \texttt{IsItEven} is quite easy, we can even implement it immediately after \texttt{List.filter}, at the point where we need it the most.
+\begin{lstlisting}[language=FSharp]
+let result2 = List.filter (fun x -> x % 2 = 0) [1 .. 100]
+// Output:
+// [2; 4; 6; ......; 98; 100]
+\end{lstlisting}
+The benefit is that we don't want to waste time figuring out a name for our function \texttt{IsItEven}; if we define too many such custom function, it will be hard to keep track, and we will lose productivity.
+
+We define this function using the \texttt{fun} keyword at the exact location where we need it.
+
+\pagebreak
+\subsection{\texttt{List.filter} and Pipe-Forward \texttt{|>}}
+Let us look at the following function:
+\begin{lstlisting}[language=FSharp]
+let SumMultiplesOfThree xList =
+    xList
+    |> List.filter (fun x -> x % 3 = 0)
+    |> List.sum
+\end{lstlisting}
+How to interpret this function:
+\begin{center}
+\includegraphics[width=16cm]{pictures/picture26.png}
+\end{center}
+So, F\# is able to express all of these calculations with just 3 lines of code, which is quite elegant, maybe similar to Python code (in style), compared to other more traditional languages (Java/C++) which we need to write longer.
+
+\begin{lstlisting}[language=FSharp]
+let result3 = SumMultiplesOfThree [1 .. 1000]
+let result4 = SumMultiplesOfThree [1 .. 20000]
+\end{lstlisting}
 
 
 

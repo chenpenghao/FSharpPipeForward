@@ -11,11 +11,9 @@
 let Add5Func x = x + 5
 
 let result1 = Add5Func 30
-printfn "Result is: %i" result1
 
 // With pipe-forward:
 let result2 = 30 |> Add5Func
-printfn "Result is: %i" result2
 
 ///////////////////////////////////////////////////////////
 // 2.3: Usefulness
@@ -33,13 +31,6 @@ let GetCAP grade =
     else if grade = "B" then 4.0
     else if grade = "C" then 3.0
     else 2.0
-
-// For American University. (Maximum GPA 4.0)
-let GetGPA grade =
-    if grade = "A" then 4.0
-    else if grade = "B" then 3.5
-    else if grade = "C" then 3.0
-    else 2.5
     
 // GetGrade: int  -> string
 // GetCAP:           string ->  float
@@ -54,10 +45,7 @@ let GetCAPfromScore1 score =
     finalResult
 
 let cap1 = GetCAPfromScore1 95
-printfn "Your CAP is: %f" cap1
-
 let cap2 = GetCAPfromScore1 85
-printfn "Your CAP is: %f" cap2
 
 ///////////////////////
 
@@ -73,10 +61,7 @@ let GetCAPfromScore2 score =
 // See the pdf for a step-by-step explanation of the code above.
 
 let cap3 = GetCAPfromScore2 95
-printfn "Your CAP is: %f" cap3
-
 let cap4 = GetCAPfromScore2 85
-printfn "Your CAP is: %f" cap4
 
 ///////////////////////////////
 // function will not compile if it is in the wrong order.
@@ -163,12 +148,12 @@ let GetNumSharesFromEstimate2 individualEstimates =
 // In this example, the actual profit (6.0 billion) exceeds all the financial analyst's prediction.
 // Which means this is good news.
 let numShares3 = GetNumSharesFromEstimate2 [4.0; 5.0; 3.0; 2.0; 2.5]
-printfn "Number of shares to buy(positive) or sell(negative): %i" numShares3
+printfn "Number of shares to buy(+) or sell(-): %i" numShares3
 
 // In this example, the actual profit (6.0 billion) misses all the financial analyst's prediction.
 // Which means this is bad news.
 let numShares4 = GetNumSharesFromEstimate2 [8.0; 7.0; 10.0; 12.0; 10.5]
-printfn "Number of shares to buy(positive) or sell(negative): %i" numShares4
+printfn "Number of shares to buy(+) or sell(-): %i" numShares4
 
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
@@ -261,18 +246,10 @@ printfn "She received a bonus of %i months" bonus2
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
-// In all the above examples, we have chosen functions that have different input and output types.
-// so that it is obvious which function comes after which one.
-
-// Sometimes, you may face with functions that have the same input and output type.
-// For example:
+// 2.8 Endomorphism
 let Square x = x * x
 let Cube x = x * x * x
 let Add5 x = x + 5
-
-// All of these functions are "int -> int", and so you may compose them in different orders.
-// Or you may apply the same function multiple times.
-// Which may cause the function to completely change.
 
 // f1(x) = (x^2 + 5)^3
 let f1 x = 
@@ -283,14 +260,11 @@ let f1 x =
     
 // (1^2 + 5) ^ 3 = 216
 let demo1 = f1 1
-printfn "The result is: %i" demo1  
 
 // (2^2 + 5) ^ 3 = 729
 let demo2 = f1 2
-printfn "The result is: %i" demo2 
 
 ///////////////////////
-
 // f2(x) = (x^2)^3 + 5
 let f2 x =
     x
@@ -300,11 +274,9 @@ let f2 x =
 
 // (1^2)^3 + 5 = 6
 let demo3 = f2 1
-printfn "The result is: %i" demo3
 
 // (2^2)^3 + 5 = 71
 let demo4 = f2 2
-printfn "The result is: %i" demo4
 
 /////////////////////////
 // Example: Try to implement the following function using Pipe-forward.
@@ -321,8 +293,6 @@ let f3 x =
 
 // [   (1+5)^2   + 5   ]^3 = 68921
 let demo5 = f3 1
-printfn "Result for demo5 is: %i" demo5
 
 // [   (2+5)^2   + 5   ]^3 = 157464
 let demo6 = f3 2
-printfn "Result for demo6 is: %i" demo6

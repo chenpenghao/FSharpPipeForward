@@ -1,19 +1,6 @@
-﻿// Key-concept: 
-// 1. First look at List function
-// 1a. List.filter
-// 1b. List.map
+﻿////////////////////////////////////////////////////////////////////////////////////
+// 3.1 List creation
 
-// 2. Code in F# are very easy to understand.
-// 2a. The pipe-forward operator and the F# language design helps.
-
-// 3. Anonymous function/lambda function also helps.
-// 3a. You are defining a function at the exact location where it is most useful.
-// 3b. And so it boosts productivity.
-// 3c. "fun" is a keyword in F#! 
-
-
-
-// We can create a list of integers/double/string using the following notation:
 let list1 = [1 .. 100]          
 let list2 = [50 .. 80]
 let list3 = [1 .. 2 .. 100]      
@@ -29,23 +16,15 @@ let list8 = ["ABC";"DEF";"GHI";"JKL";"MNO"]
 // ERROR: Cannot have a list with different types.
 //let listError = ["ABC"; 123; 400.0]
 
-
 ////////////////////////////////////////////////////////////////////////////////////
-
-// Here is a simple function that returns true/false.
+// 3.2 List.filter
 let IsItEven x = (x % 2 = 0)
-
-// x % 2 mean the remainder after we divide x by 2
-// (x % 2 = 0) means "is the remainder (after the division by 2) equal to zero?"
-// i.e. is x divisible by 2?
 
 let trueOrFalse1 = IsItEven 10
 let trueOrFalse2 = IsItEven 3
 
-
 /////////////////////////////////////////
 // List.filter
-
 let result1 = List.filter IsItEven [1 .. 100]
 
 // The List.filter function filters a list, and only select the elements which satisfy some requirement.
@@ -63,43 +42,21 @@ let result2 = List.filter (fun x -> x % 2 = 0) [1 .. 100]
 // 3.  ->  : ...and returns...
 // 4.  x%2=0: ... whether x is divisible by 2
 
-// Again, we don't want to waste time figuring out a name for our function "IsItEven", 
-// If we define too many such custom function, it will be hard to keep track,
-// And we will lose productivity.
-
-// We define this function using the "fun" keyword at the exact location where we need it.
-
-
 ////////////////////////////////////
 // Let's say we apply this function with the pipe-forward operator "|>"
 
 // Take a look at this function:
 
-let SumOfMultiplesOfThree xList =
+let SumMultiplesOfThree xList =
     xList
     |> List.filter (fun x -> x % 3 = 0)
     |> List.sum
+    
 
-// What this function do is the following:
-// 1. It starts with a List of integer (xList)
-
-// 2. and apply this input (using the first |> symbol) to the first function.
-
-// 2 a. This first function filters (List.filter) the input list
-// 2 b. So that only multiples of 3 are accepted/retained (fun x -> x % 3 = 0)
-
-// 3. After the previous process is done, we have an intermediateResult.
-// 3 a. Then we apply this intermediateResult (using the second |> symbol) to the second function.
-// 3 b. This second function just sums up (List.sum) the remaining elements after the filtering process.
-
-// So, F# is able to express all of these calculations with just 3 lines of code.
-// Which is quite elegant, maybe similar to Python code (in style)
-// compared to other more traditional languages (Java/C++) which we need to write longer.
-
-let result3 = SumOfMultiplesOfThree [1 .. 1000]
+let result3 = SumMultiplesOfThree [1 .. 1000]
 printfn "The sum of multiples of 3, starting from 1 to 1000 is: %i" result3
 
-let result4 = SumOfMultiplesOfThree [1 .. 20000]
+let result4 = SumMultiplesOfThree [1 .. 20000]
 printfn "The sum of multiples of 3, starting from 1 to 20000 is: %i" result4
 
 

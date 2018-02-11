@@ -61,7 +61,7 @@
     <Content Include="packages.config" />
     <None Include="Script01.fsx" />
     <None Include="Script02.fsx" />
-    <None Include="Script05.fsx" />
+    <None Include="Script03.fsx" />
     <None Include="Script07.fsx" />
     <None Include="Script08.fsx" />
     <None Include="Script09.fsx" />
