@@ -192,6 +192,52 @@ printfn "Answer for ProjectEuler Problem6 is: %i" result13
 ///////////////////////////////////////////////////////////////////////////////////////////
 // Another exercise:
 
+
+// Remark: This tutorial has already helped you implement the "IsPrime" function
+// 
+// You can just use it. No need to re-implement it.
+let IsPrime x =
+    let squareRoot = x |> double |> sqrt |> int 
+    if x = 1 then false
+    else if x = 2 then true
+    else if x % 2 = 0 then false
+    else 
+        [3 .. 2 .. squareRoot]
+        |> List.forall (fun i -> x%i <> 0)
+        
+printfn "Is 5 a prime? %b" (IsPrime 5)
+printfn "Is 9 a prime? %b" (IsPrime 9)
+
+
+let numberOfPrimesWithinRange =
+    [2 .. 500000]
+    // |> ..........
+    // |> ..........
+    
+    failwith "NOT YET IMPLEMENTED!"
+
+    // Implement the logic above.
+
+/////////////////////////////////////////
+// We can use List.item to get the Nth item in a list. 
+// But be careful of zero-based index!
+let word1 = List.item 3 ["A"; "B"; "C"; "D"; "E"]
+
+let word2 = List.item 5 ["A"; "B"; "C"; "D"; "E"; "F"; "G"; "H"; "I"; "J"]
+
+/////////////////////////////////////////
+// To find the 10001-th element of a list, use "List.item 10000"
+
+let find10001thPrime =
+    [2 .. 500000]
+    // |> ..........
+    // |> ..........
+
+    failwith "NOT YET IMPLEMENTED"
+
+///////////////////////////////////////////////////////////////////////////////////////////
+// Another exercise:
+
 // Remark: This tutorial has already helped you implement the "IsPrime" function
 // 
 // You can just use it. No need to re-implement it.

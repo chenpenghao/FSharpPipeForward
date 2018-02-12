@@ -169,16 +169,37 @@ let result2 = SumOfAllPairProducts list1 list2
 
 //////////////////////////////////////////////////////////////////////////////////////
 // Exercise:
+
+// https://projecteuler.net/problem=9
 let FindPythagoreanTriple =
     List.allPairs [1 .. 1000] [1 .. 1000]
-    // |> ................
+    // |> List.filter (fun (a,b) -> ..............)
+    // |> ..............
 
     failwith "NOT YET IMPLEMENTED!"
 
-/////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+// Exercise
 
+// https://projecteuler.net/problem=4
 
+// You are given the following two functions. You do not need to re-implement them.
+let ReverseString (xString: string) =
+    new string (xString.ToCharArray() |> Array.rev)
 
+let IsPalindrome xString =
+    (ReverseString xString) = xString
+
+let palindromeResult1 = IsPalindrome "ASDF"   
+let palindromeResult2 = IsPalindrome "ABCCBA"   
+    
+
+let findProductPalindrome =
+    List.allPairs [100 .. 999] [100 .. 999]
+    // |> List.map (fun (a,b) -> ..............)
+    // |> ..............
+
+    failwith "NOT YET IMPLEMENTED!"
 
 
 

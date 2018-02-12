@@ -1219,7 +1219,7 @@ Remark:
 \item \texttt{(x \% 5 <> 0)}: is x NOT a multiple of 5?
 \end{itemize}
 
-\subsubsection*{Exercise}
+\subsubsection*{Exercise (Euler Project Question 1)}
 Implement a function that sums up all multiples of $3$ or $5$ in a list.
 
 \begin{lstlisting}[language=FSharp]
@@ -1359,7 +1359,7 @@ let result12 = SampleVariance [1.0 .. 7.0]
 
 \pagebreak
 
-\subsubsection*{Exercise}
+\subsubsection*{Exercise (Euler Project Question 6)}
 Given a list of integers $x_1, x_2, \ldots, x_n$, write a function that calculates the following:
 \[
 \left(\sum_{i=1}^n x_i\right)^2 - \left(\sum_{i=1}^n {x_i}^2\right)
@@ -1392,7 +1392,7 @@ Remark: After you have completed this question, you can create an account an sub
 
 \url{https://projecteuler.net/problem=6}
 
-\subsubsection*{Exercise}
+\subsubsection*{Exercise (Euler Project Question 7)}
 You are given the following function that determines whether a positive integer \texttt{x} is a prime number or not. You can just directly use it. You do not need to implement it yourself.
 \begin{lstlisting}[language=FSharp]
 let IsPrime x =
@@ -1408,10 +1408,55 @@ let IsPrime x =
 \end{lstlisting}
 Reminder: You can directly use the \texttt{IsPrime} function in the previous page. You do not need to re-implement it again.
 
-Write a function that takes in a list of positive integers, and sums all the prime numbers.
+\url{https://projecteuler.net/problem=7}
+
+As mentioned in the URL, we want to find the $10001$th prime number. We will start with a random guess of $500000$.
+\begin{enumerate}
+\item Use the \texttt{IsPrime} function and the \texttt{List.length} function to determine how many prime numbers are between $2$ and $500000$.
+\begin{lstlisting}[language=FSharp]
+let numberOfPrimesWithinRange =
+    [2 .. 500000]
+    |> ......
+
+
+    // Calculate how many primes are between 2 and 500000
+    // Use "IsPrime", and later "List.length"
+\end{lstlisting}
+Hopefully, you will get an answer of $41538$. 
+
+This means that there are $41538$ prime numbers between $2$ and $500000$, and so the $10001$th prime number that we are looking for is also in this range (we could have chosen a smaller range, but $2$ to $500000$ is good enough).
+
+\item The \texttt{List.item} function can be used to extract an item at an index/location. However, be careful that index/locations are $0$-based. e.g.
+\begin{lstlisting}[language=FSharp]
+let word1 = List.item 3 ["A"; "B"; "C"; "D"; "E"]
+// val word1 : string = "D"
+
+let word2 = List.item 5 ["A"; "B"; "C"; "D"; "E"; "F"; "G"; "H"; "I"; "J"]
+// val word2 : string = "F"
+\end{lstlisting}
+So, to find the $10001$th element of a list, you need to use \texttt{(List.item 10000)}.
+
+\item Use \texttt{IsPrime} function and \texttt{(List.item 10000)} to find the $10001$th prime number (which is between $2$ to $500000$).
+\begin{lstlisting}[language=FSharp]
+let find10001thPrime =
+    [2 .. 500000]
+    |> ......
+
+
+    // Use "IsPrime", and later "List.item 10000"
+\end{lstlisting}
+
+\end{enumerate}
+Remark: After you have completed this question, you can create an account an submit your solution online for personal achievement/accomplishment.
+\pagebreak
+
+\subsubsection*{Exercise (Euler Project Question 10)}
+
+Reminder: Use the \texttt{IsPrime} function defined earlier. Do not re-implement \texttt{IsPrime} again.
+
+Problem: Write a function that takes in a list of integers, and calculates the sum of all the prime numbers in that list.
 \begin{lstlisting}[language=FSharp]
 let Problem10_Version1 (xList: List<int>) =
-
 
 
 
@@ -1430,7 +1475,7 @@ let result3 = Problem10_Version1 [2 .. 2000000]
 // ERROR!
 // System.OverflowException: Arithmetic operation resulted in an overflow.
 \end{lstlisting}
-This is because there are too many numbers to sum up, and the \texttt{int} datatype cannot handle large sums.
+...because there are too many numbers to sum up, and the \texttt{int} cannot handle large sums.
 
 A workaround is to use the \texttt{System.Numerics.BigInteger} (Java also has such BigInteger standard library). We convert each individual prime number into a \texttt{BigInteger} before sum them all up.
 
@@ -1453,7 +1498,7 @@ Remark: After you have completed this question, you can create an account an sub
 
 \pagebreak
 
-\subsubsection*{Optional Exercise (Try this at home)}
+\subsubsection*{Optional Exercise (Try at home) (Euler Project Question 3)}
 \url{https://projecteuler.net/problem=3}
 
 Given an integer $Z$, write a function that finds the largest prime factor of $Z$. e.g. The prime factors of $13195$ are $5, 7, 13, 29$, and so the largest for $13195$ is $29$.
@@ -1815,7 +1860,7 @@ We can also verify mathematically:
 \[
 (1 + 2 + 3) \cdot (5 + 6) = 6 \times 11 = 66
 \]
-\subsubsection*{Exercise}
+\subsubsection*{Exercise (Euler Project Question 9)}
 \url{https://projecteuler.net/problem=9}
 
 Find the only Pythagorean triplet $a, b, c$ that satisfy:
@@ -1830,8 +1875,8 @@ c > 0 \hspace{1.0cm}a^2 + b^2 = c^2
 \begin{lstlisting}[language=FSharp]
 let FindPythagoreanTriple =
     List.allPairs [1 .. 1000] [1 .. 1000]
-    |> ......
-
+    // |> List.filter (fun (a,b) -> ..............)
+    // |> ..............
 
 
     // Complete your function here.
@@ -1841,7 +1886,40 @@ Once you have figured out the value of $a, b$, then you can calculate $c = 1000 
 
 \pagebreak
 
-\subsubsection*{Exercise}
+\subsubsection*{Exercise  (Euler Project Question 4)}
+\url{https://projecteuler.net/problem=4}
+
+A palindromic number reads the same from left-to-right or right-to-left. 
+
+The largest palindromic number made from the product of two 2-digit numbers is $9009 = 91 \times 99$.
+
+Find the largest palindrome made from the product of two 3-digit numbers.
+
+You can use the following \texttt{IsPalindrome} function that is already implemented for you. You do not need to re-implement it.
+\begin{lstlisting}[language=FSharp]
+let ReverseString (xString: string) =
+    new string (xString.ToCharArray() |> Array.rev)
+
+let IsPalindrome xString =
+    (ReverseString xString) = xString
+
+let palindromeResult1 = IsPalindrome "ASDF"   
+let palindromeResult2 = IsPalindrome "ABCCBA" 
+// val palindromeResult1 : bool = false
+// val palindromeResult2 : bool = true
+\end{lstlisting}
+Find the largest palindrome number which is a product of two 3-digit numbers $a \times b$, where $100 \leq a \leq 999$, and $100 \leq b \leq 999$
+\begin{lstlisting}[language=FSharp]
+let findProductPalindrome =
+    List.allPairs [100 .. 999] [100 .. 999]
+    // |> List.map (fun (a,b) -> ..............)
+    // |> ..............
+
+
+
+    failwith "NOT YET IMPLEMENTED!"
+\end{lstlisting}
+Again, you can submit your answer online for personal achievement/accomplishment.
 \subsection{Record Type}
 
 \subsection{Discriminated Union}
