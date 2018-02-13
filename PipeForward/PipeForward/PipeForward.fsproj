@@ -63,9 +63,9 @@
     <None Include="Script02.fsx" />
     <None Include="Script03.fsx" />
     <None Include="Script04.fsx" />
-    <None Include="Script13.fsx" />
     <None Include="Script15.fsx" />
     <None Include="Script49.fsx" />
+    <None Include="Script50.fsx" />
     <None Include="Script51.fsx" />
     <None Include="Script54.fsx" />
   </ItemGroup>

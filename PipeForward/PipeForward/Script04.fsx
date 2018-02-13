@@ -201,7 +201,53 @@ let findProductPalindrome =
 
     failwith "NOT YET IMPLEMENTED!"
 
+/////////////////////////////////////////////////////////////////////////////
+// 4.3 
 
+// Example from Chapter 2, revisited.
 
+let GetNumSharesToBuy performance =
+    if performance = "OUTPERFORM" then
+        1000     // buy 1000 shares
+    else if performance = "UNDERPERFORM" then
+        -1000    // sell 1000 shares
+    else 
+        0       // hold.
+        
+// Typo
+let numSharesToBuy1 = GetNumSharesToBuy "Outperform"
 
+// Not yet implemented
+let numSharesToBuy2 = GetNumSharesToBuy "REALLY BAD PERFORMANCE"
 
+///////////////////////////////////////////////////////////////////////////
+
+// Discriminated Union
+type StockPerformance = 
+    | OUTPERFORM
+    | UNDERPERFORM
+    | NEUTRAL
+
+let GetNumSharesToBuy2 performance =
+    if performance = OUTPERFORM then
+        1000     // buy 1000 shares
+    else if performance = UNDERPERFORM then
+        -1000    // sell 1000 shares
+    else 
+        0        // hold.
+
+let numSharesToBuy3 = GetNumSharesToBuy2 OUTPERFORM
+let numSharesToBuy4 = GetNumSharesToBuy2 UNDERPERFORM
+let numSharesToBuy5 = GetNumSharesToBuy2 NEUTRAL
+
+// Uncomment the code below to see the error.
+//let numSharesError = GetNumSharesToBuy2 outperform
+
+////////////////////////////
+// pattern matching
+
+let GetNumSharesToBuy3 performance =
+    match performance with
+    | OUTPERFORM -> 1000
+    | UNDERPERFORM -> -1000
+    | NEUTRAL -> 0

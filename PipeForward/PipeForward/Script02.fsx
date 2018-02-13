@@ -66,12 +66,13 @@ let cap4 = GetCAPfromScore2 85
 ///////////////////////////////
 // function will not compile if it is in the wrong order.
 
-// uncomment to see errors.
-// ERROR: Functions applied in the wrong order.
-//let CombinedFunction3Error (score:int) =
-//    score       // int
-//    |> GetCAP   // function: string -> double   // ERROR
-//    |> GetGrade // function: int -> string      // ERROR
+// ############################################################
+// ERROR: Functions applied in the wrong order.             //#
+let CombinedFunction3Error (score:int) =                    //#
+    score       // int                                      //#
+    |> GetCAP   // function: string -> double   // ERROR    //#
+    |> GetGrade // function: int -> string      // ERROR    //#
+//#############################################################
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////

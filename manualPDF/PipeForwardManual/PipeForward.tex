@@ -1920,9 +1920,87 @@ let findProductPalindrome =
     failwith "NOT YET IMPLEMENTED!"
 \end{lstlisting}
 Again, you can submit your answer online for personal achievement/accomplishment.
+
+\vfill
+\pagebreak
+\subsection{Discriminated Union and Matching}
+Using \texttt{string} to represent a data could potentially backfire, when we encounter a case that we have not noticed.
+
+For example, we have seen the following example, where we determine how many shares to buy given the stock's performance.
+\begin{lstlisting}[language=FSharp]
+let GetNumSharesToBuy performance =
+    if performance = "OUTPERFORM" then
+        1000     // buy 1000 shares
+    else if performance = "UNDERPERFORM" then
+        -1000    // sell 1000 shares
+    else 
+        0       // hold.
+\end{lstlisting}
+However, we may have a scenario where another programmer may accidentally created a typo:
+\begin{lstlisting}[language=FSharp]
+let numSharesToBuy1 = GetNumSharesToBuy "Outperform"
+
+// Output:
+// val numSharesToBuy1 : int = 0
+
+// ERROR! We should buy more of this stock! 
+// But the typo prevents us from buying more stock.
+\end{lstlisting}
+On the other hand, we could also have another scenario where a new method is not yet implemented.
+\begin{lstlisting}[language=FSharp]
+let numSharesToBuy2 = 
+    GetNumSharesToBuy "REALLY BAD PERFORMANCE"
+
+// Output:
+// val numSharesToBuy2 : int = 0
+
+// ERROR! We should sell everything we have!
+// But we have not included the "REALLY BAD PERFORMANCE" case.
+\end{lstlisting}
+The solution is to use discriminated union:
+\begin{lstlisting}[language=FSharp]
+type StockPerformance = 
+    | OUTPERFORM
+    | UNDERPERFORM
+    | NEUTRAL
+\end{lstlisting}
+Here, \texttt{StockPerformance} is a special type/class that has only $3$ elements.
+\pagebreak
+So, we can redefine the function (and prevent and typo error)
+\begin{lstlisting}[language=FSharp]
+let GetNumSharesToBuy2 performance =
+    if performance = OUTPERFORM then
+        1000     // buy 1000 shares
+    else if performance = UNDERPERFORM then
+        -1000    // sell 1000 shares
+    else 
+        0        // hold.
+
+let numSharesToBuy3 = GetNumSharesToBuy2 OUTPERFORM
+let numSharesToBuy4 = GetNumSharesToBuy2 UNDERPERFORM
+let numSharesToBuy5 = GetNumSharesToBuy2 NEUTRAL
+
+// val numSharesToBuy3 : int = 1000
+// val numSharesToBuy4 : int = -1000
+// val numSharesToBuy5 : int = 0
+
+// And we do not need to worry about typo error:
+let numSharesError = GetNumSharesToBuy2 outperform
+// ERROR! "outperform" is not defined!
+// Do you mean "OUTPERFORM"?
+"ERROR!
+\end{lstlisting}
+\subsubsection*{Pattern Matching}
+On the other hand, we can replace the if/else using pattern matching (a little bit similar to the \texttt{switch} statement from Java/C++).
+\begin{lstlisting}[language=FSharp]
+let GetNumSharesToBuy3 performance =
+    match performance with
+    | OUTPERFORM -> 1000
+    | UNDERPERFORM -> -1000
+    | NEUTRAL -> 0
+\end{lstlisting}
 \subsection{Record Type}
 
-\subsection{Discriminated Union}
 
 
 

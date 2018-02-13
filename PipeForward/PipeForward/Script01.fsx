@@ -59,11 +59,11 @@ changableValue <- 200
 printfn "Updated value is: %i" changableValue
 
 ////////////////////////////
-
-// Uncomment the code below to see an error:
-
-//let immutableValue = 100
-//immutableValue <- 300
+// #########################
+// This contains ERROR!  //#
+let immutableValue = 100 //#
+immutableValue <- 300    //#
+//##########################
 
 ///////////////////////////////////////////////////////////////////
 // Basic operator (+)
@@ -81,25 +81,28 @@ let sentenceStart = "My school is "
 let schoolName = "National University of Singapore"
 let combinedSentence = sentenceStart + schoolName
 
-///////////////////////////////////
-// Cannot combine two different types using the "+" functions
-// The codes below, if un-commented, will create error.
+/////################################################################
+// Cannot combine two different types using the "+" functions     //#
+// The following codes contain ERROR!                             //#
+                                                                  //#
+let addIntegerWithDecimal = 15 + 4.11                             //#
+let combineStringWithInteger = "My age is: " + 21                 //#
+/////################################################################
 
-//let addIntegerWithDecimal = 15 + 4.11
-//let combineStringWithInteger = "My age is: " + 21
 
-////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 // SquareRoot "sqrt" and math exponent (**) only accepts decimals, 
 
 let sqrtRootOfNine = sqrt 9.0
 let twoToPowerOfFive = 2.0 ** 5.0 
 // 2^5 = 2*2*2*2*2 = 32
 
-// ERROR: sqrt and (power ** ) only accepts double/decimals/float
-//let twoToPowerOfFiveError = 2 ** 5 
-//let sqrtRootOfNineError = sqrt 9
-
-
+//#####################################################################
+// ERROR: sqrt and (power ** ) only accepts double/decimals/float   //#
+let twoToPowerOfFiveError = 2 ** 5                                  //#
+let sqrtRootOfNineError = sqrt 9                                    //#
+// ERROR!                                                           //#
+//#####################################################################
 
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -131,9 +134,10 @@ let anotherDiscount = DiscountFunc discountedPrice
 printfn "New price: %.2f" anotherDiscount
 ////////////////////////////
 
-// Un-comment to see the error
-// ERROR: The function "DiscountFunc" cannot accept integer input.
-// let errorResult = DiscountFunc 100
+// ####################################################################
+// ERROR: The function "DiscountFunc" cannot accept integer input.  //#
+let errorResult = DiscountFunc 100                                  //#
+// ####################################################################
 
 // In order to use the function on 100, you need to convert it using "double" or "float"
 let convertedPrice = double 100
@@ -149,9 +153,10 @@ let AddGreeting name =
 let greeting1 = AddGreeting "John"
 let greeting2 = AddGreeting "Mary"
 
-// uncomment to see error.
-// ERROR: AddGreeting function does not accept integer/double/etc.
-// let greetingError = AddGreeting 123
+// ####################################################################
+// ERROR: AddGreeting function does not accept integer/double/etc.  //#
+let greetingError = AddGreeting 123                                 //#
+// ####################################################################
 
 ///////////////////////////
 // Exercise: Write a function that calculates the area of a circle of radius r
@@ -176,10 +181,14 @@ let g x y = 3 * x + y
 let result3 = g 3 1
 let result4 = g 10 2
 
-// Un-comment to see the error
-// ERROR: The function "g" cannot accept decimal input.
-// let errorResult = g (3.0) 10
-// let errorResult = g 10 (2.0)
+
+
+// ############################################################
+// ERROR: The function "g" cannot accept decimal input.     //#
+let errorResult = g (3.0) 10                                //#
+let errorResult = g 10 (2.0)                                //#
+// ERROR!                                                   //#
+// ############################################################
 
 //////////////////////////////////////////////////////////////
 
@@ -192,10 +201,10 @@ printfn "New Balance: %f" balance1
 let balance2 = CalculateNewBalance 0.03 5000.00 
 printfn "New Balance: %f" balance2
 
-// uncomment to see error.
-// ERROR: CalculateNewBalance does not accept integer values.
-// let balanceError = CalculateNewBalance 0.04 100000
-
+// ################################################################
+// ERROR: CalculateNewBalance does not accept integer values.   //#
+let balanceError = CalculateNewBalance 0.04 100000              //#
+// ################################################################
 ///////////////////////////////////////////////////////////
 // Function with 3 variables.
 let h x y z = 3 * x + 4 * y + 5 * z
@@ -213,9 +222,10 @@ let AddThree x y z = x + y + z
 let addThreeResult = AddThree 5 6 7
 printfn "Adding 5 and 6 and 7 gives you: %i" addThreeResult
 
-// Un-comment to see the error
-// ERROR: The F# compiler assumes the Add3 function accepts integer inputs.
-// Add3 1.0 2.0 3.0
+// ############################################################################
+// ERROR: The F# compiler assumes the Add3 function accepts integer inputs. //#
+Add3 1.0 2.0 3.0                                                            //#
+// ############################################################################
 
 // Custom function to work for double
 let AddThreeCustom (x:double) y z = x + y + z
@@ -236,10 +246,10 @@ let AddFriend person1 =
 
 let combinedSentence1 = AddFriend "Jack"
     
-// uncomment to see error
-// ERROR: "endOfSentence" is not accessible outside of "AddFriend"
-//printfn "The content of endOfSentence is: %s" endOfSentence
-
+// ########################################################################
+// ERROR: "endOfSentence" is not accessible outside of "AddFriend"      //#
+printfn "The content of endOfSentence is: %s" endOfSentence             //#
+// ########################################################################
 
 /////////////////////////////////////////////
 let DrinkFunction person =

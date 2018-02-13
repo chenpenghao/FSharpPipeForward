@@ -13,8 +13,10 @@ let list7 = [1.0; 6.0; 5.0; 10.0; 3.0; 2.0]
 
 let list8 = ["ABC";"DEF";"GHI";"JKL";"MNO"]
 
-// ERROR: Cannot have a list with different types.
-//let listError = ["ABC"; 123; 400.0]
+// ####################################################
+// ERROR: Cannot have a list with different types.  //#
+let listError = ["ABC"; 123; 400.0]                 //#
+// ####################################################
 
 ////////////////////////////////////////////////////////////////////////////////////
 // 3.2 List.filter
