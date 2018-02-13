@@ -1998,7 +1998,26 @@ let GetNumSharesToBuy3 performance =
     | OUTPERFORM -> 1000
     | UNDERPERFORM -> -1000
     | NEUTRAL -> 0
+
+let numSharesToBuy6 = GetNumSharesToBuy3 OUTPERFORM
+let numSharesToBuy7 = GetNumSharesToBuy3 UNDERPERFORM
+let numSharesToBuy8 = GetNumSharesToBuy3 NEUTRAL
 \end{lstlisting}
+
+\pagebreak
+The benefit of using pattern matching is that Intellisense will suggest to you that you may miss out specific case if you did not complete all discriminated union case. For example, if you update the \texttt{StockPerformance} by adding one more line:
+
+\begin{lstlisting}[language=FSharp]
+type StockPerformance = 
+    | OUTPERFORM
+    | UNDERPERFORM
+    | NEUTRAL
+    | REALLYBAD
+\end{lstlisting}
+Notice that we have added an extra line: \texttt{REALLYBAD}. As a result, the code with pattern match below will have a warning:
+\begin{center}
+\includegraphics[width=\textwidth]{pictures/picture30.png}
+\end{center}
 \subsection{Record Type}
 
 

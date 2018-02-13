@@ -228,6 +228,10 @@ type StockPerformance =
     | UNDERPERFORM
     | NEUTRAL
 
+
+// Manually add in the case "REALLYBAD" later,
+// | REALLYBAD
+
 let GetNumSharesToBuy2 performance =
     if performance = OUTPERFORM then
         1000     // buy 1000 shares
@@ -251,3 +255,11 @@ let GetNumSharesToBuy3 performance =
     | OUTPERFORM -> 1000
     | UNDERPERFORM -> -1000
     | NEUTRAL -> 0
+    
+let numSharesToBuy6 = GetNumSharesToBuy3 OUTPERFORM
+let numSharesToBuy7 = GetNumSharesToBuy3 UNDERPERFORM
+let numSharesToBuy8 = GetNumSharesToBuy3 NEUTRAL
+
+//////////////////////////////////////////////////////////////////////
+
+
