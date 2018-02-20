@@ -2020,28 +2020,91 @@ Notice that we have added an extra line: \texttt{REALLYBAD}. As a result, the co
 \end{center}
 \subsection{Record Type}
 
+% WORK ON THIS LATER!!!!!!!!!!!!!
+% WORK ON THIS LATER!!!!!!!!!!!!!
+% WORK ON THIS LATER!!!!!!!!!!!!!
+% WORK ON THIS LATER!!!!!!!!!!!!!
+% WORK ON THIS LATER!!!!!!!!!!!!!
 
 
+\pagebreak
+\section{Fold, Scan, State}
+Key concept:
+\begin{enumerate}
+\item The fold and scan functions are used to keep track of states.
+\begin{itemize}
+\item It can be considered as eliminating a lot of intermediate steps, where the number of intermediate steps may change based on the length of the list.
+\item It is somewhat similar to using a mutable state, but less things to keep track of.
+\end{itemize}
+\end{enumerate}
+\subsection{Example of folding}
+Let us look at an example:
+\begin{lstlisting}[language=FSharp]
+type Commands =
+    | TIMES2
+    | ADD1
 
+let listOfCommands1 =
+    [TIMES2; ADD1; TIMES2; TIMES2]
+\end{lstlisting}
+Here, \texttt{Commands} is a discriminated union (i.e. an abstract data type) that only has two different possible values. So, it is a little bit safer than using a list of strings (because strings can take on a lot of values)
 
+\begin{lstlisting}[language=FSharp]
+let ChangingFunction prevResult currentCommand =
+    match currentCommand with
+    | TIMES2 -> prevResult * 2
+    | ADD1 -> prevResult + 1
 
+let startingValue = 3
+\end{lstlisting}
+Here, \texttt{ChangingFunction} tells us how to modify a value based on the \texttt{Commands} accepted.
 
+\begin{lstlisting}[language=FSharp]
+let result1 =
+    List.fold ChangingFunction startValue listOfCommands1
+// val result1 : int = 28
+\end{lstlisting}
 
+\begin{center}
+\includegraphics[width=0.8\textwidth]{pictures/picture31.png}
+\end{center}
+Here, we have a \texttt{startValue} of $3$, and we go through the \texttt{listOfCommands1} and evolve the \texttt{startValue} based on the \texttt{ChangingFunction}.
 
+An equivalent implementation would be the following:
 
+\begin{lstlisting}[language=FSharp]
+let result1_version2 =
+    let intermediateResult1 = 
+        ChangingFunction startValue listOfCommands1.[0]
 
+    let intermediateResult2 = 
+        ChangingFunction intermediateResult1 
+            listOfCommands1.[1]
 
+    let intermediateResult3 = 
+        ChangingFunction intermediateResult2 
+            listOfCommands1.[2]
 
+    let finalResult = 
+        ChangingFunction intermediateResult3 
+            listOfCommands1.[3]
 
+    finalResult
+\end{lstlisting}
+Or if we use mutable, then:
+\begin{lstlisting}[language=FSharp]
+let result1_version3 =
+    let mutable valueSoFar = startValue
+    for command in listOfCommands1 do
+        let updatedValue =
+            ChangingFunction valueSoFar command
+        valueSoFar <- updatedValue
+    // return
+    valueSoFar
+\end{lstlisting}
+This is most similar to codes that you may write in Java/C++
 
-
-
-
-
-
-
-
-
+Warning: If you use VisualStudio /VisualStudioCode, you may see that \texttt{valueSoFar} is highlighted yellow in your editor, as a warning that there is a mutable value in our program. As mentioned before, F\# discourages the usage of mutable values.
 
 
 
