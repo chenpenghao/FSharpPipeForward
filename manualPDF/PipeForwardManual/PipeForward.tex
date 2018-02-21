@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 
-\usepackage{amsmath, amsfonts}
+\usepackage{amsmath, amsfonts, amsthm}
 \usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage{geometry}
@@ -64,6 +64,10 @@ mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit
     tabsize=4
 }
 \lstset{style=mystyle}
+
+\newtheorem*{question*}{Question}
+\newtheorem*{modQuestion*}{Modified Question}
+\newtheorem*{origQuestion*}{Original Question}
 \begin{document}
 
 
@@ -1221,7 +1225,9 @@ Remark:
 
 \subsubsection*{Exercise (Euler Project Question 1)}
 
-\textbf{Question}: Implement a function that sums up all multiples of $3$ or $5$ in a list.
+\begin{question*}
+Implement a function that sums up all multiples of $3$ or $5$ in a list.
+\end{question*}
 
 \begin{lstlisting}[language=FSharp]
 let SumMultiplesOf3Or5 xList =
@@ -1263,19 +1269,15 @@ let IsPrime x =
 \end{lstlisting}
 \textbf{Reminder}: You can directly use the \texttt{IsPrime} function in the previous page. You do not need to re-implement it again.
 
-\subsubsection*{Question Statement}
-
 \url{https://projecteuler.net/problem=7}
 
-\vspace{0.5cm}
-
-\textbf{Original Question:} The first six prime numbers are $2, 3, 5, 7, 11, 13$. We can see that the $6$th prime number is $13$. 
+\begin{origQuestion*}
+The list of prime numbers are $2, 3, 5, 7, 11, 13, \ldots$. We can see that the $6$th prime number is $13$. 
 
 What is the $10001$th prime number?
+\end{origQuestion*}
 
-\vspace{1.0cm}
-
-\textbf{Solution:} We will attempt to solve this problem in two steps, starting with a random guess of $500000$:
+We will solve this problem in two steps, starting with a random guess of $500000$:
 \begin{enumerate}
 \item \textbf{Solution part (a)}: How many prime numbers are there between $2$ and $500000$?
 
@@ -1293,6 +1295,8 @@ Expected answer: $41538$.
 
 This means that there are $41538$ prime numbers between $2$ and $500000$, and so the $10001$th prime number that we are looking for is also in this range (we could have chosen a smaller range, but $2$ to $500000$ is good enough).
 
+\pagebreak
+
 \item The \texttt{List.item} function can be used to extract an item at an index/location. However, be careful that index/locations are $0$-based. e.g.
 \begin{lstlisting}[language=FSharp]
 let word1 = List.item 3 ["A"; "B"; "C"; "D"; "E"]
@@ -1303,7 +1307,7 @@ let word2 = List.item 5 ["A"; "B"; "C"; "D"; "E"; "F"; "G"; "H"; "I"; "J"]
 \end{lstlisting}
 So, to find the $10001$th element of a list, you need to use \texttt{(List.item 10000)}.
 
-\item \textbf{Solution part (a)}: What is the $10001$th prime number between $2$ and $500000$?
+\item \textbf{Solution part (b)}: What is the $10001$th prime number between $2$ and $500000$?
 
 Use \texttt{IsPrime} function and \texttt{(List.item 10000)} to find the $10001$th prime number (which is between $2$ to $500000$).
 \begin{lstlisting}[language=FSharp]
@@ -1317,24 +1321,78 @@ let find10001thPrime =
 
 \end{enumerate}
 Remark: After you have completed this question, you can create an account an submit your solution online for personal achievement/accomplishment.
-\pagebreak
 
 \subsubsection*{Exercise (Euler Project Question 3)}
 
-\textbf{Original Question:} The prime factors of $13195$ are $5, 7, 13, 29$. 
+\url{https://projecteuler.net/problem=3}
+
+\begin{origQuestion*}
+The prime factors of $13195$ are $5, 7, 13, 29$. 
 
 What is the largest prime factor of the number $600851475143$?
+\end{origQuestion*}
 
-\vspace{0.5cm} 
+We will not attempt the original question. Instead, we will try a simpler problem:
 
-Observation: $\sqrt{600851475143} = 775146.099\ldots \approx 775146$. We will use this number $775146$ in modifying our original question:
+\begin{modQuestion*}
+Write a function that takes a list of (positive) integers, and returns the largest prime number in that list.
+\end{modQuestion*}
+Hint: You can reuse the \texttt{IsPrime} function from the previous question.
 
-\textbf{Modified Question:} Within the range from $2$ until $775146$, which is the $\ldots$
-\begin{itemize}
-\item $\ldots$ largest $\ldots$
-\item $\ldots$ prime number $\ldots$
-\item $\ldots$ that can divide $600851475143$?
-\end{itemize}
+\begin{lstlisting}[language=FSharp]
+let FindLargestPrime intList =
+    intList
+    |> ......
+
+
+    // Hint: Use "IsPrime", and later "List.max"
+\end{lstlisting}
+See the test case in the next page to check your implementation.
+\pagebreak
+\begin{lstlisting}[language=FSharp]
+let primeResult1 = FindLargestPrime [2;3;5;7;11]
+// Expected Result: 11
+
+let primeResult2 = FindLargestPrime [7; 100; 200; 333; 777]
+// Expected Result: 7
+// Because only 7 is a prime number in this list
+
+let primeResult3 = FindLargestPrime [100; 200; 300; 400; 500]
+// ERROR!
+// Expected an error to occur, because there are no prime numbers,
+// And so we cannot find the maximum of no numbers.
+\end{lstlisting}
+
+How is this simpler problem relevant to the original question?
+
+\vspace{0.5cm}
+
+Observation: $\sqrt{600851475143} = 775146.099\ldots \approx 775146$. We make a simple \underline{guess} that the solution to the original question is somewhere between $2$ and $775146$ (although, strictly speaking, this \underline{guess} may not work, as explained in the appendix)
+
+\begin{modQuestion*}
+Within the range from $2$ to $775146, \ldots$
+\begin{enumerate}
+\item $\ldots$ which of these numbers are factors of $600851475143$?
+\item Out of those numbers in Step $1$, filter/extract out the prime numbers.
+\item Out of those numbers in Step $2$, find the maximum prime number.
+\end{enumerate}
+\end{modQuestion*}
+\begin{lstlisting}[language=FSharp]
+open System.Numerics
+
+let projectEulerQuestion3 =
+    [2 .. 775146]
+    |> List.filter (fun x -> 
+        BigInteger.Parse("600851475143") % (BigInteger(x)) = BigInteger(0))
+    |> List.filter (IsPrime)
+    |> List.max
+// Answer: 6857
+\end{lstlisting}
+Here, we used \texttt{BigInteger} to handle large numbers that cannot be handled by \texttt{int}, but otherwise the last two lines \texttt{|> List.filter (IsPrime)} and \texttt{|> List.max} are probably what you have already implemented before in \texttt{FindLargestPrime}
+
+Remark: Technically speaking, our guess of using the square root may not cover all cases. See the \textbf{Appendix} for more details. i.e. if we change $600851475143$ to another number, our \underline{guess} may not work.
+
+But for this specific question, as asked on the original website, the answer is indeed $6857$.
 
 \pagebreak
 

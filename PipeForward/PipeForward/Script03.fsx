@@ -107,7 +107,7 @@ let IsPrime x =
 printfn "Is 5 a prime? %b" (IsPrime 5)
 printfn "Is 9 a prime? %b" (IsPrime 9)
 
-// PROJECT EULER QUESTION 3
+// PROJECT EULER QUESTION 7
 
 // Original Question: What is the 10001-th prime number?
 
@@ -148,8 +148,54 @@ let find10001thPrime =
     failwith "NOT YET IMPLEMENTED"
 
 /////////////////////////////////////////////////////////////////////////////////////
+// Exercise: Project Euler Question 3
 
-  
+// Original Question: What is the largest prime factor of 600851475143?
+// We will not attempt the Original Question. Instead, we will look at the modified question:
+
+// Modified Question: Write a function that takes a list of (positive) numbers, 
+// and returns the largest prime number in that list.
+
+// Hint: Use the "IsPrime" function above, and use "List.max"
+
+let FindLargestPrime intList =
+    intList
+    // |> ............
+
+
+    failwith "NOT YET IMPLEMENTED"
+    // IMPLEMENT THE FUNCTION ABOVE.
+
+let primeResult1 = FindLargestPrime [2;3;5;7;11]
+// Expected Result: 11
+
+let primeResult2 = FindLargestPrime [7; 100; 200; 333; 777]
+// Expected Result: 7
+// Because only 7 is a prime number in this list
+
+let primeResult3 = FindLargestPrime [100; 200; 300; 400; 500]
+// ERROR!
+// Expected an error to occur, because there are no prime numbers,
+// And so we cannot find the maximum of no numbers.
+
+
+
+// Modified Question: Between 2 and 775146, find the largest prime number that can divide 600851475143
+
+open System.Numerics
+
+let projectEulerQuestion3 =
+    [2 .. 775146]
+    |> List.filter (fun x -> 
+        BigInteger.Parse("600851475143") % (BigInteger(x)) = BigInteger(0))
+    |> List.filter (IsPrime)
+    |> List.max
+// Answer: 6857
+
+/////////////////////////////////////////////////////////////////////////////////////
+// Project Euler Problem 10
+
+
   
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
