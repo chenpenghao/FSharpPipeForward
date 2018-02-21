@@ -72,6 +72,8 @@ let result6 = SumMultiplesOf3ButNot5 [1 .. 100]
 
 /////////////////////////////////////////////////////////////////////////////////////
 // Exercise: 
+
+// PROJECT EULER QUESTION 1
 // Implement a function that sums up all multiples of 3 or 5 in a list.
 let SumMultiplesOf3Or5 xList =
     // Hint:  || means OR, && means AND
@@ -84,6 +86,69 @@ let result7 = SumMultiplesOf3Or5 [1 .. 10]
 // You can create an account, and submit your answers here for personal achievement/accomplishment.
 // https://projecteuler.net/problem=1
 let result8 = SumMultiplesOf3Or5 [1 .. 999]
+
+/////////////////////////////////////////////////////////////////////////////////////
+// Exercise:
+
+// PROJECT EULER QUESTION 3
+
+// Remark: This tutorial has already helped you implement the "IsPrime" function
+// 
+// You can just use it. No need to re-implement it.
+let IsPrime x =
+    let squareRoot = x |> double |> sqrt |> int 
+    if x = 1 then false
+    else if x = 2 then true
+    else if x % 2 = 0 then false
+    else 
+        [3 .. 2 .. squareRoot]
+        |> List.forall (fun i -> x%i <> 0)
+        
+printfn "Is 5 a prime? %b" (IsPrime 5)
+printfn "Is 9 a prime? %b" (IsPrime 9)
+
+// PROJECT EULER QUESTION 3
+
+// Original Question: What is the 10001-th prime number?
+
+// Solution part (a): We start with a random guess of "500000",
+// How many prime numbers are between 2 and 500000?
+
+let numberOfPrimesWithinRange =
+    [2 .. 500000]
+    // |> ..........
+    // |> ..........
+    
+    failwith "NOT YET IMPLEMENTED!"
+    // Implement the logic above.
+
+    // Expected answer: 41538
+    // This means that there are 41538 prime numbers between 2 and 500000, 
+    // and so the 10001-th prime number that we are looking for is also in this range.
+
+/////////////////////////////////////////
+// We can use List.item to get the Nth item in a list. 
+// But be careful of zero-based index!
+let word1 = List.item 3 ["A"; "B"; "C"; "D"; "E"]
+
+let word2 = List.item 5 ["A"; "B"; "C"; "D"; "E"; "F"; "G"; "H"; "I"; "J"]
+
+/////////////////////////////////////////
+
+// Solution part (b): To find the 10001-th prime number, 
+// we can just find the 10001-th prime number between the range 2 to 500000
+
+// To find the 10001-th element of a list, use "List.item 10000"
+
+let find10001thPrime =
+    [2 .. 500000]
+    // |> ..........
+    // |> ..........
+
+    failwith "NOT YET IMPLEMENTED"
+
+/////////////////////////////////////////////////////////////////////////////////////
+
   
   
 /////////////////////////////////////////////////////////////////////////////////////
@@ -194,48 +259,6 @@ printfn "Answer for ProjectEuler Problem6 is: %i" result13
 ///////////////////////////////////////////////////////////////////////////////////////////
 // Another exercise:
 
-
-// Remark: This tutorial has already helped you implement the "IsPrime" function
-// 
-// You can just use it. No need to re-implement it.
-let IsPrime x =
-    let squareRoot = x |> double |> sqrt |> int 
-    if x = 1 then false
-    else if x = 2 then true
-    else if x % 2 = 0 then false
-    else 
-        [3 .. 2 .. squareRoot]
-        |> List.forall (fun i -> x%i <> 0)
-        
-printfn "Is 5 a prime? %b" (IsPrime 5)
-printfn "Is 9 a prime? %b" (IsPrime 9)
-
-
-let numberOfPrimesWithinRange =
-    [2 .. 500000]
-    // |> ..........
-    // |> ..........
-    
-    failwith "NOT YET IMPLEMENTED!"
-
-    // Implement the logic above.
-
-/////////////////////////////////////////
-// We can use List.item to get the Nth item in a list. 
-// But be careful of zero-based index!
-let word1 = List.item 3 ["A"; "B"; "C"; "D"; "E"]
-
-let word2 = List.item 5 ["A"; "B"; "C"; "D"; "E"; "F"; "G"; "H"; "I"; "J"]
-
-/////////////////////////////////////////
-// To find the 10001-th element of a list, use "List.item 10000"
-
-let find10001thPrime =
-    [2 .. 500000]
-    // |> ..........
-    // |> ..........
-
-    failwith "NOT YET IMPLEMENTED"
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 // Another exercise:

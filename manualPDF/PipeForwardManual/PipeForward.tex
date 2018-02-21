@@ -1220,7 +1220,8 @@ Remark:
 \end{itemize}
 
 \subsubsection*{Exercise (Euler Project Question 1)}
-Implement a function that sums up all multiples of $3$ or $5$ in a list.
+
+\textbf{Question}: Implement a function that sums up all multiples of $3$ or $5$ in a list.
 
 \begin{lstlisting}[language=FSharp]
 let SumMultiplesOf3Or5 xList =
@@ -1240,6 +1241,100 @@ let result8 = SumMultiplesOf3Or5 [1 .. 999]
 Remark: After you have completed this question, you can create an account an submit your solution here for personal achievement/accomplishment.
 
 \url{https://projecteuler.net/problem=1}
+
+\pagebreak
+
+
+\subsubsection*{Exercise (Euler Project Question 7)}
+
+\subsubsection*{\texttt{IsPrime} Function Provided}
+You are given the following function that determines whether a positive integer \texttt{x} is a prime number or not. You can just directly use it. You do not need to implement it yourself.
+\begin{lstlisting}[language=FSharp]
+let IsPrime x =
+    let squareRoot = x |> double |> sqrt |> int 
+    if x = 1 then false
+    else if x = 2 then true
+    else if x % 2 = 0 then false
+    else 
+        [3 .. 2 .. squareRoot]
+        |> List.forall (fun i -> x%i <> 0)
+
+// val IsPrime: x:int -> bool
+\end{lstlisting}
+\textbf{Reminder}: You can directly use the \texttt{IsPrime} function in the previous page. You do not need to re-implement it again.
+
+\subsubsection*{Question Statement}
+
+\url{https://projecteuler.net/problem=7}
+
+\vspace{0.5cm}
+
+\textbf{Original Question:} The first six prime numbers are $2, 3, 5, 7, 11, 13$. We can see that the $6$th prime number is $13$. 
+
+What is the $10001$th prime number?
+
+\vspace{1.0cm}
+
+\textbf{Solution:} We will attempt to solve this problem in two steps, starting with a random guess of $500000$:
+\begin{enumerate}
+\item \textbf{Solution part (a)}: How many prime numbers are there between $2$ and $500000$?
+
+Use the \texttt{IsPrime} function and the \texttt{List.length} function to determine how many prime numbers are between $2$ and $500000$.
+\begin{lstlisting}[language=FSharp]
+let numberOfPrimesWithinRange =
+    [2 .. 500000]
+    |> ......
+
+
+    // Calculate how many primes are between 2 and 500000
+    // Use "IsPrime", and later "List.length"
+\end{lstlisting}
+Expected answer: $41538$. 
+
+This means that there are $41538$ prime numbers between $2$ and $500000$, and so the $10001$th prime number that we are looking for is also in this range (we could have chosen a smaller range, but $2$ to $500000$ is good enough).
+
+\item The \texttt{List.item} function can be used to extract an item at an index/location. However, be careful that index/locations are $0$-based. e.g.
+\begin{lstlisting}[language=FSharp]
+let word1 = List.item 3 ["A"; "B"; "C"; "D"; "E"]
+// val word1 : string = "D"
+
+let word2 = List.item 5 ["A"; "B"; "C"; "D"; "E"; "F"; "G"; "H"; "I"; "J"]
+// val word2 : string = "F"
+\end{lstlisting}
+So, to find the $10001$th element of a list, you need to use \texttt{(List.item 10000)}.
+
+\item \textbf{Solution part (a)}: What is the $10001$th prime number between $2$ and $500000$?
+
+Use \texttt{IsPrime} function and \texttt{(List.item 10000)} to find the $10001$th prime number (which is between $2$ to $500000$).
+\begin{lstlisting}[language=FSharp]
+let find10001thPrime =
+    [2 .. 500000]
+    |> ......
+
+
+    // Use "IsPrime", and later "List.item 10000"
+\end{lstlisting}
+
+\end{enumerate}
+Remark: After you have completed this question, you can create an account an submit your solution online for personal achievement/accomplishment.
+\pagebreak
+
+\subsubsection*{Exercise (Euler Project Question 3)}
+
+\textbf{Original Question:} The prime factors of $13195$ are $5, 7, 13, 29$. 
+
+What is the largest prime factor of the number $600851475143$?
+
+\vspace{0.5cm} 
+
+Observation: $\sqrt{600851475143} = 775146.099\ldots \approx 775146$. We will use this number $775146$ in modifying our original question:
+
+\textbf{Modified Question:} Within the range from $2$ until $775146$, which is the $\ldots$
+\begin{itemize}
+\item $\ldots$ largest $\ldots$
+\item $\ldots$ prime number $\ldots$
+\item $\ldots$ that can divide $600851475143$?
+\end{itemize}
 
 \pagebreak
 
@@ -1392,63 +1487,6 @@ Remark: After you have completed this question, you can create an account an sub
 
 \url{https://projecteuler.net/problem=6}
 
-\subsubsection*{Exercise (Euler Project Question 7)}
-You are given the following function that determines whether a positive integer \texttt{x} is a prime number or not. You can just directly use it. You do not need to implement it yourself.
-\begin{lstlisting}[language=FSharp]
-let IsPrime x =
-    let squareRoot = x |> double |> sqrt |> int 
-    if x = 1 then false
-    else if x = 2 then true
-    else if x % 2 = 0 then false
-    else 
-        [3 .. 2 .. squareRoot]
-        |> List.forall (fun i -> x%i <> 0)
-
-// val IsPrime: x:int -> bool
-\end{lstlisting}
-Reminder: You can directly use the \texttt{IsPrime} function in the previous page. You do not need to re-implement it again.
-
-\url{https://projecteuler.net/problem=7}
-
-As mentioned in the URL, we want to find the $10001$th prime number. We will start with a random guess of $500000$.
-\begin{enumerate}
-\item Use the \texttt{IsPrime} function and the \texttt{List.length} function to determine how many prime numbers are between $2$ and $500000$.
-\begin{lstlisting}[language=FSharp]
-let numberOfPrimesWithinRange =
-    [2 .. 500000]
-    |> ......
-
-
-    // Calculate how many primes are between 2 and 500000
-    // Use "IsPrime", and later "List.length"
-\end{lstlisting}
-Hopefully, you will get an answer of $41538$. 
-
-This means that there are $41538$ prime numbers between $2$ and $500000$, and so the $10001$th prime number that we are looking for is also in this range (we could have chosen a smaller range, but $2$ to $500000$ is good enough).
-
-\item The \texttt{List.item} function can be used to extract an item at an index/location. However, be careful that index/locations are $0$-based. e.g.
-\begin{lstlisting}[language=FSharp]
-let word1 = List.item 3 ["A"; "B"; "C"; "D"; "E"]
-// val word1 : string = "D"
-
-let word2 = List.item 5 ["A"; "B"; "C"; "D"; "E"; "F"; "G"; "H"; "I"; "J"]
-// val word2 : string = "F"
-\end{lstlisting}
-So, to find the $10001$th element of a list, you need to use \texttt{(List.item 10000)}.
-
-\item Use \texttt{IsPrime} function and \texttt{(List.item 10000)} to find the $10001$th prime number (which is between $2$ to $500000$).
-\begin{lstlisting}[language=FSharp]
-let find10001thPrime =
-    [2 .. 500000]
-    |> ......
-
-
-    // Use "IsPrime", and later "List.item 10000"
-\end{lstlisting}
-
-\end{enumerate}
-Remark: After you have completed this question, you can create an account an submit your solution online for personal achievement/accomplishment.
-\pagebreak
 
 \subsubsection*{Exercise (Euler Project Question 10)}
 
@@ -1498,93 +1536,6 @@ Remark: After you have completed this question, you can create an account an sub
 
 \pagebreak
 
-\subsubsection*{Optional Exercise (Try at home) (Euler Project Question 3)}
-\url{https://projecteuler.net/problem=3}
-
-Given an integer $Z$, write a function that finds the largest prime factor of $Z$. e.g. The prime factors of $13195$ are $5, 7, 13, 29$, and so the largest for $13195$ is $29$.
-
-\subsubsection*{Problem Analysis}
-To find the largest prime factor for $Z$, we will first try to find all factors of $Z$ (not necessarily prime factors) between $1$ and $\sqrt{Z}$. 
-
-Let $S_1 = \{a_1, \ldots, a_n\}$ be all the factors of $Z$ (not necessarily prime factors) between $1$ and $\sqrt{Z}$. This set will always contain at least one element: $a_1 = 1$.
-
-Let $S_2 = \left\{\dfrac{Z}{a_1},\ldots, \dfrac{Z}{a_n}\right\}$. These are all the factors of $Z$ between $\sqrt{Z}$ and $Z$. This set will always contain at least one element: $\dfrac{Z}{a_1} = Z$.
-
-And so, $S_1 \cup S_2 =  \left\{a_1, \ldots, a_n, \dfrac{Z}{a_1},\ldots, \dfrac{Z}{a_n}\right\}$ are all the factor of $Z$ (not necessarily prime factors). And we just need to find that out of this set $S_1 \cup S_2$, which number is the largest \underline{prime} number.
-
-\begin{enumerate}
-\item Example: $3 \times 7 = 21$. The largest prime factor is $7 > \sqrt{21} \approx 4.58$.
-
-\item Example: $6 \times 11 = 66$. The largest prime factor is $11 > \sqrt{66} \approx 8.12$.
-\end{enumerate}
-
-\subsubsection*{Hints:}
-\begin{enumerate}
-\item The function \texttt{IsPrimeBigInteger} is implemented for you. This is a slightly modified version of the \texttt{IsPrime} function that takes in a \texttt{BigInteger} as an input (as compared to an \texttt{int}). No need to re-implement this function.
-
-\begin{lstlisting}[language=FSharp]
-let IsPrimeBigInteger x =
-    let squareRoot = x |> double |> sqrt |> BigInteger 
-    if x = BigInteger(1) then false
-    else if x = BigInteger(2) then true
-    else if x % BigInteger(2) = BigInteger(0) then false
-    else 
-        [BigInteger(3) .. BigInteger(2) .. squareRoot]
-        |> List.forall (fun i -> x%i <> BigInteger(0))
-\end{lstlisting}
-\item To determine whether \texttt{x} is divisible by \texttt{y}, when \texttt{x, y} are both \texttt{BigInteger}s, do the following:
-\begin{lstlisting}[language=FSharp]
-x % y = BigInteger(0)
-\end{lstlisting}
-We cannot do \texttt{x \% y = 0}, because we cannot \underline{directly} compare a \texttt{BigInteger} with an integer.
-\end{enumerate}
-\begin{lstlisting}[language=FSharp]
-open System.Numerics
-
-let FindLargestPrimeFactor (Z: BigInteger) =
-    let approxSqrt = Z |> double |> sqrt |> BigInteger
-
-    // Find factors of Z between [2 .. sqrt(Z)]
-    // Not necessarily prime factors.
-    let list1 =
-        [BigInteger(2) .. approxSqrt]
-        |> ......
-
-        // Complete the logic above
-
-    // Produce another list such that:
-    // For each element "a" in list1, it gives "Z / a"
-    let list2 =
-        list1
-        |> ......
-
-        // Complete the logic above
-
-    // List.append combines the two lists.
-    let combinedList =
-        List.append list1 list2
-
-    // Choose only prime numbers from the combinedList, and find the maximum using List.max
-    combinedList
-    |> ......
-
-    // Complete the logic above
-\end{lstlisting}
-\begin{lstlisting}[language=FSharp]
-let number1 = BigInteger(21)
-let result18 = FindLargestPrimeFactor number1  
-// Expect result: 7
-
-let number2 = BigInteger(66)
-let result19 = FindLargestPrimeFactor number2
-// Expect result: 11
-
-let number3 = BigInteger.Parse("600851475143")
-let result20 = FindLargestPrimeFactor number3
-\end{lstlisting}
-
-Remark: After you have completed this question, you can create an account an submit your solution online for personal achievement/accomplishment.
-\pagebreak
 
 \section{Tuples, Records, Discriminated Union}
 Key concept:
@@ -2119,6 +2070,93 @@ Warning: If you use VisualStudio /VisualStudioCode, you may see that \texttt{val
 
 \appendix
 \section{Appendix}
+
+
+\subsection{Project Euler In-Depth}
+
+\subsubsection{Euler Project Question 3}
+
+\url{https://projecteuler.net/problem=3}
+
+\vspace{0.5cm}
+
+\textbf{Question:} Given an integer $Z$, write a function that finds the largest prime factor of $Z$. e.g. The prime factors of $13195$ are $5, 7, 13, 29$, and so the largest for $13195$ is $29$.
+
+\subsubsection*{Problem Analysis}
+In our ``modified approach'' in the original text, we tried to find the largest prime factor of $Z$ between $2$ and $\sqrt{Z}$. However, given an integer $Z$, it is possible that the largest prime factor of $Z$ is greater than $\sqrt{Z}$
+\begin{itemize}
+\item Example: $3 \times 7 = 21$. The largest prime factor is $7 > \sqrt{21} \approx 4.58$.
+
+\item Example: $6 \times 11 = 66$. The largest prime factor is $11 > \sqrt{66} \approx 8.12$.
+\end{itemize}
+We will modify our approach to the following method:
+\begin{enumerate}
+\item Let $S_1 = \{a_1, \ldots, a_n\}$ be all the factors of $Z$ (not necessarily prime factors) between $1$ and $\sqrt{Z}$. This set will always contain at least one element: $a_1 = 1$.
+\item Let $S_2 = \left\{\dfrac{Z}{a_1},\ldots, \dfrac{Z}{a_n}\right\}$. These are all the factors of $Z$ between $\sqrt{Z}$ and $Z$. This set will always contain at least one element: $\dfrac{Z}{a_1} = Z$.
+\item So, $S_1 \cup S_2 =  \left\{a_1, \ldots, a_n, \dfrac{Z}{a_1},\ldots, \dfrac{Z}{a_n}\right\}$ are all the factor of $Z$ (not necessarily prime factors).
+\item Out of our list of candidates $S_1 \cup S_2$, which number is the \underline{largest}, \underline{prime} number?
+\end{enumerate}
+
+\subsubsection*{Working with \texttt{BigInteger}:}
+\begin{enumerate}
+\item We will need an \texttt{IsPrimeBigInteger} function that helps us check whether a \texttt{BigInteger} is a prime number or not.
+\begin{lstlisting}[language=FSharp]
+let IsPrimeBigInteger x =
+    let squareRoot = x |> double |> sqrt |> BigInteger 
+    if x = BigInteger(1) then false
+    else if x = BigInteger(2) then true
+    else if x % BigInteger(2) = BigInteger(0) then false
+    else 
+        [BigInteger(3) .. BigInteger(2) .. squareRoot]
+        |> List.forall (fun i -> x%i <> BigInteger(0))
+\end{lstlisting}
+\item When \texttt{x, y} are both \texttt{BigInteger}s, then cannot do \texttt{x \% y = 0}, because we cannot \underline{directly} compare a \texttt{BigInteger} with an integer \texttt{0}. We need to do:
+\begin{lstlisting}[language=FSharp]
+x % y = BigInteger(0)
+\end{lstlisting}
+\end{enumerate}
+\subsubsection*{Code Solution}
+\begin{lstlisting}[language=FSharp]
+open System.Numerics
+
+let FindLargestPrimeFactor (Z: BigInteger) =
+    let approxSqrt = Z |> double |> sqrt |> BigInteger
+
+    // Find factors of Z between [2 .. sqrt(Z)]
+    // Not necessarily prime factors.
+    let list1 =
+        [BigInteger(2) .. approxSqrt]
+        |> List.filter (fun x -> Z % x = BigInteger(0))
+
+    // Produce another list such that:
+    // For each element "a" in list1, it gives "Z / a"
+    let list2 =
+        list1
+        |> List.map (fun a -> Z / a)
+
+    // List.append combines the two lists.
+    let combinedList =
+        List.append list1 list2
+    // Choose only prime numbers from the combinedList, and find the maximum using List.max
+    combinedList
+    |> List.filter (IsPrimeBigInteger)
+    |> List.max
+\end{lstlisting}
+Test:
+\begin{lstlisting}[language=FSharp]
+let number1 = BigInteger(21)
+let result18 = FindLargestPrimeFactor number1  
+// Expect result: 7
+
+let number2 = BigInteger(66)
+let result19 = FindLargestPrimeFactor number2
+// Expect result: 11
+
+let number3 = BigInteger.Parse("600851475143")
+let result20 = FindLargestPrimeFactor number3
+// Expect result: 6857
+\end{lstlisting}
+\pagebreak
 
 \subsection{Optional Topics}
 \subsubsection{inline functions}

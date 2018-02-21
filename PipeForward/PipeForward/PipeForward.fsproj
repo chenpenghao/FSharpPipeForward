@@ -69,6 +69,7 @@
     <None Include="Script50.fsx" />
     <None Include="Script51.fsx" />
     <None Include="Script54.fsx" />
+    <None Include="Appendix01.fsx" />
     <None Include="Script05.fsx" />
   </ItemGroup>
   <ItemGroup>
