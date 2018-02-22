@@ -36,7 +36,126 @@ let result1_version3 =
     // return
     valueSoFar
 
+//////////////////////////////
+
+// The process depends on the starting value:
+
+let startValue2 = 4
+let result2 =
+    List.fold ChangingFunction startValue2 listOfCommands1
+
+///////////////////////////////
+
+// The process also depends on the intermediate steps (i.e. the list that you "fold" with)
+
+let listOfCommands2 = 
+    [TIMES2; ADD1; ADD1; TIMES2]
+
+// startValue = 3
+
+let result3 =
+    List.fold ChangingFunction startValue listOfCommands2
+
 /////////////////////////////////////////////////////////////////////////////
+// Example: Sum a List
+
+// We can use List.sum
+
+let result4 = List.sum [1 .. 100]
+
+// Alternatively, we can slowly accumulate through the list, with a starting value of 0
+
+let result5 = 
+    [1 .. 100]
+    |> List.fold (fun acc y -> acc + y) 0
+
+/////////////////////////////////////
+// Exercise: Product of a list
+
+let ListProduct xList =
+    xList 
+    // |> List.fold (fun acc y -> ......) ......
+
+    failwith "NOT YET IMPLEMENTED!"
+
+
+
+let result6 = ListProduct [1 .. 5]
+
+let result7 = ListProduct [2; 3; 5; 7; 11; 13]
+
+////////////////////////////////////////////////////////////////////////////
+
+// https://projecteuler.net/problem=8
+
+// Problem 8 modified.
+
+let digitList = 
+    [7;3;1;6;7;1;7;6;5;3;1;3;3;0;6;2;4;9;1;9;2;2;5;1;1;9;6;7;4;4;2;6;5;7;4;7;4;2;3;5;5;3;4;9;1;9;4;9;3;4]
+    
+let result8 =
+    digitList
+    |> List.windowed 4
+    |> List.map (fun x -> x, ListProduct x)
+    |> List.maxBy (fun (_,product) -> product)
+
+
+/////////////////////////////////////////////////////////////////////////////
+// GCD of a list of numbers.
+
+// The following recursive "rec" function helps to calculate the gcd of two integers.
+// You do not need to re-implement this.
+let rec gcd x y =
+    if x < 0 || y < 0 then failwith "cannot accept negative numbers"
+    if x > y then gcd y x
+    else if x = 0 then y
+    else gcd (y % x) x
+
+// https://projecteuler.net/problem=5
+
+let gcdOfList xList =
+    let first = xList |> List.head
+    let remaining = xList |> List.tail
+    remaining
+    |> List.fold gcd first
+
+let result9 = 
+    gcdOfList [12;14;16;18;20]
+// Answer: 2
+
+let result10 =
+    gcdOfList [388800; 7290000; 75937500; 25312500]
+// Answer: 8100
+
+// Remark: 
+// 388800   = 2^6 * 3^5 * 5^2
+// 7290000  = 2^4 * 3^6 * 5^4
+// 75937500 = 2^2 * 3^5 * 5^7
+// 25312500 = 2^3 * 3^4 * 5^8
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// LCM of a list of numbers
+
+// The lcm function depends on the gcd function above.
+// Again, you do not need to re-implement this function.
+let lcm a b = 
+    a * b / (gcd a b)
+
+// Warning: This function is likely to encounter integer overflow/errors.
+let lcmOfList xList =
+    xList
+    // |> List.fold lcm ........
+    
+    failwith "NOT YET IMPLEMENTED!"
+
+let result11 = lcmOfList [1 .. 10]
+// Result: 2520
+
+let result12 = lcmOfList [2;3;4;6;8;12]
+// Result: 24
+
+///////////////////////////////////////////////////////////////////////////////
+
 
 // https://projecteuler.net/problem=2
 let fibonacciTupleList =
@@ -52,64 +171,3 @@ let fibonacciList =
 let result2 =
     fibonacciList
     // |> List.filter ...............
-
-/////////////////////////////////////////////////////////////////////////////
-
-
-// https://projecteuler.net/problem=5
-
-
-
-
-open System.Numerics
-
-let rec GCD x y =
-    let zero = BigInteger(0)
-    if x < zero || y < zero then failwith "CANNOT ACCEPT NEGATIVE NUMBERS"
-    if x > y then GCD y x
-    else if x = zero then y
-    else GCD (y % x) x
-
-let LCM x y = 
-    x * y / (GCD x y)
-
-[1 .. 20]
-|> List.map (BigInteger)
-|> List.reduce LCM
-
-////////////////////////////////////////////////////////////////////////////
-
-// https://projecteuler.net/problem=8
-
-let bigIntegerString =
-    "73167176531330624919225119674426574742355349194934"+
-    "96983520312774506326239578318016984801869478851843"+
-    "85861560789112949495459501737958331952853208805511"+
-    "12540698747158523863050715693290963295227443043557"+
-    "66896648950445244523161731856403098711121722383113"+
-    "62229893423380308135336276614282806444486645238749"+
-    "30358907296290491560440772390713810515859307960866"+
-    "70172427121883998797908792274921901699720888093776"+
-    "65727333001053367881220235421809751254540594752243"+
-    "52584907711670556013604839586446706324415722155397"+
-    "53697817977846174064955149290862569321978468622482"+
-    "83972241375657056057490261407972968652414535100474"+
-    "82166370484403199890008895243450658541227588666881"+
-    "16427171479924442928230863465674813919123162824586"+
-    "17866458359124566529476545682848912883142607690042"+
-    "24219022671055626321111109370544217506941658960408"+
-    "07198403850962455444362981230987879927244284909188"+
-    "84580156166097919133875499200524063689912560717606"+
-    "05886116467109405077541002256983155200055935729725"+
-    "71636269561882670428252483600823257530420752963450"
-
-bigIntegerString
-|> Seq.map (string)
-|> Seq.map (int)
-|> Seq.map (BigInteger)
-|> Seq.windowed 13
-|> Seq.map (Seq.reduce (*))
-|> Seq.max
-
-
-
