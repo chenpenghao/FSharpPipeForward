@@ -1,4 +1,30 @@
-﻿// Project Euler Question 3 Original
+﻿// Project Euler Question 3 Modified:
+
+// You are given an "IsPrime" function:
+
+// You are provided this "IsPrime" function
+let IsPrime x =
+    let squareRoot = x |> double |> sqrt |> int 
+    if x = 1 then false
+    else if x = 2 then true
+    else if x % 2 = 0 then false
+    else 
+        [3 .. 2 .. squareRoot]
+        |> List.forall (fun i -> x%i <> 0)
+
+// Modified Question:
+// Write a function that takes a list of (positive) integers, and returns the largest prime number in that list.
+
+// Hopefully, your expected answer is:
+
+let FindLargestPrime intList =
+    intList
+    |> List.filter (IsPrime)  // <- this may appear again soon.
+    |> List.max               // <- this may appear again soon.
+
+///////////////////////////////////////////////////////
+
+// Project Euler Question 3 Original
 
 open System.Numerics
 
@@ -33,8 +59,8 @@ let FindLargestPrimeFactor (Z: BigInteger) =
 
     // Choose only prime numbers from the combinedList, and find the maximum using List.max
     combinedList
-    |> List.filter (IsPrimeBigInteger)
-    |> List.max
+    |> List.filter (IsPrimeBigInteger)    // <- this looks familiar......
+    |> List.max                           // <- this also looks familiar......
     
 
 

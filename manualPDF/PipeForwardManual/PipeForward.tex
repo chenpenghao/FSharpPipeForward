@@ -1244,7 +1244,7 @@ let result7 = SumMultiplesOf3Or5 [1 .. 10]
 let result8 = SumMultiplesOf3Or5 [1 .. 999]
 \end{lstlisting}
 
-Remark: After you have completed this question, you can create an account an submit your solution here for personal achievement/accomplishment.
+Remark: After you have completed this question, you can create an account and submit your solution here for personal achievement/accomplishment.
 
 \url{https://projecteuler.net/problem=1}
 
@@ -1320,7 +1320,9 @@ let find10001thPrime =
 \end{lstlisting}
 
 \end{enumerate}
-Remark: After you have completed this question, you can create an account an submit your solution online for personal achievement/accomplishment.
+Remark: After you have completed this question, you can create an account and submit your solution online for personal achievement/accomplishment.
+
+\pagebreak
 
 \subsubsection*{Exercise (Euler Project Question 3)}
 
@@ -1347,8 +1349,7 @@ let FindLargestPrime intList =
 
     // Hint: Use "IsPrime", and later "List.max"
 \end{lstlisting}
-See the test case in the next page to check your implementation.
-\pagebreak
+
 \begin{lstlisting}[language=FSharp]
 let primeResult1 = FindLargestPrime [2;3;5;7;11]
 // Expected Result: 11
@@ -1363,37 +1364,45 @@ let primeResult3 = FindLargestPrime [100; 200; 300; 400; 500]
 // And so we cannot find the maximum of no numbers.
 \end{lstlisting}
 
-How is this simpler problem relevant to the original question?
+To see how the Modified Question 3 is related to the Original Question 3, please see the \textbf{Appendix}.
 
-\vspace{0.5cm}
+\pagebreak
 
-Observation: $\sqrt{600851475143} = 775146.099\ldots \approx 775146$. We make a simple \underline{guess} that the solution to the original question is somewhere between $2$ and $775146$ (although, strictly speaking, this \underline{guess} may not work, as explained in the appendix)
+\subsubsection*{Exercise (Euler Project Question 10)}
 
+\url{https://projecteuler.net/problem=10}
+
+\begin{origQuestion*}
+The sum of the primes below $10$ is $2 + 3 + 5 + 7 = 17$
+
+Find the sum of all the primes below two million $(2,000,000)$.
+\end{origQuestion*}
+We will not attempt the original question. Instead, we will do this modified question:
 \begin{modQuestion*}
-Within the range from $2$ to $775146, \ldots$
-\begin{enumerate}
-\item $\ldots$ which of these numbers are factors of $600851475143$?
-\item Out of those numbers in Step $1$, filter/extract out the prime numbers.
-\item Out of those numbers in Step $2$, find the maximum prime number.
-\end{enumerate}
+Given a number $N < 200,000$, find the sum of all prime numbers between $2$ and $N$.
 \end{modQuestion*}
+Hint: Again, use the \texttt{IsPrime} function before. Do not re-implement the function.
 \begin{lstlisting}[language=FSharp]
-open System.Numerics
-
-let projectEulerQuestion3 =
-    [2 .. 775146]
-    |> List.filter (fun x -> 
-        BigInteger.Parse("600851475143") % (BigInteger(x)) = BigInteger(0))
-    |> List.filter (IsPrime)
-    |> List.max
-// Answer: 6857
+let TotalSumOfPrimeLessThan N =
+    [2 .. N]
+    |>...................
+    
+    // Hint: Use "IsPrime". Do not re-implement it.
 \end{lstlisting}
-Here, we used \texttt{BigInteger} to handle large numbers that cannot be handled by \texttt{int}, but otherwise the last two lines \texttt{|> List.filter (IsPrime)} and \texttt{|> List.max} are probably what you have already implemented before in \texttt{FindLargestPrime}
+\begin{lstlisting}[language=FSharp]
+let primeSum1 = TotalSumOfPrimeLessThan 10
+// 2 + 3 + 5 + 7 = 17
 
-Remark: Technically speaking, our guess of using the square root may not cover all cases. See the \textbf{Appendix} for more details. i.e. if we change $600851475143$ to another number, our \underline{guess} may not work.
+let primeSum2 = TotalSumOfPrimeLessThan 20
+// 2 + 3 + 5 + 7 + 11 + 13 + 17 + 19 = 77
 
-But for this specific question, as asked on the original website, the answer is indeed $6857$.
+let primeSum4 = TotalSumOfPrimeLessThan 225286
+// 2 + 3 + 5 + 7 + ........... = 2,147,431,330
 
+let primeSumError = TotalSumOfPrimeLessThan 225287
+// ERROR: integer overflow!
+\end{lstlisting}
+Notice that we cannot sum too many (prime) numbers, because the maximum range of \texttt{int} is $2^{31} - 1 = 2,147,483,647$. We will revisit this question later.
 \pagebreak
 
 \subsection{\texttt{List.map}}
@@ -1541,54 +1550,54 @@ To use the function:
 let result13 = ProjectEulerProblem6 [1 .. 100]
 printfn "Answer for ProjectEuler Problem6 is: %i" result13
 \end{lstlisting}
-Remark: After you have completed this question, you can create an account an submit your solution here for personal achievement/accomplishment.
+Remark: After you have completed this question, you can create an account and submit your solution here for personal achievement/accomplishment.
 
 \url{https://projecteuler.net/problem=6}
 
+\pagebreak
 
-\subsubsection*{Exercise (Euler Project Question 10)}
+\subsubsection*{Example (Euler Project Question 10 Revisited)}
 
-Reminder: Use the \texttt{IsPrime} function defined earlier. Do not re-implement \texttt{IsPrime} again.
+\url{https://projecteuler.net/problem=10}
 
-Problem: Write a function that takes in a list of integers, and calculates the sum of all the prime numbers in that list.
+\begin{origQuestion*}
+The sum of the primes below $10$ is $2 + 3 + 5 + 7 = 17$
+
+Find the sum of all the primes below two million $(2,000,000)$.
+\end{origQuestion*}
+\begin{modQuestion*}
+Given a number $N < 200,000$, find the sum of all prime numbers between $2$ and $N$.
+\end{modQuestion*}
+Hopefully, your solution before is the following (using the \texttt{IsPrime} function in the previous section):
 \begin{lstlisting}[language=FSharp]
-let Problem10_Version1 (xList: List<int>) =
-
-
-
-
-
-// test:
-let result1 = Problem10_Version1 [1 .. 9]
-// 2 + 3 + 5 + 7 = 17.
-
-let result2 = Problem10_Version1 [1 .. 99]
-// 2 + 3 + 5 + 7 + 11 + ... + 83 + 89 + 97 = 1060.
+let TotalSumOfPrimeLessThan N =
+    [2 .. N]
+    |> List.filter (IsPrime)
+    |> List.sum
 \end{lstlisting}
-However, if you try the following, you may potentially encounter an error:
+However, we will encounter integer overflow when we add too many numbers, and exceed the range of \texttt{int} of $2^{31} - 1 = 2,147,483,647$
 \begin{lstlisting}[language=FSharp]
-let result3 = Problem10_Version1 [2 .. 2000000]
-// ERROR!
-// System.OverflowException: Arithmetic operation resulted in an overflow.
+let primeSum4 = TotalSumOfPrimeLessThan 225286
+// 2 + 3 + 5 + 7 + ........... = 2,147,431,330
+
+let primeSumError = TotalSumOfPrimeLessThan 225287
+// ERROR: integer overflow!
 \end{lstlisting}
-...because there are too many numbers to sum up, and the \texttt{int} cannot handle large sums.
-
-A workaround is to use the \texttt{System.Numerics.BigInteger} (Java also has such BigInteger standard library). We convert each individual prime number into a \texttt{BigInteger} before sum them all up.
-
+Instead, after extracting out the prime numbers, we convert each prime number to \\\texttt{BigInteger} that can handle large sums using \texttt{List.map}
 \begin{lstlisting}[language=FSharp]
 open System.Numerics
 
-let SumAllPrimes xList =
-    xList
+let Version2_TotalSumOfPrimeLessThan N =
+    [2 .. N]
     |> List.filter (IsPrime)
     |> List.map (BigInteger)
     |> List.sum
 
 // Remark: The code below can take 10 seconds, as this is not the most optimal algorithm.
-let result17 = SumAllPrimes [2 .. 2000000]
-printfn "The sum of all primes from 2 to 2000000 is: %A" result17
+let result17 = Version2_TotalSumOfPrimeLessThan 2000000
+// Result: 142913828922
 \end{lstlisting}
-Remark: After you have completed this question, you can create an account an submit your solution here for personal achievement/accomplishment.
+Remark: You can create an account and submit your solution here for personal achievement/accomplishment.
 
 \url{https://projecteuler.net/problem=10}
 
@@ -2136,9 +2145,22 @@ Warning: If you use VisualStudio /VisualStudioCode, you may see that \texttt{val
 
 \url{https://projecteuler.net/problem=3}
 
-\vspace{0.5cm}
+In the main chapter, we asked you to solve a modified version of Project Euler Q3:
+\begin{modQuestion*}
+Write a function that takes a list of (positive) integers, and returns the largest prime number in that list.
+\end{modQuestion*}
+Hopefully, by using the \texttt{IsPrime} function provided in the main chapter, your answer is:
+\begin{lstlisting}[language=FSharp]
+let FindLargestPrime intList =
+    intList
+    |> List.filter (IsPrime)
+    |> List.max
+\end{lstlisting}
 
-\textbf{Question:} Given an integer $Z$, write a function that finds the largest prime factor of $Z$. e.g. The prime factors of $13195$ are $5, 7, 13, 29$, and so the largest for $13195$ is $29$.
+How is this related to the original question?
+\begin{question*}
+Given an integer $Z$, write a function that finds the largest prime factor of $Z$. e.g. The prime factors of $13195$ are $5, 7, 13, 29$, and so the largest for $13195$ is $29$.
+\end{question*}
 
 \subsubsection*{Problem Analysis}
 In our ``modified approach'' in the original text, we tried to find the largest prime factor of $Z$ between $2$ and $\sqrt{Z}$. However, given an integer $Z$, it is possible that the largest prime factor of $Z$ is greater than $\sqrt{Z}$
@@ -2214,6 +2236,24 @@ let number3 = BigInteger.Parse("600851475143")
 let result20 = FindLargestPrimeFactor number3
 // Expect result: 6857
 \end{lstlisting}
+Notice that the provided solution for the original question has the following last two lines:
+\begin{lstlisting}[language=FSharp]
+    .....................
+    |> List.filter (IsPrimeBigInteger)
+    |> List.max
+\end{lstlisting}
+On the other hand, the solution for the modified question has the following last two lines:
+\begin{lstlisting}[language=FSharp]
+    .....................
+    |> List.filter (IsPrime)
+    |> List.max
+\end{lstlisting}
+And so, the original question is all about:
+\begin{enumerate}
+\item Finding a list of candidates (that is based on mathematics consideration, and less about computing/programming)
+\item From the list of candidates, extract out the largest prime number from the list.
+\end{enumerate}
+So, we let the readers focus on the second part of the original problem in our original text. The trickiness of the original question is mainly mathematical, and we do not want that to distract you from the programming part of F\#.
 \pagebreak
 
 \subsection{Optional Topics}

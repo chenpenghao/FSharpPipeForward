@@ -178,24 +178,50 @@ let primeResult3 = FindLargestPrime [100; 200; 300; 400; 500]
 // Expected an error to occur, because there are no prime numbers,
 // And so we cannot find the maximum of no numbers.
 
-
-
-// Modified Question: Between 2 and 775146, find the largest prime number that can divide 600851475143
-
-open System.Numerics
-
-let projectEulerQuestion3 =
-    [2 .. 775146]
-    |> List.filter (fun x -> 
-        BigInteger.Parse("600851475143") % (BigInteger(x)) = BigInteger(0))
-    |> List.filter (IsPrime)
-    |> List.max
-// Answer: 6857
+// See the appendix of the pdf manual to see why the modified Question 3 is related to Original Question 3.
 
 /////////////////////////////////////////////////////////////////////////////////////
 // Project Euler Problem 10
 
+// Original Question: Find the sum of all prime numbers below 2 million (2,000,000)
 
+// Modified Question: Given a number N, where N < 200,000  , 
+//                    find the sum of all prime numbers between 2 and N
+
+// Hint: Use the "IsPrime" function before.
+
+// Assumption: Assume N < 200,000
+let TotalSumOfPrimeLessThan N =
+    [2 .. N]
+    //|>...................
+
+    failwith "NOT YET IMPLEMENTED!"
+
+
+let primeSum1 = TotalSumOfPrimeLessThan 10
+// 2 + 3 + 5 + 7 = 17
+
+let primeSum2 = TotalSumOfPrimeLessThan 20
+// 2 + 3 + 5 + 7 + 11 + 13 + 17 + 19 = 77
+
+let primeSum4 = TotalSumOfPrimeLessThan 225286
+// 2 + 3 + 5 + 7 + ........... = 2,147,431,330
+
+let primeSumError = TotalSumOfPrimeLessThan 225287
+// ERROR: integer overflow!
+
+///////////////////////////////////////////
+open System.Numerics
+
+let ProjectEulerQuestion10 N =
+    [2 .. N]
+    |> List.filter (IsPrime)
+    |> List.map (BigInteger)
+    |> List.sum
+
+let bigPrimeSumResult = ProjectEulerQuestion10 2000000
+// This might take longer on a slower computer.
+// Answer: 142913828922
   
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
@@ -303,11 +329,7 @@ let result13 = ProjectEulerProblem6 [1 .. 100]
 printfn "Answer for ProjectEuler Problem6 is: %i" result13
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-// Another exercise:
-
-
-///////////////////////////////////////////////////////////////////////////////////////////
-// Another exercise:
+// Example: Project Euler Question 10 (Revisited)
 
 // Remark: This tutorial has already helped you implement the "IsPrime" function
 // 
@@ -327,104 +349,31 @@ printfn "Is 9 a prime? %b" (IsPrime 9)
 
 //////////////////////////////////////
 
-// Write a function that accepts a list of integer "xList",
-// and sums up all prime numbers.
-let Problem10_Version1 xList =
+// Example: Project Euler Question 10 (Revisited)
 
-    failwith "NOT IMPLEMENTED!"
+// Given a number N, find the sum of all prime numbers between 2 and N
+
+let TotalSumOfPrimeLessThan N =
+    [2 .. N]
+    |> List.filter (IsPrime)
+    |> List.sum
+
+let primeSum4 = TotalSumOfPrimeLessThan 225286
+// 2 + 3 + 5 + 7 + ........... = 2,147,431,330
+
+let primeSumError = TotalSumOfPrimeLessThan 225287
+// ERROR: integer overflow!
+////////////////////////////////////////////////
+
     
-// test:
-let result14 = Problem10_Version1 [1 .. 9]
-// 2 + 3 + 5 + 7 = 17.
-
-let result15 = Problem10_Version1 [1 .. 99]
-// 2 + 3 + 5 + 7 + 11 + ... + 83 + 89 + 97 = 1060.
-
-////////////////////////////////////////
-// However, if you try the following, you may get an error:
-let result16 = Problem10_Version1 [2 .. 2000000]
-// POTENTIAL ERROR!
-
-// This is because there are too many numbers to add up,
-// and "int" is not capable of handling large sum.
-
-////////////////////////////////////////
-
-// We use BigInteger instead:
-
 open System.Numerics
 
-let SumAllPrimes xList =
-    xList
+let Version2_TotalSumOfPrimeLessThan N =
+    [2 .. N]
     |> List.filter (IsPrime)
     |> List.map (BigInteger)
     |> List.sum
 
 // Remark: The code below can take 10 seconds, as this is not the most optimal algorithm.
-let result17 = SumAllPrimes [2 .. 2000000]
-printfn "The sum of all primes from 2 to 2000000 is: %A" result17
-
-////////////////////////////////////////////////////////////////////////////////
-// Optional exercise:
-
-open System.Numerics
-
-// Remark: This tutorial has already helped you implement the "IsPrimeBigInteger" function
-// 
-// You can just use it. No need to re-implement it.
-let IsPrimeBigInteger x =
-    let squareRoot = x |> double |> sqrt |> BigInteger 
-    if x = BigInteger(1) then false
-    else if x = BigInteger(2) then true
-    else if x % BigInteger(2) = BigInteger(0) then false
-    else 
-        [BigInteger(3) .. BigInteger(2) .. squareRoot]
-        |> List.forall (fun i -> x%i <> BigInteger(0))
-
-///////////////////////
-
-
-// Assumption: bigNumber has a square root that is not too large.
-//
-// Assumption: bigNumber itself is not prime.
-let FindLargestPrimeFactor (Z: BigInteger) =
-    let approxSqrt = Z |> double |> sqrt |> BigInteger
-
-    // Find factors of Z between [2 .. sqrt(Z)]
-    // Not necessarily prime factors.
-    let list1 =
-        [BigInteger(2) .. approxSqrt]
-        // |> ..................
-
-
-        failwith "NOT IMPLEMENTED YET!"
-
-    // Produce another list such that:
-    // For each element "a" in list1, it gives "Z / a"
-    let list2 = 
-
-    
-        failwith "NOT IMPLEMENTED YET!"
-    
-    // List.append combines the two lists.
-    let combinedList =
-        List.append list1 list2
-        
-    // Choose only prime numbers from the combinedList, and find the maximum using List.max
-    combinedList
-    // |> ......................
-
-    // Complete the logic above.
-
-/////////////////
-
-let number1 = BigInteger(21)
-let result18 = FindLargestPrimeFactor number1  
-// Expect result: 7
-
-let number2 = BigInteger(66)
-let result19 = FindLargestPrimeFactor number2
-// Expect result: 11
-
-let number3 = BigInteger.Parse("600851475143")
-let result20 = FindLargestPrimeFactor number3
+let result17 = Version2_TotalSumOfPrimeLessThan 2000000
+// Result: 142913828922
