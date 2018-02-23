@@ -41,10 +41,10 @@ let IsPrimeBigInteger x =
 let FindLargestPrimeFactor (Z: BigInteger) =
     let approxSqrt = Z |> double |> sqrt |> BigInteger
 
-    // Find factors of Z between [2 .. sqrt(Z)]
+    // Find factors of Z between [1 .. sqrt(Z)]
     // Not necessarily prime factors.
     let list1 =
-        [BigInteger(2) .. approxSqrt]
+        [BigInteger(1) .. approxSqrt]
         |> List.filter (fun x -> Z % x = BigInteger(0))
 
     // Produce another list such that:

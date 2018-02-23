@@ -27,13 +27,14 @@ let bigIntegerString =
     "05886116467109405077541002256983155200055935729725"+
     "71636269561882670428252483600823257530420752963450"
 
-bigIntegerString
-|> Seq.map (string)
-|> Seq.map (int)
-|> Seq.map (BigInteger)
-|> Seq.windowed 13
-|> Seq.map (Seq.reduce (*))
-|> Seq.max
+let result = 
+    bigIntegerString
+    |> Seq.map (string)
+    |> Seq.map (int)
+    |> Seq.map (BigInteger)
+    |> Seq.windowed 13
+    |> Seq.map (Seq.reduce (*))
+    |> Seq.max
 
 module List =
     let Product xList =

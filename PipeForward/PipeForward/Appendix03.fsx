@@ -11,6 +11,7 @@ let rec GCD x y =
 let LCM x y = 
     x * y / (GCD x y)
 
-[1 .. 20]
-|> List.map (BigInteger)
-|> List.reduce LCM
+let result =
+    [1 .. 20]
+    |> List.map (BigInteger)
+    |> List.reduce LCM
