@@ -155,7 +155,36 @@ let result12 = lcmOfList [2;3;4;6;8;12]
 // Result: 24
 
 ///////////////////////////////////////////////////////////////////////////////
+// Example: Iterate n-times
 
+
+let resul13 =
+    [1 .. 40]
+    |> List.fold (fun acc _ -> acc - 1) 100
+
+    
+let mutable resultMutable = 100
+for i in [1 .. 40] do
+    resultMutable <- resultMutable - 1
+let finalResult = resultMutable
+
+////////////////////////////////////////////
+// List.fold vs List.scan
+
+let result14 = 
+    [1 .. 100]
+    |> List.fold (fun acc y -> acc + y) 0
+// val result5 : int = 5050
+
+let result15 = 
+    [1 .. 100]
+    |> List.scan (fun acc y -> acc + y) 0
+
+/////////////////////////////////////////////////////////
+// Sample Fibonacci list.
+let resul16 =
+    [1 .. 20]
+    |> List.scan (fun (x,y) _ -> (y,x+y)) (1,2)
 
 // https://projecteuler.net/problem=2
 let fibonacciTupleList =
