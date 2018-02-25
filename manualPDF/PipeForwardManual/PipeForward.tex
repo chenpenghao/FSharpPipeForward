@@ -111,25 +111,22 @@ You can use double-slash \texttt{//}, triple-slash \texttt{///}, or star-bracket
 let x = 1
 let y = x + 5
 \end{lstlisting}
+\subsubsection{Intellisense}
+If you are using Visual Studio or Visual Studio Code, you can put your mouse on top of the variable name \texttt{x} or \texttt{y}, and see that it is an \texttt{int} or integer. This feature will help you identify what is each variable/function, and make coding easier for you. 
+\begin{center}
+\includegraphics[width=6cm]{pictures/picture01.png}
+\end{center}
+
+\pagebreak
 
 \subsubsection{F\# Interactive}
 
 If you are using Visual Studio, you can run the code above by highlighting/selecting the code using your mouse, and press \texttt{ALT + ENTER}, or right-click and select \texttt{Execute in Interactive}.
 
 \begin{center}
-INSERT PICTURE HERE.
+\includegraphics[width=15cm]{pictures/picture00.png}
 \end{center}
-\vfill
 
-\pagebreak
-
-\subsubsection{Intellisense}
-If you are using Visual Studio or Visual Studio Code, you can put your mouse on top of the variable name \texttt{x} or \texttt{y}, and see that it is an \texttt{int} or integer.
-
-This feature will help you identify what is each variable/function, and make coding easier for you. 
-\begin{center}
-\includegraphics[width=5cm]{pictures/picture01.png}
-\end{center}
 \subsection{Data Type}
 
 \subsubsection{Common data types and printing}
@@ -153,9 +150,7 @@ let age = 21
 let height = 170.5
 
 printfn "My name is: %s" name
-
 printfn "Name: %s. Age: %i. Height: %f." name age height
-
 printfn "His height is: %.2f" height
 // %.2f for showing two decimals.
 \end{lstlisting}
@@ -231,7 +226,6 @@ let mutable x = 100
 // Did you accidentally call any function that modify x?
 // Can you guarantee x's value stay unchanged?
 // 
-//
 let y = x + 1
 // What is the value of y?
 //
@@ -264,7 +258,6 @@ Conclusion: Use immutable/unchangable value whenever possible. AVOID mutable/cha
 
 Integers, double, and string support the \texttt{(+)} operation:
 \begin{lstlisting}[language=FSharp]
-
 let number1 = 40
 let number2 = 55
 let addTwoNumbers = number1 + number2
@@ -280,7 +273,7 @@ let combinedSentence = sentenceStart + schoolName
 \end{lstlisting}
 However, you cannot add an integer with a decimal in F\# directly using \texttt{(+)}, and you cannot add/concatenate a string with a number directly using \texttt{(+)}. If you use VisualStudio, then you may see an error similar to the one below.
 \begin{center}
-\includegraphics[width=14cm]{pictures/picture04.png}
+\includegraphics[width=0.8\linewidth]{pictures/picture04.png}
 \end{center}
 Furthermore, some functions, like the square root \texttt{sqrt} and math exponent \texttt{(**)} only accepts decimal numbers:
 
@@ -290,7 +283,7 @@ let twoToPowerOfFive = 2.0 ** 5.0
 \end{lstlisting}
 And it will cause error if you use them with integer input instead.
 \begin{center}
-\includegraphics[width=14cm]{pictures/picture04.png}
+\includegraphics[width=0.8\linewidth]{pictures/picture05.png}
 \end{center}
 
 \pagebreak
@@ -323,7 +316,7 @@ Notice the following:
 \item This is because in the function, \texttt{x} will be added \texttt{(+)} to the integer \texttt{5}. We have seen before that we cannot use the symbol \texttt{(+)} to combine an integer with a decimal number directly. Hence, \texttt{x} has to be of type \texttt{int}.
 \item As a consequence, if you try to input a decimal number to the function \texttt{f}, then it will fail:
 \begin{center}
-\includegraphics[width=9cm]{pictures/picture07.png}
+\includegraphics[width=0.8\linewidth]{pictures/picture07.png}
 \end{center}
 \end{enumerate}
 \item As mentioned, F\# automatically inferred that \texttt{x} is an integer. This is different from other languages (e.g. Java, C++) that needs you to specify the type of the variable (is it an integer? double? etc.)
@@ -350,7 +343,7 @@ Remark: The \texttt{\%.2f} for printing 2 decimals.
 
 This function does not accept integer values:
 \begin{center}
-INPUT ERROR PICTURE HERE!
+\includegraphics[width=0.8\linewidth]{pictures/picture08.png}
 \end{center}
 
 We need to convert integer to decimal (using \texttt{double} or \texttt{float}) before using the function.
@@ -361,9 +354,6 @@ let decimalResult = DiscountFunc convertedPrice
 printfn "New price: %.2f" decimalResult
 // Output: "New price: 80.00"
 \end{lstlisting}
-\begin{center}
-\line(1,0){400}
-\end{center}
 Similarly, the following function accepts strings only.
 \begin{lstlisting}[language=FSharp]
 // Define a function for string.
@@ -378,11 +368,11 @@ Output:
 // val greeting1 : string = "Hello John"
 // val greeting2 : string = "Hello Mary"
 \end{lstlisting}
+\pagebreak
 And it will cause error if you try to input an integer value to this function:
 \begin{center}
-INPUT ERROR PICTURE HERE!
+\includegraphics[width=0.8\linewidth]{pictures/picture09.png}
 \end{center}
-\pagebreak
 Exercise: Write a function that calculates the area of a circle of radius $r$. 
 
 
@@ -411,20 +401,19 @@ Notice the following:
 \item To apply the function \texttt{g}, you do not need to use the math notation $g(x,y)$ with brackets and commas. This is different from other programming languages (e.g. Java, C++). You can apply the arguments by separating with a space.
 \item If you hover your mouse on top of \texttt{g}, as seen in this picture:
 \begin{center}
-INPUT PICTURE HERE!
+\includegraphics[width=0.4\linewidth]{pictures/picture10.png}
 \end{center}
 You will see that the variables \texttt{x, y} need to be integers.
 \begin{enumerate}
 \item This is because in the function, \texttt{x} will be multiplied with \texttt{3}, and then later added with \texttt{y}. As seen before, the addition and multiplication symbol \texttt{(+), (*)} only combined numbers of the same type (integers with integers, double with double)
 \item As a consequence, if you input decimals into the function, it will fail:
 \begin{center}
-INPUT PICTURE HERE!
+\includegraphics[width=0.8\linewidth]{pictures/picture11.png}
 \end{center}
 \end{enumerate}
 \item Again, you can spend less time typing out the details (i.e. what are the types of \texttt{x, y}? Integer? Double?) and focus more on making your program/algorithm works, and make yourself more productive (compared to other programming languages)
 \end{enumerate}
 
-\pagebreak
 
 Similarly, the following function accepts two decimal numbers:
 \begin{lstlisting}[language=FSharp]
@@ -442,9 +431,10 @@ printfn "New Balance: %f" balance2
 
 And it will cause error if you try to change one of the input into integer.
 \begin{center}
-INPUT PICTURE HERE!
+\includegraphics[width=0.8\linewidth]{pictures/picture12.png}
 \end{center}
 
+\pagebreak
 \subsubsection{Multivariable functions}
 \begin{lstlisting}[language=FSharp]
 let h x y z = 3 * x + 4 * y + 5 * z

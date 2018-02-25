@@ -116,9 +116,10 @@ let f x = x + 5
 let result1 = f 10
 let result2 = f 20
 
-// Un-comment to see the error
-// ERROR: The function "f" cannot accept decimal input.
-// let errorResult = f (3.0) 
+// #########################################################
+// ERROR: The function "f" cannot accept decimal input.  //#
+let errorResult = f (3.0)                                //#
+// #########################################################
 
 ////////////////////////////////
 
@@ -181,8 +182,6 @@ let g x y = 3 * x + y
 let result3 = g 3 1
 let result4 = g 10 2
 
-
-
 // ############################################################
 // ERROR: The function "g" cannot accept decimal input.     //#
 let errorResult = g (3.0) 10                                //#
@@ -205,6 +204,7 @@ printfn "New Balance: %f" balance2
 // ERROR: CalculateNewBalance does not accept integer values.   //#
 let balanceError = CalculateNewBalance 0.04 100000              //#
 // ################################################################
+
 ///////////////////////////////////////////////////////////
 // Function with 3 variables.
 let h x y z = 3 * x + 4 * y + 5 * z
