@@ -158,15 +158,19 @@ let result12 = lcmOfList [2;3;4;6;8;12]
 // Example: Iterate n-times
 
 
-let resul13 =
-    [1 .. 40]
+let result13 =
+    [1 .. 20]
     |> List.fold (fun acc _ -> acc - 1) 100
 
     
 let mutable resultMutable = 100
-for i in [1 .. 40] do
+for i in [1 .. 20] do
     resultMutable <- resultMutable - 1
 let finalResult = resultMutable
+
+let result13_repeat =
+    ['A' .. 'T']
+    |> List.fold (fun acc _ -> acc - 1) 100
 
 ////////////////////////////////////////////
 // List.fold vs List.scan
@@ -187,16 +191,14 @@ let resul16 =
     |> List.scan (fun (x,y) _ -> (y,x+y)) (1,2)
 
 // https://projecteuler.net/problem=2
-let fibonacciTupleList =
+let first40FibNumbers =
     [1 .. 40]
-    |> List.scan (fun (x,y) _ ->
-        (y,x+y)
-    ) (1,1)
-
-let fibonacciList =
-    fibonacciTupleList
+    |> List.scan (fun (x,y) _ -> (y, x + y)) (1,2)
+    
+let fibSum =
+    [1 .. 40]
+    |> List.scan (fun (x,y) _ -> (y, x + y)) (1,2)
     |> List.map (fun (x,y) -> x)
-
-let result2 =
-    fibonacciList
-    // |> List.filter ...............
+    |> List.filter (fun x -> x % 2 = 0)
+    |> List.filter (fun x -> x < 4000000)
+    |> List.sum

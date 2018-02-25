@@ -64,13 +64,12 @@
     <None Include="Script03.fsx" />
     <None Include="Script04.fsx" />
     <None Include="Script05.fsx" />
-    <None Include="Script49.fsx" />
-    <None Include="Script50.fsx" />
-    <None Include="Script51.fsx" />
-    <None Include="Script54.fsx" />
     <None Include="Appendix01.fsx" />
     <None Include="Appendix02.fsx" />
     <None Include="Appendix03.fsx" />
+    <None Include="Appendix04.fsx" />
+    <None Include="Appendix05.fsx" />
+    <None Include="Appendix06.fsx" />
     <None Include="Script05.fsx" />
   </ItemGroup>
   <ItemGroup>
