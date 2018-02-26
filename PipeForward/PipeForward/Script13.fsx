@@ -13,7 +13,7 @@
 // In order for this machine to have an output (apple pie), you need to provide with input (apple).
 // However, the machine itself is an object. It is a "thing", just like an apple is a "thing".
 
-// If you put this machine in a room, next to an apple, then you can use your hand to touch the machine,
+// If you put this machine in a room, next to an apple, then you can use you r hand to touch the machine,
 // just like how you can touch the apple. They can be real concrete "things".
 
 // The machine differs from an apple in a way that it has the additional property 

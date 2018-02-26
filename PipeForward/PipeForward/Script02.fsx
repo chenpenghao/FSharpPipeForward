@@ -1,249 +1,298 @@
-﻿// Key concepts:
-// 1. Defining and using functions in F# is slightly different from math notation/ other languages.
-// 1a. F# automatically detects the type of the variables (e.g. integer, double, etc.) for a function.
-// 1b. The variable types for a function will be enforced.
+﻿// 2.1: Introduction
 
-//////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////
-// Section 02: Defining functions.
-
-// You can define functions using "let" followed by the inputs of your function.
-
-let f x = x + 5
-
-let result1 = f 10
-printfn "The result is: %i" result1
-let result2 = f 20
-printfn "The result is: %i" result2
-
-// Notice the following:
+// You do not need to implement the pipe-forward operator.
+// It is already defined in F#.
 //
-// 1. To apply the function "f", you don't need to use the math notation f(x).
-//    You can apply the arguments by separating with a space.
-//
-// 2. If you hover your mouse on top of "f", you will see that
-//    "f" is a function that accepts only integer "x" as the argument.
-//
-//    This is because in the function, "x" will be added to the integer "5".
-//    We have seen before that we cannot use the symbol    "+"   
-//    to add an integer and a decimal directly.
-//    So, the following code will fail if you un-comment it:
+// let inline (|>) x f = f x
 
-// Un-comment to see the error
-// ERROR: The function "f" cannot accept decimal input.
-// let errorResult = f (3.0)
+/////////////////////////////////////////////////////////////////////////
+// 2.2: Simple demonstration
 
-// 3. As mentioned just now, F# automatically inferred that "x" is an integer.
-//    This is different from other languages (e.g. Java, C++) that needs you to
-//    specify the type of the variable (is it an integer? double? etc.)
-// 
-//    So, you can spend less time on the tiny details (e.g. what is the variable type),
-//    and focus more on the correctness of your program.
+let Add5Func x = x + 5
+
+let result1 = Add5Func 30
+
+// With pipe-forward:
+let result2 = 30 |> Add5Func
+
+///////////////////////////////////////////////////////////
+// 2.3: Usefulness
+
+// Let's say that you are given these two functions:
+let GetGrade score =
+    if score >= 90 then "A"
+    else if score >= 70 then "B"
+    else if score >= 50 then "C"
+    else "D"
+    
+// For Singaporean University. (Maximum CAP 5.0)
+let GetCAP grade =
+    if grade = "A" then 5.0
+    else if grade = "B" then 4.0
+    else if grade = "C" then 3.0
+    else 2.0
+    
+// GetGrade: int  -> string
+// GetCAP:           string ->  float
 
 ////////////////////////////////
 
-// Similarly, the following function accepts only decimals/double 
-// Because the variable interacts with a decimal "0.8"
+// verbose/long version
+let GetCAPfromScore1 score =
+    let intermediateResult = GetGrade score
+    let finalResult = GetCAP intermediateResult
+    // return
+    finalResult
 
+let cap1 = GetCAPfromScore1 95
+let cap2 = GetCAPfromScore1 85
 
-let DiscountBy20Percent originalPrice = originalPrice * 0.8
+///////////////////////
 
-let discountedPrice = DiscountBy20Percent 399.99
-printfn "The new price is: %.2f" discountedPrice
-// The "%.2f" is for 2 decimal points, just formatting purposes when printing result.
+// GetGrade: int  -> string
+// GetCAP:           string ->  float
 
-let anotherDiscount = DiscountBy20Percent discountedPrice
-printfn "The new price is: %.2f" anotherDiscount
+// Shorter version
+let GetCAPfromScore2 score =
+    score               
+    |> GetGrade         
+    |> GetCAP           
 
-// This time around, the function will not accept integers. 
-// The following will produce error.
+// See the pdf for a step-by-step explanation of the code above.
 
-// Un-comment to see the error
-// ERROR: The function "DiscountBy20Percent" cannot accept integer input.
-// let errorResult = DiscountBy20Percent 100
+let cap3 = GetCAPfromScore2 95
+let cap4 = GetCAPfromScore2 85
 
-// In order to use the function on 100, you need to change it to 100.0
-let decimalResult = DiscountBy20Percent 100.0
-printfn "The new price is: %.2f" decimalResult
+///////////////////////////////
+// function will not compile if it is in the wrong order.
+
+// uncomment to see errors.
+// ERROR: Functions applied in the wrong order.
+//let CombinedFunction3Error (score:int) =
+//    score       // int
+//    |> GetCAP   // function: string -> double   // ERROR
+//    |> GetGrade // function: int -> string      // ERROR
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// 2.4 More examples
+
+// First, F# has a built-in function, "List.average"
+let average1 = List.average [1.0; 2.0; 3.0; 4.0; 5.0]
+let average2 = List.average [80.0; 85.0; 90.0; 95.0; 100.0]
 
 /////////////////////////////
 
-// Define a function for string.
-let AddGreeting name =
-    "Hello " + name
+let GetPerformance analystAverageEstimate =
+    let actualProfit = 6.0
+    if actualProfit > analystAverageEstimate * 1.05
+        then "OUTPERFORM"
+    else if actualProfit < analystAverageEstimate * 0.95 
+        then "UNDERPERFORM"
+    else 
+        "NEUTRAL"
 
-let greeting1 = AddGreeting "John"
-printfn "The modified name is: %s" greeting1
+let GetNumSharesToBuy performance =
+    if performance = "OUTPERFORM" then
+        1000     // buy 1000 shares
+    else if performance = "UNDERPERFORM" then
+        -1000    // sell 1000 shares
+    else 
+        0       // hold.
+        
+// List.average:        List<double> -> double
+// GetPerformance:                      double -> string
+// GetNumSharesToBuy:                             string -> int
 
-let greeting2 = AddGreeting "Mary"
-printfn "The modified name is: %s" greeting2
+//////////////////////////////////////////////////////////////////////////////
+// Long version
 
-// uncomment to see error.
-// ERROR: AddGreeting function does not accept integer/double/etc.
-// let greetingError = AddGreeting 123
+// Assume the profit is already known to be $6.0 billion, and written in "GetPerformance"
+let GetNumSharesFromEstimate1 individualEstimates =
+    let intermediateResult1 = List.average individualEstimates
+    let intermediateResult2 = GetPerformance intermediateResult1
+    let finalResult = GetNumSharesToBuy intermediateResult2
+    // output
+    finalResult
+    
+// In this example, the actual profit (6.0 billion) exceeds all the financial analyst's prediction.
+// Which means this is good news.
+let numShares1 = GetNumSharesFromEstimate1 [4.0; 5.0; 3.0; 2.0; 2.5]
+printfn "Number of shares to buy(+) or sell(-): %i" numShares1
 
- 
-
-
-///////////////////////////
-// Exercise: Write a function that calcuates the area of a circle of radius r
-let CircleArea r =
-
-     // ... IMPLEMENT HERE ...
-     failwith "ERROR. Function not yet implemented."
-     // Delete the line above and replace with the correct implementation
-     // Hint: Use    "System.Math.PI"
-
-// // Test your function here.
-let circleResult1 = CircleArea 1.0
-printfn "The first circle has area of: %f" circleResult1
-
-let circleResult2 = CircleArea 2.0
-printfn "The first circle has area of: %f" circleResult2
-
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-// Function with 2 variables.
-let g x y = 3 * x + y
-
-let result3 = g 3 1
-printfn "The result is: %i" result3
-let result4 = g 10 2
-printfn "The result is: %i" result4
-
-// Notice the following:
-//
-// 1. To apply the function "g", you don't need to use the math notation g(x,y) with commas
-//    This is different from other programming language e.g. Java, C++
-//    You can apply the arguments by separating with a space.
-//
-// 2. If you hover your mouse on top of "g", you will see that
-//    the variable "x", "y" need to be integers.
-//
-//    This is because in the function, "x" will is multiplied with "3", and then later added with "y"
-//    We have seen before that we cannot use the symbol "*" and "+"   
-//    to combine integer and a decimal directly.
-//    So, the following code will fail if you un-comment it:
-
-
-// Un-comment to see the error
-// ERROR: The function "g" cannot accept decimal input.
-// let errorResult = g (3.0) 10
-// let errorResult = g 10 (2.0)
-
-// 3. Again, as mentioned above, you can spend less time typing out the details 
-//    (i.e. what is the type of "x" and "y")
-//    and focus more on making your program/algorithm works, 
-//    and make yourself more productive (compared to other programming language)
-
-//////////////////////////////////////////////////////////////
-
-let CalculateNewBalance interestRate principal  = 
-    principal * (1.0 + interestRate)
-
-let balance1 = CalculateNewBalance 0.05 100000.00 
-printfn "The new balance is: %f" balance1
-
-let balance2 = CalculateNewBalance 0.03 5000.00 
-printfn "The new balance is: %f" balance2
-
-
-
-// uncomment to see error.
-// ERROR: CalculateNewBalance does not accept integer values.
-// let balanceError = CalculateNewBalance 0.04 100000
-
-
-///////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////
-// Function with 3 variables.
-let h x y z = 3 * x + 4 * y + 5 * z
-
-// 3*3 + 4*4 + 5*5 = 50
-let result5 = h 3 4 5
-printfn "The result is: %i" result5
-
-// 3*1 + 4*1 + 5*1 = 12
-let result6 = h 1 1 1
-printfn "The result is: %i" result6
-
-
-
-
-
-///////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////
-
-////////////////////
-// Warning: If you use "+" or "*", with no other information available in your function
-// (e.g. an appearance of a decimal, string, etc.)
-// then F# will assume the function variables as integers.
-let Add3 x y z = x + y + z
-
-let add3Result = Add3 5 6 7
-printfn "Adding 5 and 6 and 7 gives you: %i" add3Result
-
-// Without further information, F# compiler assumes the variables using "+" are integers
-// 
-// Un-comment to see the error
-// ERROR: The F# compiler assumes the Add3 function accepts integer inputs.
-// Add3 1.0 2.0 3.0
-
-// If you want this function to work for double, 
-// you may need to annotate the type of one of the variables.
-let Add3Custom (x:double) y z = x + y + z
-
-// By annotating, the function knows that "x" is a double/decimal.
-// And since "y" and "z" will interact with "x" by adding,
-// So "y" and "z" will also be inferred as double/decimal.
-
-let add3CustomResult = Add3Custom 2.1 3.0 4.2
-printfn "Adding the decimals give you: %f" add3CustomResult
-
-//////////////////////////
-
-// On some occasion, if you need to use the same function on different type which supports "*" or "+",
-// then you can use the "inline" keyword.
-//
-// Try not to use "inline" unless you absolutely must write a function that is 
-// compatible to different type (double/integer/etc)
-
-
-let inline Product x y = x * y
-
-let multiply2Int = Product 2 3
-printfn "Multiply the two numbers gives: %i" multiply2Int
-
-let multiply2Double = Product 3.0 4.0
-printfn "Multiply the two numbers gives: %f" multiply2Double
-
-// Not every data type supports multiplication "*"
-
-// Un-comment to see the error
-// ERROR: The string type does not support multiplication "*"
-// let multiplyTwoString = Product "HELLO" "BYE"
+// In this example, the actual profit (6.0 billion) misses all the financial analyst's prediction.
+// Which means this is bad news.
+let numShares2 = GetNumSharesFromEstimate1 [8.0; 7.0; 10.0; 12.0; 10.5]
+printfn "Number of shares to buy(+) or sell(-): %i" numShares2
 
 /////////////////////////
+// Original:
+//let GetNumSharesFromEstimate1 (individualEstimates: List<double>) =
+//    let intermediateResult1 = List.average individualEstimates
+//    let intermediateResult2 = GetPerformance intermediateResult1
+//    let finalResult = GetNumSharesToBuy intermediateResult2
+//    // output
+//    finalResult
 
-let inline NewAdd3 x y z = x + y + z
-let add3IntegerResult = NewAdd3 4 5 6
-printfn "Adding the three integers give: %i" add3IntegerResult
+// Simplified:
+let GetNumSharesFromEstimate2 individualEstimates =
+    individualEstimates                 
+    |> List.average                     
+    |> GetPerformance                  
+    |> GetNumSharesToBuy                
+    
 
-let add3StringResult = NewAdd3 "John " "F." " Kennedy"
-printfn "Concatenate the three strings give: %s" add3StringResult
 
-let add3DecimalResult = NewAdd3 10.3 10.2 10.1
-printfn "Adding the three decimals give: %f" add3DecimalResult
+// And lets try our new function here.
+    
+// In this example, the actual profit (6.0 billion) exceeds all the financial analyst's prediction.
+// Which means this is good news.
+let numShares3 = GetNumSharesFromEstimate2 [4.0; 5.0; 3.0; 2.0; 2.5]
+printfn "Number of shares to buy(+) or sell(-): %i" numShares3
 
-// Not every data type supports addition "+"
+// In this example, the actual profit (6.0 billion) misses all the financial analyst's prediction.
+// Which means this is bad news.
+let numShares4 = GetNumSharesFromEstimate2 [8.0; 7.0; 10.0; 12.0; 10.5]
+printfn "Number of shares to buy(+) or sell(-): %i" numShares4
 
-// Un-comment to see the error
-// ERROR: The boolean type (true/false) does not support addition "+"
-// let add3Bool = NewAdd3 true false false
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+// 2.6 Intellisense
+// If you are not comfortable with completely getting rid of intermediateSteps, you can try the following:
 
-//////////////////////////////////////////
+let myFunction1 (individualEstimates: List<float>) =
+    individualEstimates                 
+    |> List.average          
 
+let myFunction2 individualEstimates =
+    individualEstimates                 
+    |> List.average                     
+    |> GetPerformance        
+
+let myFunction3 individualEstimates =
+    individualEstimates                 
+    |> List.average                     
+    |> GetPerformance                  
+    |> GetNumSharesToBuy
+
+// Hover your mouse on top of the "myFunction1", "myFunction2", "myFunction3" 
+// and see that the functions are
+// myFunction1: List<double> -> double
+// myFunction2: List<double>            -> string
+// myFunction3: List<double>                       -> int
+
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+// Example for you to try out:
+// 
+// Assume that you are in a trading firm, and you want to manage your employees
+// based on their performance.
+
+// F# has a built-in function, "List.sum" that finds the sum of a list of doubles/decimals.
+let sum1 = List.sum [1.0; 2.0; 3.0; 4.0; 5.0]   // sum from 1 to 5
+let sum2 = List.sum [1.0 .. 100.0]              // sum from 1 to 100
+
+let GetStatus profit =
+    if profit > 10.0 then
+        "TOP TRADER"
+    else if profit < -3.0 then
+        "HUGE LOSSES"
+    else
+        "NORMAL TRADER"
+
+let GetBonus status =
+    if status = "TOP TRADER" then   
+        24      // 24-month, i.e. 2 year bonus.
+    else if status = "NORMAL TRADER" then
+        6       // 6-month, i.e. half year bonus.
+    else 
+        0       // No bonus.
+
+// The functions are:
+// List.sum : List<double> -> double
+// GetStatus:                 double -> string
+// GetBonus:                            string -> int
+
+/////////////////////////////////////
+// Long version
+let GetBonusFromTrades1 listOfTrades =
+    let intermediateResult1 = List.sum listOfTrades
+    let intermediateResult2 = GetStatus intermediateResult1
+    let finalResult = GetBonus intermediateResult2
+    // output
+    finalResult
+
+// Exercise:
+
+// Try implementing it with the pipe forward operator "|>"
+let GetBonusFromTrades2 listOfTrades =
+    // delete the line below, and fill in your answer 
+
+    failwith "FUNCTION NOT YET IMPLEMENTED!"
+
+    // implement the function above.
+
+// This trader helped the company earned some money.
+let bonus1 = GetBonusFromTrades2 [1.0; -2.0; 0.5; 0.3; 0.4; 0.2]
+printfn "He received a bonus of %i months" bonus1
+
+// This trader made one huge profitable deal, with other small losses.
+let bonus2 = GetBonusFromTrades2 [-2.0; -1.0; -0.5; 30.0; -1.0]
+printfn "She received a bonus of %i months" bonus2
+
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// 2.8 Endomorphism
+let Square x = x * x
+let Cube x = x * x * x
+let Add5 x = x + 5
+
+// f1(x) = (x^2 + 5)^3
+let f1 x = 
+    x
+    |> Square
+    |> Add5
+    |> Cube
+    
+// (1^2 + 5) ^ 3 = 216
+let demo1 = f1 1
+
+// (2^2 + 5) ^ 3 = 729
+let demo2 = f1 2
+
+///////////////////////
+// f2(x) = (x^2)^3 + 5
+let f2 x =
+    x
+    |> Square
+    |> Cube
+    |> Add5
+
+// (1^2)^3 + 5 = 6
+let demo3 = f2 1
+
+// (2^2)^3 + 5 = 71
+let demo4 = f2 2
+
+/////////////////////////
+// Example: Try to implement the following function using Pipe-forward.
+//let Square x = x * x
+//let Cube x = x * x * x
+//let Add5 x = x + 5
+
+// Goal: f3(x) = [   (x+5)^2   + 5   ]^3
+let f3 x =
+
+    failwith "NOT IMPLEMENTED!"
+
+// Testing:
+
+// [   (1+5)^2   + 5   ]^3 = 68921
+let demo5 = f3 1
+
+// [   (2+5)^2   + 5   ]^3 = 157464
+let demo6 = f3 2
